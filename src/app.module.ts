@@ -21,6 +21,8 @@ import { DonBanHang } from './mudules/don-ban-hang/entities/don-ban-hang.entity'
 import { DonBanHangModule } from './mudules/don-ban-hang/don-ban-hang.module';
 import { DonMuaHang } from './mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { DonMuaHangModule } from './mudules/don-mua-hang/don-mua-hang.module';
+import { Employee } from './mudules/employee/entities/employee.entity';
+import { EmployeeModule } from './mudules/employee/employee.module';
 import { Hdban } from './mudules/hdban/entities/hdban.entity';
 import { HdbanModule } from './mudules/hdban/hdban.module';
 import { Hdmua } from './mudules/hdmua/entities/hdmua.entity';
@@ -62,6 +64,7 @@ dotenv.config();
         Customer,
         DonBanHang,
         DonMuaHang,
+        Employee,
         Hdban,
         Hdmua,
         PhieuChi,
@@ -83,6 +86,7 @@ dotenv.config();
     CustomerModule,
     DonBanHangModule,
     DonMuaHangModule,
+    EmployeeModule,
     HdbanModule,
     HdmuaModule,
     PhieuChiModule,
