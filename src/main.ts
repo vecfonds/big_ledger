@@ -50,7 +50,7 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(8080, '0.0.0.0');
   console.info(`Server running on ${await app.getUrl()}`);
 }
 bootstrap();
