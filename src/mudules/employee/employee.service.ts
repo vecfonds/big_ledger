@@ -16,6 +16,11 @@ export class EmployeeService {
     return `This action returns a #${id} employee`;
   }
 
+  findOneByEmail(email: string) {
+    // return `This action returns a #${email} employee`;
+    return { password: '123456', id: 1, email: '...' };
+  }
+
   update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
     return `This action updates a #${id} employee`;
   }

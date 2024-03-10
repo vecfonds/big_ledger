@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
 import { LoginDto } from './dtos/login.dto';
 import { validateHash } from '../../common/utils';
 import { AuthResponseDto } from './dtos/auth-response.dto';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { EmployeeService } from '../employee/employee.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private userService: EmployeeService,
     private jwtService: JwtService,
   ) {}
 

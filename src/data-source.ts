@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 
-import { UserEntity } from './mudules/user/entities/user.entity';
-import { LocationEntity } from './mudules/location/entities/location.entity';
+// import { UserEntity } from './mudules/user/entities/user.entity';
+// import { LocationEntity } from './mudules/location/entities/location.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mssql',
@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   },
   synchronize: true,
   logging: true,
-  entities: [UserEntity, LocationEntity],
+  // entities: [UserEntity, LocationEntity],
   subscribers: [],
   migrations: [],
 });

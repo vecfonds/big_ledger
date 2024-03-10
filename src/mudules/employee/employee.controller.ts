@@ -10,7 +10,9 @@ import {
 import { EmployeeService } from './employee.service';
 import { CreateAccountantDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Doi tuong')
 @Controller('employee')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
