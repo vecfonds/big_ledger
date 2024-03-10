@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { CreateAccountantDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: CreateEmployeeDto) {
+  create(createEmployeeDto: CreateAccountantDto) {
     return 'This action adds a new employee';
   }
 
