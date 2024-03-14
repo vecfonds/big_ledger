@@ -9,7 +9,7 @@ dotenv.config();
  * @returns {string}
  */
 export function generateHash(password: string): string {
-  return bcrypt.hashSync(password, parseInt(process.env.SALT_ROUNDS ?? '10'));
+  return bcrypt.hashSync(password, Number(process.env.SALT_ROUNDS));
 }
 
 /**
