@@ -26,7 +26,7 @@ export class PageMetaDto {
   @ApiProperty()
   readonly hasNextPage: boolean;
 
-  constructor({ pageOptionsDto, itemCount }: IPageMetaDtoParameters) {
+  constructor(pageOptionsDto: PageOptionsDto, itemCount: number) {
     this.currentPage = pageOptionsDto.currentPage;
     this.pageSize = pageOptionsDto.pageSize;
     this.totalRecord = itemCount;
