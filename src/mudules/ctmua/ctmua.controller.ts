@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { CtmuaService } from './ctmua.service';
 import { CreateCtmuaDto } from './dto/create-ctmua.dto';
 import { UpdateCtmuaDto } from './dto/update-ctmua.dto';
+import { GetCtmuaDto } from './dto/get-ctmua.dto';
 
 @Controller('ctmua')
 export class CtmuaController {
@@ -13,8 +23,8 @@ export class CtmuaController {
   }
 
   @Get()
-  findAll() {
-    return this.ctmuaService.findAll();
+  findAll(@Query() query: GetCtmuaDto) {
+    return this.ctmuaService.findAll(query);
   }
 
   @Get(':id')
