@@ -16,9 +16,8 @@ export class DonMuaHangService {
   }
 
   async findAll(query: GetDonMuaHangDto) {
-    const currentPage =
-      query.currentPage ?? DEFAULT_VALUES.DEFAULT_CURRENT_PAGE;
-    const pageSize = query.pageSize ?? DEFAULT_VALUES.DEFAULT_PAGE_SIZE;
+    const currentPage = query.currentPage ?? DEFAULT_VALUES.CURRENT_PAGE;
+    const pageSize = query.pageSize ?? DEFAULT_VALUES.PAGE_SIZE;
     const donMuaHangs = await this.donMuaHangRepository.findAll(
       currentPage,
       pageSize,
