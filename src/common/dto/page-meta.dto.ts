@@ -9,16 +9,16 @@ interface IPageMetaDtoParameters {
 
 export class PageMetaDto {
   @ApiProperty()
-  readonly page: number;
+  readonly currentPage: number;
 
   @ApiProperty()
-  readonly take: number;
+  readonly pageSize: number;
 
   @ApiProperty()
-  readonly itemCount: number;
+  readonly totalRecord: number;
 
   @ApiProperty()
-  readonly pageCount: number;
+  readonly totalPage: number;
 
   @ApiProperty()
   readonly hasPreviousPage: boolean;
@@ -27,11 +27,11 @@ export class PageMetaDto {
   readonly hasNextPage: boolean;
 
   constructor({ pageOptionsDto, itemCount }: IPageMetaDtoParameters) {
-    this.page = pageOptionsDto.page;
-    this.take = pageOptionsDto.take;
-    this.itemCount = itemCount;
-    this.pageCount = Math.ceil(this.itemCount / this.take);
-    this.hasPreviousPage = this.page > 1;
-    this.hasNextPage = this.page < this.pageCount;
+    this.currentPage = pageOptionsDto.currentPage;
+    this.pageSize = pageOptionsDto.pageSize;
+    this.totalRecord = itemCount;
+    this.totalPage = Math.ceil(this.totalRecord / this.pageSize);
+    this.hasPreviousPage = this.currentPage > 1;
+    this.hasNextPage = this.currentPage < this.totalPage;
   }
 }

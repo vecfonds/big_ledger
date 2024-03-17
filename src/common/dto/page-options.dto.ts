@@ -1,4 +1,4 @@
-import { ORDER, OrderType } from '../../constants';
+import { DEFAULT_VALUES, ORDER, OrderType } from '../../constants';
 import {
   EnumFieldOptional,
   NumberFieldOptional,
@@ -6,28 +6,28 @@ import {
 } from '../../decorators';
 
 export class PageOptionsDto {
-  @EnumFieldOptional(() => ORDER, {
-    default: ORDER.ASC,
-  })
-  readonly order: OrderType = ORDER.ASC;
+  // @EnumFieldOptional(() => ORDER, {
+  //   default: ORDER.ASC,
+  // })
+  // readonly order: OrderType = ORDER.ASC;
 
   @NumberFieldOptional({
     minimum: 1,
-    default: 1,
+    default: DEFAULT_VALUES.CURRENT_PAGE,
     int: true,
   })
-  readonly page: number = 1;
+  readonly currentPage: number = DEFAULT_VALUES.CURRENT_PAGE;
 
   @NumberFieldOptional({
     minimum: 1,
     maximum: 50,
-    default: 10,
+    default: DEFAULT_VALUES.PAGE_SIZE,
     int: true,
   })
-  readonly take: number = 10;
+  readonly pageSize: number = DEFAULT_VALUES.PAGE_SIZE;
 
   get skip(): number {
-    return (this.page - 1) * this.take;
+    return (this.currentPage - 1) * this.pageSize;
   }
 
   @StringFieldOptional()
