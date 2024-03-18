@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import {
   PAYMENT_STATUS,
@@ -22,7 +23,7 @@ export class CreateDonMuaHangDto {
   ngayMua: string;
 
   @ApiProperty({ example: 'This is content' })
-  @IsDateString(undefined, { message: 'Content must be a date string' })
+  @IsString({ message: 'Content must be a date string' })
   @IsOptional()
   content?: string;
 
