@@ -7,7 +7,6 @@ import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 
-@Entity({ name: 'employees' })
 abstract class Emmployee extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
