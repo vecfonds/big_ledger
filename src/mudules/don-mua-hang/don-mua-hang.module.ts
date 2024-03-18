@@ -6,5 +6,6 @@ import { DonMuaHangRepository } from './don-mua-hang.repository';
 @Module({
   controllers: [DonMuaHangController],
   providers: [DonMuaHangService, DonMuaHangRepository],
+  exports: [DonMuaHangService],
 })
 export class DonMuaHangModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { DonMuaHangRepository } from './don-mua-hang.repository';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
@@ -37,7 +37,7 @@ export class DonMuaHangService {
   async findOne(id: number) {
     const donMuaHang = await this.donMuaHangRepository.findOne(id);
     if (!donMuaHang) {
-      throw new Error(`Don mua hang with ${id} not found`);
+      throw new NotFoundException(`Don mua hang with ${id} not found`);
     }
     return {
       metaData: {},
