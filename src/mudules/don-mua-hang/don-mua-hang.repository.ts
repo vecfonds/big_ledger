@@ -4,6 +4,9 @@ import { InjectDataSource } from '@nestjs/typeorm';
 
 import { DonMuaHang } from './entities/don-mua-hang.entity';
 import { GetDonMuaHangDto } from './dto/get-don-mua-hang.dto';
+import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
+import { PurchasingOfficer } from '../employee/entities/employee.entity';
+import { Supplier } from '../supplier/entities';
 
 @Injectable()
 export class DonMuaHangRepository {
@@ -11,8 +14,19 @@ export class DonMuaHangRepository {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {
     this.donMuaHangRepository = this.dataSource.getRepository(DonMuaHang);
   }
-  create() {
-    return 'This action adds a new donMuaHang';
+
+  create(
+    createDonMuaHangDto: CreateDonMuaHangDto,
+    purchasingOfficer: PurchasingOfficer,
+    supplier: Supplier,
+  ) {
+    const newDonMuaHang = this.donMuaHangRepository.create({
+      ...createDonMuaHangDto,
+      purchasingOfficer: purchasingOfficer,
+      supplier: supplier,
+    });
+
+    return this.donMuaHangRepository.save(newDonMuaHang);
   }
 
   findAll(currentPage: number, pageSize: number) {
