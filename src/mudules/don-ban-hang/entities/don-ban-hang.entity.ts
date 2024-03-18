@@ -21,13 +21,25 @@ export class DonBanHang extends AbstractEntity {
   @Column({ type: 'varchar', nullable: true })
   noiDung: string;
 
-  @Column({ type: 'enum', enum: PAYMENT_STATUS })
+  @Column({
+    type: 'enum',
+    enum: PAYMENT_STATUS,
+    default: PAYMENT_STATUS.NOT_PAID,
+  })
   paymentStatus: PaymentStatusType;
 
-  @Column({ type: 'enum', enum: DELIVERY_STATUS })
+  @Column({
+    type: 'enum',
+    enum: DELIVERY_STATUS,
+    default: DELIVERY_STATUS.NOT_DELIVERED,
+  })
   deliveryStatus: DeliveryStatusType;
 
-  @Column({ type: 'enum', enum: DOCUMENT_STATUS })
+  @Column({
+    type: 'enum',
+    enum: DOCUMENT_STATUS,
+    default: DOCUMENT_STATUS.UNDOCUMENTED,
+  })
   documentStatus: DocumentStatusType;
 
   @Column({ type: 'date' })
