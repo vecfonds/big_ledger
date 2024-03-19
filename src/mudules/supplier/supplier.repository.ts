@@ -43,7 +43,7 @@ export class SupplierRepository {
     return this.supplierRepository.find({
       relations: {
         supplierGroup: true,
-        products: true,
+        // products: true,
         donMuaHangs: true,
         phieuChi: true,
       },

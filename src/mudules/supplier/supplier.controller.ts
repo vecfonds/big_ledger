@@ -53,6 +53,7 @@ export class SupplierController {
   }
 }
 
+@ApiTags('Doi tuong')
 @Controller('supplier-group')
 export class SupplierGroupController {
   constructor(private readonly supplierService: SupplierService) {}
