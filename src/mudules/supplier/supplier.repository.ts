@@ -68,7 +68,7 @@ export class SupplierRepository {
       },
       relations: {
         supplierGroup: true,
-        products: true,
+        // products: true,
         donMuaHangs: true,
         phieuChi: true,
       },
