@@ -19,7 +19,7 @@ export class DonMuaHang extends AbstractEntity {
   ngayMua: Date;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung: string;
+  content: string;
 
   @Column({ type: 'enum', enum: PAYMENT_STATUS })
   paymentStatus: PaymentStatusType;

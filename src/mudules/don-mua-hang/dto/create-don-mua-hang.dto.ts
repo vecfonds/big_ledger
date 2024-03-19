@@ -23,7 +23,7 @@ export class CreateDonMuaHangDto {
   ngayMua: string;
 
   @ApiProperty({ example: 'This is content' })
-  @IsString({ message: 'Content must be a date string' })
+  @IsString({ message: 'Content must be a string' })
   @IsOptional()
   content?: string;
 
