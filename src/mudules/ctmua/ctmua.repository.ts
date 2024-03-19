@@ -40,8 +40,16 @@ export class CtmuaRepository {
   }
 
   findOne(id: number) {
-    return this.ctmuaRepository.findOneBy({
-      id: id,
+    return this.ctmuaRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        nguoiNhanHang: true,
+        donMuaHang: true,
+        productOfCtmua: true,
+        phieuChi: true,
+      },
     });
   }
 

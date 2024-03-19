@@ -43,8 +43,16 @@ export class DonMuaHangRepository {
   }
 
   findOne(id: number) {
-    return this.donMuaHangRepository.findOneBy({
-      id: id,
+    return this.donMuaHangRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        purchasingOfficer: true,
+        supplier: true,
+        productOfDonMuaHangs: true,
+        ctmua: true,
+      },
     });
   }
 

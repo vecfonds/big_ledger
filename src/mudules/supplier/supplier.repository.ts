@@ -32,22 +32,46 @@ export class SupplierRepository {
   }
 
   findAllGroup() {
-    return this.supplierGroupRepository.find();
+    return this.supplierGroupRepository.find({
+      relations: {
+        suppliers: true,
+      },
+    });
   }
 
   findAll() {
-    return this.supplierRepository.find();
+    return this.supplierRepository.find({
+      relations: {
+        supplierGroup: true,
+        products: true,
+        donMuaHangs: true,
+        phieuChi: true,
+      },
+    });
   }
 
   findOneGroup(id: number) {
-    return this.supplierGroupRepository.findOneBy({
-      id: id,
+    return this.supplierGroupRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        suppliers: true,
+      },
     });
   }
 
   findOne(id: number) {
-    return this.supplierRepository.findOneBy({
-      id: id,
+    return this.supplierRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        supplierGroup: true,
+        products: true,
+        donMuaHangs: true,
+        phieuChi: true,
+      },
     });
   }
 
