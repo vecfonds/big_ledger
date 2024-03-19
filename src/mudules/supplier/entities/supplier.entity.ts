@@ -1,5 +1,6 @@
-import { AbstractEntity } from '../../../common/abstract.entity';
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+
+import { AbstractEntity } from '../../../common/abstract.entity';
 import { Product } from '../../product/entities/product.entity';
 import { SupplierGroup } from './supplier-group.entity';
 import { DonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
@@ -14,10 +15,10 @@ export class Supplier extends AbstractEntity {
   description: string;
 
   @Column({ type: 'varchar' })
-  nguoiDaiDien: string;
+  representative: string;
 
   @Column({ type: 'varchar' })
-  sdt: string;
+  phoneNumber: string;
 
   @Column({ type: 'varchar' })
   email: string;
