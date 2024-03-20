@@ -1,6 +1,6 @@
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
-import { DonViType, DON_VI } from '../../../constants';
+import { UnitType, UNIT } from '../../../constants';
 import { Supplier } from '../../supplier/entities/supplier.entity';
 import { ProductGroup } from './product-group.entity';
 import { ProductOfDonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
@@ -12,9 +12,6 @@ import { ProductOfCtmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 export class Product extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
-
-  @Column({ type: 'varchar', unique: true })
-  code: string;
 
   @Column({ type: 'varchar', nullable: true })
   description: string;
@@ -28,8 +25,8 @@ export class Product extends AbstractEntity {
   @Column({ type: 'int' })
   category: number;
 
-  @Column({ type: 'enum', enum: DON_VI })
-  donVi: DonViType;
+  @Column({ type: 'enum', enum: UNIT })
+  unit: UnitType;
 
   @ManyToMany(() => Supplier, (supplier) => supplier.products)
   suppliers: Supplier[];

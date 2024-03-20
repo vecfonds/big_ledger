@@ -1,5 +1,5 @@
 import { type ValueOf } from '../interfaces';
-export const DON_VI = {
+export const UNIT = {
   CAI: 'CAI',
   CAY: 'CAY',
   CHAI: 'CHAI',
@@ -16,4 +16,4 @@ export const DON_VI = {
   VIEN: 'VIEN',
 } as const;
 
-export type DonViType = ValueOf<typeof DON_VI>;
+export type UnitType = ValueOf<typeof UNIT>;
