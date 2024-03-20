@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsIn, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import {
   CUSTOMER_STATUS,
   CustomerStatusType,
@@ -17,23 +24,40 @@ export class CreateCustomerDto {
   phone: string;
 
   @ApiProperty({ example: 'email@example.com' })
-  @IsString({ message: 'Email is not valid' })
-  @IsNotEmpty({ message: 'Email is required' })
-  email: string;
+  @IsEmail({}, { message: 'Email is not valid' })
+  @IsOptional()
+  email?: string;
 
   @ApiProperty({ example: 'Address A' })
   @IsString({ message: 'Address is not valid' })
-  @IsNotEmpty({ message: 'Address is required' })
-  address: string;
+  @IsOptional()
+  address?: string;
 
   @ApiProperty({ example: 'Note A' })
   @IsString({ message: 'Note is not valid' })
-  @IsNotEmpty({ message: 'Note is required' })
-  note: string;
+  @IsOptional()
+  note?: string;
 
   @ApiProperty({ example: 'Active' })
   @IsString({ message: 'Status is not valid' })
   @IsNotEmpty({ message: 'Status is required' })
   @IsIn(Object.values(CUSTOMER_STATUS), { message: 'Status is not valid' })
   status: CustomerStatusType;
+
+  @ApiProperty({ example: 1 })
+  @IsNotEmpty({ message: 'Customer group is required' })
+  @IsNumber({}, { message: 'Customer group is not valid' })
+  customerGroupId: number;
+}
+
+export class CreateCustomerGroupDto {
+  @ApiProperty({ example: 'Group A' })
+  @IsString({ message: 'Name is not valid' })
+  @IsNotEmpty({ message: 'Name is required' })
+  name: string;
+
+  @ApiProperty({ example: 'Note A' })
+  @IsString({ message: 'Note is not valid' })
+  @IsOptional()
+  note?: string;
 }

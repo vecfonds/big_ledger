@@ -1,26 +1,86 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+import {
+  CreateCustomerDto,
+  CreateCustomerGroupDto,
+} from './dto/create-customer.dto';
+import {
+  UpdateCustomerDto,
+  UpdateCustomerGroupDto,
+} from './dto/update-customer.dto';
+import { CustomerRepository } from './customer.repository';
 
 @Injectable()
 export class CustomerService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  constructor(private readonly customerRepository: CustomerRepository) {}
+
+  createGroup(createCustomerGroupDto: CreateCustomerGroupDto) {
+    return this.customerRepository.createGroup(createCustomerGroupDto);
+  }
+
+  async create(createCustomerDto: CreateCustomerDto) {
+    const customerGroup = await this.customerRepository.findOneGroup(
+      createCustomerDto.customerGroupId,
+    );
+    if (!customerGroup) {
+      throw new NotFoundException('Customer group not found');
+    }
+    return this.customerRepository.create(createCustomerDto, customerGroup);
+  }
+
+  findAllGroup() {
+    return this.customerRepository.findAllGroup();
   }
 
   findAll() {
-    return `This action returns all customer`;
+    return this.customerRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOneGroup(id: number) {
+    const customerGroup = await this.customerRepository.findOneGroup(id);
+    if (!customerGroup) {
+      throw new NotFoundException('Customer group not found');
+    }
+    return customerGroup;
+  }
+
+  async findOne(id: number) {
+    const customer = await this.customerRepository.findOne(id);
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+    return customer;
+  }
+
+  async findOneByPhone(phone: string) {
+    const customer = await this.customerRepository.findOneByPhone(phone);
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+    return customer;
+  }
+
+  async findOneByEmail(email: string) {
+    const customer = await this.customerRepository.findOneByEmail(email);
+    if (!customer) {
+      throw new NotFoundException('Customer not found');
+    }
+    return customer;
+  }
+
+  updateGroup(id: number, updateCustomerGroupDto: UpdateCustomerGroupDto) {
+    return this.customerRepository.updateGroup(id, updateCustomerGroupDto);
   }
 
   update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
+    return this.customerRepository.update(id, updateCustomerDto);
+  }
+
+  removeGroup(id: number) {
+    return this.customerRepository.removeGroup(id);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} customer`;
+    return this.customerRepository.remove(id);
   }
 }

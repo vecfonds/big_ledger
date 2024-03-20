@@ -8,8 +8,14 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import {
+  CreateCustomerDto,
+  CreateCustomerGroupDto,
+} from './dto/create-customer.dto';
+import {
+  UpdateCustomerDto,
+  UpdateCustomerGroupDto,
+} from './dto/update-customer.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Doi tuong')
@@ -32,6 +38,16 @@ export class CustomerController {
     return this.customerService.findOne(+id);
   }
 
+  @Get('phone/:phone')
+  findOneByPhone(@Param('phone') phone: string) {
+    return this.customerService.findOneByPhone(phone);
+  }
+
+  @Get('email/:email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.customerService.findOneByEmail(email);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -43,5 +59,39 @@ export class CustomerController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.customerService.remove(+id);
+  }
+}
+
+@ApiTags('Doi tuong')
+@Controller('customer-group')
+export class CustomerGroupController {
+  constructor(private readonly customerService: CustomerService) {}
+
+  @Post()
+  create(@Body() createCustomerGroupDto: CreateCustomerGroupDto) {
+    return this.customerService.createGroup(createCustomerGroupDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.customerService.findAllGroup();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.customerService.findOneGroup(+id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateCustomerGroupDto: UpdateCustomerGroupDto,
+  ) {
+    return this.customerService.updateGroup(+id, updateCustomerGroupDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.customerService.removeGroup(+id);
   }
 }

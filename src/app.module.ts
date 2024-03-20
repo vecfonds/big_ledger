@@ -16,7 +16,10 @@ import { Ctban, ProductOfCtban } from './mudules/ctban/entities/ctban.entity';
 import { CtbanModule } from './mudules/ctban/ctban.module';
 import { Ctmua, ProductOfCtmua } from './mudules/ctmua/entities/ctmua.entity';
 import { CtmuaModule } from './mudules/ctmua/ctmua.module';
-import { Customer } from './mudules/customer/entities/customer.entity';
+import {
+  Customer,
+  CustomerGroup,
+} from './mudules/customer/entities/customer.entity';
 import { CustomerModule } from './mudules/customer/customer.module';
 import {
   DonBanHang,
@@ -83,6 +86,7 @@ dotenv.config();
         Ctmua,
         ProductOfCtmua,
         Customer,
+        CustomerGroup,
         DonBanHang,
         ProductOfDonBanHang,
         DonMuaHang,
