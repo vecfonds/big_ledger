@@ -8,10 +8,10 @@ export class ProductGroup extends AbstractEntity {
   name: string;
 
   @Column({ type: 'varchar', nullable: true })
-  description: string;
+  description?: string;
 
   @Column({ type: 'int' })
-  thue: number;
+  tax: number;
 
   @OneToMany(() => Product, (product) => product.productGroup)
   products: Product[];

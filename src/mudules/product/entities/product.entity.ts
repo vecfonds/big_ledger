@@ -14,7 +14,7 @@ export class Product extends AbstractEntity {
   name: string;
 
   @Column({ type: 'varchar', nullable: true })
-  description: string;
+  description?: string;
 
   @Column({ type: 'int' })
   priceReceived: number;
@@ -22,8 +22,8 @@ export class Product extends AbstractEntity {
   @Column({ type: 'int' })
   priceDelivery: number;
 
-  @Column({ type: 'int' })
-  category: number;
+  @Column({ type: 'int', default: 0 })
+  category: number = 0;
 
   @Column({ type: 'enum', enum: UNIT })
   unit: UnitType;

@@ -1,23 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductRepository } from './product.repository';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(private readonly productRepository: ProductRepository) {}
+
+  createGroup(createProductGroupDto: any) {
+    return this.productRepository.createGroup(createProductGroupDto);
+  }
+
+  async create(createProductDto: CreateProductDto) {
+    const productGroup = await this.productRepository.findOneGroup(
+      createProductDto.productGroupId,
+    );
+    if (!productGroup) {
+      throw new NotFoundException('Product group not found');
+    }
+    return this.productRepository.create(createProductDto, productGroup);
+  }
+
+  findAllGroup() {
+    return this.productRepository.findAllGroup();
   }
 
   findAll() {
-    return `This action returns all product`;
+    return this.productRepository.findAll();
+  }
+
+  findOneGroup(id: number) {
+    return this.productRepository.findOneGroup(id);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.productRepository.findOne(id);
+  }
+
+  updateGroup(id: number, updateProductGroupDto: any) {
+    return `This action updates a #${id} product group`;
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
+  }
+
+  removeGroup(id: number) {
+    return `This action removes a #${id} product group`;
   }
 
   remove(id: number) {
