@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   DELIVERY_STATUS,
@@ -51,8 +51,8 @@ export class DonMuaHang extends AbstractEntity {
   )
   productOfDonMuaHangs: ProductOfDonMuaHang[];
 
-  @OneToMany(() => Ctmua, (ctmua) => ctmua.donMuaHang)
-  ctmua: Ctmua[];
+  @ManyToMany(() => Ctmua, (ctmua) => ctmua.donMuaHangs)
+  ctmuas: Ctmua[];
 }
 
 @Entity({ name: 'product_of_don_mua_hang' })

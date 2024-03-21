@@ -57,10 +57,7 @@ export class DonMuaHangService {
       Math.ceil(donMuaHangs.length / pageSize),
       donMuaHangs.length,
     );
-    return {
-      metaData: pagination,
-      data: donMuaHangs,
-    };
+    return donMuaHangs;
   }
 
   async findOne(id: number) {
@@ -68,10 +65,7 @@ export class DonMuaHangService {
     if (!donMuaHang) {
       throw new NotFoundException(`Don mua hang with ${id} not found`);
     }
-    return {
-      metaData: {},
-      data: donMuaHang,
-    };
+    return donMuaHang;
   }
 
   update(id: number, updateDonMuaHangDto: UpdateDonMuaHangDto) {

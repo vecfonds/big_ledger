@@ -1,4 +1,11 @@
-import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { Product } from 'src/mudules/product/entities';
 import { PAYMENT_METHOD, PaymentMethodType } from 'src/constants';
@@ -27,10 +34,11 @@ export class Ctmua extends AbstractEntity {
   @Column({ type: 'varchar' })
   nguoiGiao: string;
 
-  @ManyToOne(() => DonMuaHang, (donMuaHang) => donMuaHang.ctmua, {
+  @ManyToMany(() => DonMuaHang, (donMuaHang) => donMuaHang.ctmuas, {
     nullable: false,
   })
-  donMuaHang: DonMuaHang;
+  @JoinTable({ name: 'don_mua_hang_of_ctmua' })
+  donMuaHangs: DonMuaHang[];
 
   @OneToMany(() => ProductOfCtmua, (productOfCtban) => productOfCtban.ctmua)
   productOfCtmua: ProductOfCtmua[];

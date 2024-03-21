@@ -16,12 +16,12 @@ export class CtmuaRepository {
   create(
     createCtmuaDto: CreateCtmuaDto,
     nguoiNhanHang: WarehouseKeeper,
-    donMuaHang: DonMuaHang,
+    donMuaHangs: DonMuaHang[],
   ) {
     const newCtmua = this.ctmuaRepository.create({
       ...createCtmuaDto,
       nguoiNhanHang: nguoiNhanHang,
-      donMuaHang: donMuaHang,
+      donMuaHangs: donMuaHangs,
     });
     return this.ctmuaRepository.save(newCtmua);
   }
@@ -30,7 +30,7 @@ export class CtmuaRepository {
     return this.ctmuaRepository.find({
       relations: {
         nguoiNhanHang: true,
-        donMuaHang: true,
+        donMuaHangs: true,
         productOfCtmua: true,
         phieuChi: true,
       },
@@ -46,7 +46,7 @@ export class CtmuaRepository {
       },
       relations: {
         nguoiNhanHang: true,
-        donMuaHang: true,
+        donMuaHangs: true,
         productOfCtmua: true,
         phieuChi: true,
       },

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 
 import { CreateCtmuaDto } from './dto/create-ctmua.dto';
 import { UpdateCtmuaDto } from './dto/update-ctmua.dto';
@@ -24,17 +28,27 @@ export class CtmuaService {
       throw new NotFoundException('Nguoi nhan hang not found');
     }
 
-    const donMuaHang = await this.donMuaHangService.findOne(
-      createCtmuaDto.donMuaHangId,
-    );
-    if (!donMuaHang) {
-      throw new NotFoundException('Don mua hang not found');
+    if (createCtmuaDto.donMuaHangIds.length === 0) {
+      throw new UnprocessableEntityException('Don mua hang ids is empty');
     }
+
+    const donMuaHangs = await Promise.all(
+      createCtmuaDto.donMuaHangIds.map((id) =>
+        this.donMuaHangService.findOne(id),
+      ),
+    );
+    donMuaHangs.forEach((donMuaHang, index) => {
+      if (!donMuaHang) {
+        throw new NotFoundException(
+          `Don mua hang with id ${createCtmuaDto.donMuaHangIds[index]} not found`,
+        );
+      }
+    });
 
     return this.ctmuaRepository.create(
       createCtmuaDto,
       nguoiNhanHang,
-      donMuaHang.data,
+      donMuaHangs,
     );
   }
 

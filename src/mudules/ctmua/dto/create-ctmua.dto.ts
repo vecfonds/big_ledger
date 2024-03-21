@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsDateString,
   IsIn,
   IsNotEmpty,
@@ -38,7 +39,11 @@ export class CreateCtmuaDto {
   nguoiGiao: string;
 
   @ApiProperty({ example: 1 })
-  @IsNumber({}, { message: 'DonMuaHang must be a number' })
-  @IsNotEmpty({ message: 'DonMuaHang is required' })
-  donMuaHangId: number;
+  @IsNumber(undefined, {
+    each: true,
+    message: 'DonMuaHang must be an array of numbers',
+  })
+  @IsArray({ message: 'DonMuaHang must be an array' })
+  @IsNotEmpty({ message: 'DonMuaHangIds is required' })
+  donMuaHangIds: number[];
 }

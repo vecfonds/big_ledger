@@ -35,7 +35,7 @@ export class DonMuaHangRepository {
         purchasingOfficer: true,
         supplier: true,
         productOfDonMuaHangs: true,
-        ctmua: true,
+        ctmuas: true,
       },
       take: pageSize,
       skip: pageSize * (currentPage - 1),
@@ -51,7 +51,7 @@ export class DonMuaHangRepository {
         purchasingOfficer: true,
         supplier: true,
         productOfDonMuaHangs: true,
-        ctmua: true,
+        ctmuas: true,
       },
     });
   }
