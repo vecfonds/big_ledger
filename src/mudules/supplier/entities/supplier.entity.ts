@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { Product } from '../../product/entities/product.entity';
@@ -39,6 +46,7 @@ export class Supplier extends AbstractEntity {
   branch: string;
 
   @ManyToMany(() => Product, (product) => product.suppliers)
+  @JoinTable({ name: 'product_of_supplier' })
   products: Product[];
 
   @ManyToOne(() => SupplierGroup, (supplierGroup) => supplierGroup.suppliers, {
