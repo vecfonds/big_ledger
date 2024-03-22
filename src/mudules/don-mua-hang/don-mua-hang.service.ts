@@ -87,10 +87,10 @@ export class DonMuaHangService {
     const pagination = new PaginationDto(
       query.currentPage,
       query.pageSize,
-      Math.ceil(donMuaHangs.length / query.pageSize),
-      donMuaHangs.length,
+      Math.ceil(donMuaHangs[1] / query.pageSize),
+      donMuaHangs[1],
     );
-    return { data: donMuaHangs, pagination: pagination };
+    return { data: donMuaHangs[0], pagination: pagination };
   }
 
   async findOne(id: number) {

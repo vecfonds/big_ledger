@@ -30,7 +30,7 @@ export class DonMuaHangRepository {
   }
 
   findAll(take: number, skip: number, sorts?: { [key: string]: OrderType }) {
-    return this.donMuaHangRepository.find({
+    return this.donMuaHangRepository.findAndCount({
       relations: {
         purchasingOfficer: true,
         supplier: true,
