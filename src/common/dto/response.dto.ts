@@ -16,15 +16,8 @@ export class MetaResponseDto {
   @ApiPropertyOptional()
   pagination: PaginationDto;
 
-  constructor(
-    statusCode: number,
-    message?: string,
-    error?: string,
-    pagination?: PaginationDto,
-  ) {
+  constructor(statusCode: number, pagination?: PaginationDto) {
     this.statusCode = statusCode;
-    this.message = message ?? '';
-    this.error = error ?? '';
     if (pagination) {
       this.pagination = new PaginationDto(
         pagination.currentPage,

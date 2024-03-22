@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import {
+  ClassSerializerInterceptor,
   HttpStatus,
   UnprocessableEntityException,
   ValidationError,
@@ -11,6 +12,7 @@ import {
 
 import { AppModule } from './app.module';
 import { setupSwagger } from './setup-swagger';
+import { SerializerInterceptor } from './interceptors/serializer-interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -24,6 +26,18 @@ async function bootstrap() {
     }),
   );
   // app.use(morgan('dev'));
+
+  const reflector = app.get(Reflector);
+
+  // app.useGlobalFilters(
+  //   new HttpExceptionFilter(reflector),
+  //   new QueryFailedFilter(reflector),
+  // );
+
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(reflector),
+    new SerializerInterceptor(),
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({
