@@ -1,22 +1,39 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
-import { IsNumber, IsOptional, Max, Min } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, ValidateBy } from 'class-validator';
 
-export class GetDonMuaHangDto {
-  @ApiProperty({ type: Number, example: 1 })
-  // @IsNumberString(undefined, { message: 'Current page size must be a number' })
-  @Transform(({ value }) => parseInt(value))
-  @IsNumber(undefined, { message: 'Current page size must be a number' })
-  @Min(1)
-  @IsOptional()
-  currentPage?: number;
+import { PageOptionsDto } from 'src/common/dto/page-options.dto';
+import { ORDER } from 'src/constants';
 
-  @ApiProperty({ type: Number, example: 20 })
-  // @IsNumberString(undefined, { message: 'Page size must be a number' })
-  @Transform(({ value }) => parseInt(value))
-  @IsNumber(undefined, { message: 'Page size must be a number' })
-  @Min(1)
-  @Max(50)
+function isSortOption(value: string): boolean {
+  const sortValueParts = value.split(':');
+  if (sortValueParts.length !== 2) {
+    return false;
+  }
+  for (const order of Object.values(ORDER)) {
+    if (sortValueParts[1] === order) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export class GetDonMuaHangDto extends PageOptionsDto {
+  @ApiPropertyOptional()
+  @ValidateBy(
+    {
+      name: 'isSortOption',
+      validator: {
+        validate: (value, args): boolean => isSortOption(value),
+        defaultMessage: () => '',
+      },
+      async: false,
+    },
+    {
+      each: true,
+      message: 'Value of sort options is not valid',
+    },
+  )
+  // @IsArray()
   @IsOptional()
-  pageSize?: number;
+  sorts?: string[] | string;
 }

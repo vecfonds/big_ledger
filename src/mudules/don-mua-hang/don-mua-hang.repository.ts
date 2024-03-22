@@ -3,10 +3,10 @@ import { DataSource, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
 import { DonMuaHang } from './entities/don-mua-hang.entity';
-import { GetDonMuaHangDto } from './dto/get-don-mua-hang.dto';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
 import { PurchasingOfficer } from '../employee/entities/employee.entity';
 import { Supplier } from '../supplier/entities';
+import { OrderType } from 'src/constants';
 
 @Injectable()
 export class DonMuaHangRepository {
@@ -29,7 +29,7 @@ export class DonMuaHangRepository {
     return this.donMuaHangRepository.save(newDonMuaHang);
   }
 
-  findAll(currentPage: number, pageSize: number) {
+  findAll(take: number, skip: number, sorts?: { [key: string]: OrderType }) {
     return this.donMuaHangRepository.find({
       relations: {
         purchasingOfficer: true,
@@ -37,8 +37,9 @@ export class DonMuaHangRepository {
         productOfDonMuaHangs: true,
         ctmuas: true,
       },
-      take: pageSize,
-      skip: pageSize * (currentPage - 1),
+      order: sorts,
+      take: take,
+      skip: skip,
     });
   }
 

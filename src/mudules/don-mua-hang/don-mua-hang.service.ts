@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 
 import { DonMuaHangRepository } from './don-mua-hang.repository';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
 import { UpdateDonMuaHangDto } from './dto/update-don-mua-hang.dto';
 import { GetDonMuaHangDto } from './dto/get-don-mua-hang.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { DEFAULT_VALUES } from 'src/constants';
+import { ORDER, OrderType } from 'src/constants';
 import { EmployeeService } from '../employee/employee.service';
 import { SupplierService } from '../supplier/supplier.service';
 
@@ -45,19 +49,48 @@ export class DonMuaHangService {
   }
 
   async findAll(query: GetDonMuaHangDto) {
-    const currentPage = query.currentPage ?? DEFAULT_VALUES.CURRENT_PAGE;
-    const pageSize = query.pageSize ?? DEFAULT_VALUES.PAGE_SIZE;
+    let sortObject: { [key: string]: OrderType } = {};
+    if (!query.sorts) {
+      sortObject = { id: ORDER.DESC };
+    } else if (Array.isArray(query.sorts)) {
+      query.sorts.forEach((sort) => {
+        const sortValueParts = sort.split(':');
+        sortObject[sortValueParts[0]] = sortValueParts[1] as OrderType;
+      });
+    } else {
+      const sortValueParts = query.sorts.split(':');
+      sortObject[sortValueParts[0]] = sortValueParts[1] as OrderType;
+    }
+    console.log(sortObject);
+    console.log(Object.keys(sortObject));
+    Object.keys(sortObject).forEach((value) => {
+      if (
+        ![
+          'id',
+          'ngayMua',
+          'hanGiaoHang',
+          'paymentStatus',
+          'deliveryStatus',
+          'documentStatus',
+        ].includes(value)
+      ) {
+        throw new UnprocessableEntityException(
+          'Key of sort options is not valid',
+        );
+      }
+    });
     const donMuaHangs = await this.donMuaHangRepository.findAll(
-      currentPage,
-      pageSize,
+      query.pageSize,
+      query.pageSize * (query.currentPage - 1),
+      sortObject,
     );
     const pagination = new PaginationDto(
-      currentPage,
-      pageSize,
-      Math.ceil(donMuaHangs.length / pageSize),
+      query.currentPage,
+      query.pageSize,
+      Math.ceil(donMuaHangs.length / query.pageSize),
       donMuaHangs.length,
     );
-    return donMuaHangs;
+    return { data: donMuaHangs, pagination: pagination };
   }
 
   async findOne(id: number) {
