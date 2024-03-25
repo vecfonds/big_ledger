@@ -9,12 +9,12 @@ import { EmployeeService } from '../employee/employee.service';
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: EmployeeService,
+    private employeeService: EmployeeService,
     private jwtService: JwtService,
   ) {}
 
   async login(loginDto: LoginDto) {
-    const user = await this.userService.findOneByEmail(loginDto.email);
+    const user = await this.employeeService.findOneByEmail(loginDto.email);
     if (!user) {
       throw new UnauthorizedException('Wrong email or password');
     }

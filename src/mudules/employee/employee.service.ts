@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAccountantDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeRepository } from './employee.repository';
@@ -60,8 +60,11 @@ export class EmployeeService {
   }
 
   findOneByEmail(email: string) {
-    // return `This action returns a #${email} employee`;
-    return { password: '123456', id: 1, email: '...' };
+    const employee = this.employeeRepository.findOneByEmail(email);
+    if (!employee) {
+      throw new NotFoundException(`Employee with email ${email} not found`);
+    }
+    return employee;
   }
 
   update(id: number, updateEmployeeDto: UpdateEmployeeDto) {

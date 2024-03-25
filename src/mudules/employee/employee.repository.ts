@@ -79,6 +79,12 @@ export class EmployeeRepository {
     });
   }
 
+  findOneByEmail(email: string) {
+    return this.accountantRepository.findOneBy({
+      email: email,
+    });
+  }
+
   update(id: number) {
     return `This action updates a #${id} donMuaHang`;
   }
