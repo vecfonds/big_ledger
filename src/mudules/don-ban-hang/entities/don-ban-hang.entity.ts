@@ -16,10 +16,10 @@ import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 @Entity({ name: 'don_ban_hang' })
 export class DonBanHang extends AbstractEntity {
   @Column({ type: 'date' })
-  ngayBan: Date;
+  saleDate: Date;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung: string;
+  content: string;
 
   @Column({
     type: 'enum',
@@ -43,7 +43,7 @@ export class DonBanHang extends AbstractEntity {
   documentStatus: DocumentStatusType;
 
   @Column({ type: 'date' })
-  hanGiaoHang: Date;
+  deliveryTerm: Date;
 
   @ManyToOne(() => Salesperson, (salesperson) => salesperson.donBanHangs, {
     nullable: false,
@@ -68,10 +68,10 @@ export class DonBanHang extends AbstractEntity {
 @Entity({ name: 'product_of_don_ban_hang' })
 export class ProductOfDonBanHang extends AbstractEntity {
   @Column({ type: 'int' })
-  soLuong: number;
+  count: number;
 
   @Column({ type: 'int' })
-  donGia: number;
+  price: number;
 
   @ManyToOne(
     () => DonBanHang,
