@@ -51,7 +51,7 @@ export class DonMuaHangService {
   async findAll(query: GetDonMuaHangDto) {
     let sortObject: { [key: string]: OrderType } = {};
     if (!query.sorts) {
-      sortObject = { id: ORDER.DESC };
+      sortObject = { ngayMua: ORDER.DESC };
     } else if (Array.isArray(query.sorts)) {
       query.sorts.forEach((sort) => {
         const sortValueParts = sort.split(':');
