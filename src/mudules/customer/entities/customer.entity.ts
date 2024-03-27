@@ -3,6 +3,7 @@ import { AbstractEntity } from '../../../common/abstract.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { DonBanHang } from '../../don-ban-hang/entities/don-ban-hang.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
+import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 
 @Entity({ name: 'customer_groups' })
 export class CustomerGroup extends AbstractEntity {
@@ -42,6 +43,9 @@ export class Customer extends AbstractEntity {
 
   @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.customer)
   donBanHangs: DonBanHang[];
+
+  @OneToMany(() => Ctban, (ctban) => ctban.customer)
+  ctbans: Ctban[];
 
   @OneToMany(() => PhieuThuTienMat, (phieuThu) => phieuThu.customer)
   phieuThu: PhieuThuTienMat[];

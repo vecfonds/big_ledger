@@ -1,36 +1,48 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { PAYMENT_METHOD, PaymentMethodType } from '../../../constants';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { Product } from 'src/mudules/product/entities';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';
 import { ChungTuCuaPhieuThu } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
+import { Customer } from 'src/mudules/customer/entities/customer.entity';
 
 @Entity({ name: 'ctban' })
 export class Ctban extends AbstractEntity {
   @Column({ type: 'date' })
-  ngayGiao: Date;
+  deliveryDate: Date;
 
   @ManyToOne(
     () => WarehouseKeeper,
     (warehouseKeeper) => warehouseKeeper.ctban,
-    { nullable: true },
+    { nullable: false },
   )
-  nguoiXuatHang: WarehouseKeeper;
+  warehouseKeeper: WarehouseKeeper;
 
   @Column({ type: 'enum', enum: PAYMENT_METHOD })
   paymentMethod: PaymentMethodType;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung: string;
+  content?: string;
 
   @Column({ type: 'varchar' })
-  nguoiNhan: string;
+  receiver: string;
 
-  @ManyToOne(() => DonBanHang, (donBanHang) => donBanHang.ctban, {
+  @ManyToMany(() => DonBanHang, (donBanHang) => donBanHang.ctbans, {
     nullable: false,
   })
-  donBanHang: DonBanHang;
+  @JoinTable({ name: 'don_ban_hang_of_ctban' })
+  donBanHangs: DonBanHang[];
+
+  @ManyToOne(() => Customer, (customer) => customer.ctbans, { nullable: false })
+  customer: Customer;
 
   @OneToMany(() => ProductOfCtban, (productOfCtban) => productOfCtban.ctban)
   productOfCtban: ProductOfCtban[];

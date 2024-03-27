@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { CtbanService } from './ctban.service';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
+import { GetCtbanDto } from './dto/get-ctban.dto';
 
 @Controller('ctban')
 export class CtbanController {
@@ -13,8 +23,8 @@ export class CtbanController {
   }
 
   @Get()
-  findAll() {
-    return this.ctbanService.findAll();
+  findAll(@Query() query: GetCtbanDto) {
+    return this.ctbanService.findAll(query);
   }
 
   @Get(':id')
