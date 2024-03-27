@@ -79,6 +79,14 @@ export class DonBanHangService {
     return { data: donBanHangs[0], pagination: pagination };
   }
 
+  async findByIds(ids: number[]) {
+    const donBanHangs = await this.donBanHangRepository.findByIds(ids);
+    if (donBanHangs.length !== ids.length) {
+      throw new NotFoundException('Some don ban hang not found');
+    }
+    return donBanHangs;
+  }
+
   async findOne(id: number) {
     const donBanHang = await this.donBanHangRepository.findOne(id);
     if (!donBanHang) {

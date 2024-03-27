@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
 import { DonBanHang } from './entities/don-ban-hang.entity';
@@ -43,6 +43,12 @@ export class DonBanHangRepository {
       order: sortsObject,
       take: take,
       skip: skip,
+    });
+  }
+
+  findByIds(ids: number[]) {
+    return this.donBanHangRepository.findBy({
+      id: In(ids),
     });
   }
 
