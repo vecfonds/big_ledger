@@ -17,7 +17,7 @@ export class BankAccount extends AbstractEntity {
   branch: string;
 
   @Column({ type: 'varchar', nullable: true })
-  note: string;
+  note?: string;
 
   @OneToMany(() => PhieuChiTienGui, (phieuChi) => phieuChi.bankAccount)
   phieuChi: PhieuChiTienGui[];

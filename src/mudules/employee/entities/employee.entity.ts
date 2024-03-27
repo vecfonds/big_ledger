@@ -53,7 +53,7 @@ export class PurchasingOfficer extends Emmployee {
 
 @Entity({ name: 'warehouse_keepers' })
 export class WarehouseKeeper extends Emmployee {
-  @OneToMany(() => Ctban, (ctban) => ctban.nguoiXuatHang)
+  @OneToMany(() => Ctban, (ctban) => ctban.warehouseKeeper)
   ctban: Ctban[];
 
   @OneToMany(() => Ctmua, (ctmua) => ctmua.nguoiNhanHang)

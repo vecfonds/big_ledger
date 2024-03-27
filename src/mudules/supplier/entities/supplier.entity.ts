@@ -19,7 +19,7 @@ export class Supplier extends AbstractEntity {
   name: string;
 
   @Column({ type: 'varchar', nullable: true })
-  description: string;
+  description?: string;
 
   @Column({ type: 'varchar' })
   representative: string;
@@ -31,7 +31,7 @@ export class Supplier extends AbstractEntity {
   email: string;
 
   @Column({ type: 'varchar', nullable: true })
-  address: string;
+  address?: string;
 
   @Column({ type: 'varchar' })
   accountNumber: string;
@@ -43,7 +43,7 @@ export class Supplier extends AbstractEntity {
   bankName: string;
 
   @Column({ type: 'varchar', nullable: true })
-  branch: string;
+  branch?: string;
 
   @ManyToMany(() => Product, (product) => product.suppliers)
   @JoinTable({ name: 'product_of_supplier' })

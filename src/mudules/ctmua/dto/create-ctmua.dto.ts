@@ -18,7 +18,7 @@ export class CreateCtmuaDto {
 
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'NguoiNhanHang must be a number' })
-  @IsOptional()
+  @IsNotEmpty({ message: 'NguoiNhanHang is required' })
   nguoiNhanHangId: number;
 
   @ApiProperty({ example: 'CASH' })

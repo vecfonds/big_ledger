@@ -21,7 +21,7 @@ export class Ctmua extends AbstractEntity {
   @ManyToOne(
     () => WarehouseKeeper,
     (warehouseKeeper) => warehouseKeeper.ctmua,
-    { nullable: true },
+    { nullable: false },
   )
   nguoiNhanHang: WarehouseKeeper;
 
@@ -29,7 +29,7 @@ export class Ctmua extends AbstractEntity {
   paymentMethod: PaymentMethodType;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung: string;
+  noiDung?: string;
 
   @Column({ type: 'varchar' })
   nguoiGiao: string;
