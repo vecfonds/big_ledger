@@ -39,28 +39,50 @@ export class EmployeeService {
     return this.employeeRepository.findAllAccountant();
   }
 
-  findOneWarehouseKeeper(id: number) {
-    return this.employeeRepository.findOneWarehouseKeeper(id);
+  async findOneWarehouseKeeper(id: number) {
+    const warehouseKeeper =
+      await this.employeeRepository.findOneWarehouseKeeper(id);
+    if (!warehouseKeeper) {
+      throw new NotFoundException(`Warehouse keeper with id ${id} not found`);
+    }
+    return warehouseKeeper;
   }
 
-  findOnePurchasingOfficer(id: number) {
-    return this.employeeRepository.findOnePurchasingOfficer(id);
+  async findOnePurchasingOfficer(id: number) {
+    const purchasingOfficer =
+      await this.employeeRepository.findOnePurchasingOfficer(id);
+    if (!purchasingOfficer) {
+      throw new NotFoundException(`Purchasing officer with id ${id} not found`);
+    }
+    return purchasingOfficer;
   }
 
-  findOneSalesperson(id: number) {
-    return this.employeeRepository.findOneSalesperson(id);
+  async findOneSalesperson(id: number) {
+    const salesperson = await this.employeeRepository.findOneSalesperson(id);
+    if (!salesperson) {
+      throw new NotFoundException(`Salesperson with id ${id} not found`);
+    }
+    return salesperson;
   }
 
-  findOneAdmin(id: number) {
-    return this.employeeRepository.findOneAdmin(id);
+  async findOneAdmin(id: number) {
+    const admin = await this.employeeRepository.findOneAdmin(id);
+    if (!admin) {
+      throw new NotFoundException(`Admin with id ${id} not found`);
+    }
+    return admin;
   }
 
-  findOneAccountant(id: number) {
-    return this.employeeRepository.findOneAccountant(id);
+  async findOneAccountant(id: number) {
+    const accountant = await this.employeeRepository.findOneAccountant(id);
+    if (!accountant) {
+      throw new NotFoundException(`Accountant with id ${id} not found`);
+    }
+    return accountant;
   }
 
-  findOneByEmail(email: string) {
-    const employee = this.employeeRepository.findOneByEmail(email);
+  async findOneByEmail(email: string) {
+    const employee = await this.employeeRepository.findOneByEmail(email);
     if (!employee) {
       throw new NotFoundException(`Employee with email ${email} not found`);
     }
