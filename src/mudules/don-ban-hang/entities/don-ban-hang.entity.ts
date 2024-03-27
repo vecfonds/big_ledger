@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   DELIVERY_STATUS,
@@ -19,7 +19,7 @@ export class DonBanHang extends AbstractEntity {
   saleDate: Date;
 
   @Column({ type: 'varchar', nullable: true })
-  content: string;
+  content?: string;
 
   @Column({
     type: 'enum',
@@ -61,8 +61,8 @@ export class DonBanHang extends AbstractEntity {
   )
   productOfDonBanHangs: ProductOfDonBanHang[];
 
-  @OneToMany(() => Ctban, (ctban) => ctban.donBanHang)
-  ctban: Ctban[];
+  @ManyToMany(() => Ctban, (ctban) => ctban.donBanHangs)
+  ctbans: Ctban[];
 }
 
 @Entity({ name: 'product_of_don_ban_hang' })
