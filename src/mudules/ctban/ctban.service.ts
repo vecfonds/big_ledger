@@ -45,7 +45,11 @@ export class CtbanService {
       sortOptions = [['saleDate', ORDER.DESC]];
     }
     sortOptions.forEach((sortOption) => {
-      if (!['id', 'deliveryDate', 'paymentMethod'].includes(sortOption[0])) {
+      if (
+        !['id', 'saleDate', 'deliveryDate', 'paymentMethod'].includes(
+          sortOption[0],
+        )
+      ) {
         throw new UnprocessableEntityException(
           'Key of sort options is not valid',
         );
