@@ -47,8 +47,16 @@ export class DonBanHangRepository {
   }
 
   findByIds(ids: number[]) {
-    return this.donBanHangRepository.findBy({
-      id: In(ids),
+    return this.donBanHangRepository.find({
+      where: {
+        id: In(ids),
+      },
+      relations: {
+        salesperson: true,
+        customer: true,
+        productOfDonBanHangs: true,
+        ctbans: true,
+      },
     });
   }
 
