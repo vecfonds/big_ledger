@@ -46,6 +46,22 @@ export class DonBanHangRepository {
     });
   }
 
+  findAllNoPage(sorts: [string, OrderType][]) {
+    let sortsObject: { [key: string]: OrderType } = {};
+    sorts.forEach(([key, value]) => {
+      sortsObject[key] = value;
+    });
+    return this.donBanHangRepository.findAndCount({
+      relations: {
+        salesperson: true,
+        customer: true,
+        productOfDonBanHangs: true,
+        ctbans: true,
+      },
+      order: sortsObject,
+    });
+  }
+
   findByIds(ids: number[]) {
     return this.donBanHangRepository.find({
       where: {

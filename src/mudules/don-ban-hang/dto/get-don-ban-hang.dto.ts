@@ -5,7 +5,8 @@ import { IsOptional, IsString } from 'class-validator';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { OrderType } from 'src/constants';
 
-export class GetDonBanHangDto extends PageOptionsDto {
+// export class GetDonBanHangDto extends PageOptionsDto {
+export class GetDonBanHangDto {
   @ApiPropertyOptional({
     isArray: true,
     example: ['saleDate:DESC'],

@@ -42,7 +42,6 @@ export class DonBanHangService {
   }
 
   async findAll(query: GetDonBanHangDto) {
-    console.log('query: ', query);
     let sortOptions: [string, OrderType][] = [];
     if (query.sorts) {
       sortOptions = query.sorts;
@@ -65,17 +64,18 @@ export class DonBanHangService {
         );
       }
     });
-    const donBanHangs = await this.donBanHangRepository.findAll(
-      query.pageSize,
-      query.pageSize * (query.currentPage - 1),
+    const donBanHangs = await this.donBanHangRepository.findAllNoPage(
+      // query.pageSize,
+      // query.pageSize * (query.currentPage - 1),
       sortOptions,
     );
-    const pagination = new PaginationDto(
-      query.currentPage,
-      query.pageSize,
-      Math.ceil(donBanHangs[1] / query.pageSize),
-      donBanHangs[1],
-    );
+    // const pagination = new PaginationDto(
+    //   query.currentPage,
+    //   query.pageSize,
+    //   Math.ceil(donBanHangs[1] / query.pageSize),
+    //   donBanHangs[1],
+    // );
+    const pagination = new PaginationDto(1, 9999, 1, donBanHangs[1]);
     return { data: donBanHangs[0], pagination: pagination };
   }
 

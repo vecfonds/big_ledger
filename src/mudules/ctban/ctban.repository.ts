@@ -45,6 +45,23 @@ export class CtbanRepository {
       },
       take: pageSize,
       skip: pageSize * (currentPage - 1),
+      order: sortsObject,
+    });
+  }
+
+  findAllNoPage(sorts: [string, OrderType][]) {
+    let sortsObject: { [key: string]: OrderType } = {};
+    sorts.forEach(([key, value]) => {
+      sortsObject[key] = value;
+    });
+    return this.ctbanRepository.findAndCount({
+      relations: {
+        warehouseKeeper: true,
+        donBanHangs: true,
+        productOfCtban: true,
+        phieuThu: true,
+      },
+      order: sortsObject,
     });
   }
 

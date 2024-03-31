@@ -5,10 +5,11 @@ import { IsOptional, IsString } from 'class-validator';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { OrderType } from 'src/constants';
 
-export class GetCtbanDto extends PageOptionsDto {
+// export class GetCtbanDto extends PageOptionsDto {
+export class GetCtbanDto {
   @ApiPropertyOptional({
     isArray: true,
-    example: ['saleDate:DESC'],
+    example: ['id:DESC'],
   })
   @Transform((value) => {
     console.log('transform 1: ', value.value);

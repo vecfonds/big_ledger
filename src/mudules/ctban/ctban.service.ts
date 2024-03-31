@@ -42,30 +42,27 @@ export class CtbanService {
     if (query.sorts) {
       sortOptions = query.sorts;
     } else {
-      sortOptions = [['saleDate', ORDER.DESC]];
+      sortOptions = [['id', ORDER.DESC]];
     }
     sortOptions.forEach((sortOption) => {
-      if (
-        !['id', 'saleDate', 'deliveryDate', 'paymentMethod'].includes(
-          sortOption[0],
-        )
-      ) {
+      if (!['id', 'deliveryDate', 'paymentMethod'].includes(sortOption[0])) {
         throw new UnprocessableEntityException(
           'Key of sort options is not valid',
         );
       }
     });
-    const donBanHangs = await this.ctbanRepository.findAll(
-      query.pageSize,
-      query.pageSize * (query.currentPage - 1),
+    const donBanHangs = await this.ctbanRepository.findAllNoPage(
+      // query.pageSize,
+      // query.pageSize * (query.currentPage - 1),
       sortOptions,
     );
-    const pagination = new PaginationDto(
-      query.currentPage,
-      query.pageSize,
-      Math.ceil(donBanHangs[1] / query.pageSize),
-      donBanHangs[1],
-    );
+    // const pagination = new PaginationDto(
+    //   query.currentPage,
+    //   query.pageSize,
+    //   Math.ceil(donBanHangs[1] / query.pageSize),
+    //   donBanHangs[1],
+    // );
+    const pagination = new PaginationDto(1, 9999, 1, donBanHangs[1]);
     return { data: donBanHangs[0], pagination: pagination };
   }
 
