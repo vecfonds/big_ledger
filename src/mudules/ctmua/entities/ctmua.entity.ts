@@ -7,7 +7,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { Product } from 'src/mudules/product/entities';
+import { Product } from 'src/mudules/product/entities/product.entity';
 import { PAYMENT_METHOD, PaymentMethodType } from 'src/constants';
 import { DonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';

@@ -9,7 +9,7 @@ import {
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { PAYMENT_METHOD, PaymentMethodType } from '../../../constants';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
-import { Product } from 'src/mudules/product/entities';
+import { Product } from 'src/mudules/product/entities/product.entity';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';
 import { ChungTuCuaPhieuThu } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { Customer } from 'src/mudules/customer/entities/customer.entity';

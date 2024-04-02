@@ -9,7 +9,7 @@ import {
   PaymentStatusType,
 } from '../../../constants';
 import { Supplier } from 'src/mudules/supplier/entities';
-import { Product } from 'src/mudules/product/entities';
+import { Product } from 'src/mudules/product/entities/product.entity';
 import { PurchasingOfficer } from 'src/mudules/employee/entities/employee.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 
