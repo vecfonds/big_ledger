@@ -2,11 +2,25 @@ import { AbstractEntity } from '../../../common/abstract.entity';
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { UnitType, UNIT } from '../../../constants';
 import { Supplier } from '../../supplier/entities/supplier.entity';
-import { ProductGroup } from './product-group.entity';
 import { ProductOfDonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { ProductOfDonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { ProductOfCtban } from 'src/mudules/ctban/entities/ctban.entity';
 import { ProductOfCtmua } from 'src/mudules/ctmua/entities/ctmua.entity';
+
+@Entity({ name: 'product_groups' })
+export class ProductGroup extends AbstractEntity {
+  @Column({ type: 'varchar' })
+  name: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  description?: string;
+
+  @Column({ type: 'int' })
+  tax: number;
+
+  @OneToMany(() => Product, (product) => product.productGroup)
+  products: Product[];
+}
 
 @Entity({ name: 'products' })
 export class Product extends AbstractEntity {

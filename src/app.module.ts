@@ -59,7 +59,10 @@ import { PhieuNhap } from './mudules/phieu-nhap/entities/phieu-nhap.entity';
 import { PhieuNhapModule } from './mudules/phieu-nhap/phieu-nhap.module';
 import { PhieuXuat } from './mudules/phieu-xuat/entities/phieu-xuat.entity';
 import { PhieuXuatModule } from './mudules/phieu-xuat/phieu-xuat.module';
-import { Product, ProductGroup } from './mudules/product/entities';
+import {
+  Product,
+  ProductGroup,
+} from './mudules/product/entities/product.entity';
 import { ProductModule } from './mudules/product/product.module';
 import { Supplier, SupplierGroup } from './mudules/supplier/entities';
 import { SupplierModule } from './mudules/supplier/supplier.module';
