@@ -25,6 +25,9 @@ export class Customer extends AbstractEntity {
   @Column({ type: 'varchar' })
   phone: string;
 
+  @Column({ type: 'varchar', nullable: false, default: '123456789' })
+  taxCode: string;
+
   @Column({ type: 'varchar', nullable: true })
   email?: string;
 
