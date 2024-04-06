@@ -29,6 +29,14 @@ export class ProductService {
     return this.productRepository.findAll();
   }
 
+  async findByIds(ids: number[]) {
+    const product = await this.productRepository.findByIds(ids);
+    if (product.length !== ids.length) {
+      throw new NotFoundException('Some products not found');
+    }
+    return product;
+  }
+
   findOneGroup(id: number) {
     return this.productRepository.findOneGroup(id);
   }

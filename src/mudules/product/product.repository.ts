@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { Product, ProductGroup } from './entities/product.entity';
 import { InjectDataSource } from '@nestjs/typeorm';
 import {
@@ -42,6 +42,12 @@ export class ProductRepository {
         productGroup: true,
         // suppliers: true,
       },
+    });
+  }
+
+  findByIds(ids: number[]) {
+    return this.productRepository.findBy({
+      id: In(ids),
     });
   }
 
