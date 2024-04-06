@@ -11,6 +11,6 @@ import { CustomerModule } from '../customer/customer.module';
   controllers: [CtbanController],
   providers: [CtbanService, CtbanRepository],
   exports: [CtbanService],
-  imports: [EmployeeModule, DonBanHangModule],
+  imports: [EmployeeModule, DonBanHangModule, ProductModule],
 })
 export class CtbanModule {}

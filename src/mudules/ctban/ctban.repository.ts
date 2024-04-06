@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { Ctban } from './entities/ctban.entity';
+import { Ctban, ProductOfCtban } from './entities/ctban.entity';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { WarehouseKeeper } from '../employee/entities/employee.entity';
@@ -8,6 +8,7 @@ import { DonBanHang } from '../don-ban-hang/entities/don-ban-hang.entity';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
 import { OrderType } from 'src/constants';
 import { Customer } from '../customer/entities/customer.entity';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class CtbanRepository {
@@ -21,14 +22,28 @@ export class CtbanRepository {
     warehouseKeeper: WarehouseKeeper,
     donBanHang: DonBanHang,
     customer: Customer,
+    productOfCtban: { product: Product; count: number; price: number }[],
   ) {
     const newCtban = this.ctbanRepository.create({
       ...createCtbanDto,
       warehouseKeeper: warehouseKeeper,
       donBanHang: donBanHang,
-      customer: customer,
     });
-    return this.ctbanRepository.save(newCtban);
+    return this.dataSource.transaction(async (manager) => {
+      const ctban = await manager.save(newCtban);
+      await Promise.all(
+        productOfCtban.map(async (each) => {
+          const productOfCtban = manager.create(ProductOfCtban, {
+            product: each.product,
+            count: each.count,
+            price: each.price,
+            ctban: ctban,
+          });
+          return manager.save(productOfCtban);
+        }),
+      );
+      return ctban;
+    });
   }
 
   findAll(currentPage: number, pageSize: number, sorts: [string, OrderType][]) {
@@ -39,8 +54,12 @@ export class CtbanRepository {
     return this.ctbanRepository.findAndCount({
       relations: {
         warehouseKeeper: true,
-        donBanHang: true,
-        productOfCtban: true,
+        donBanHang: {
+          customer: true,
+        },
+        productOfCtban: {
+          product: true,
+        },
         phieuThu: true,
       },
       take: pageSize,
@@ -57,8 +76,12 @@ export class CtbanRepository {
     return this.ctbanRepository.findAndCount({
       relations: {
         warehouseKeeper: true,
-        donBanHang: true,
-        productOfCtban: true,
+        donBanHang: {
+          customer: true,
+        },
+        productOfCtban: {
+          product: true,
+        },
         phieuThu: true,
       },
       order: sortsObject,
@@ -72,8 +95,12 @@ export class CtbanRepository {
       },
       relations: {
         warehouseKeeper: true,
-        donBanHang: true,
-        productOfCtban: true,
+        donBanHang: {
+          customer: true,
+        },
+        productOfCtban: {
+          product: true,
+        },
         phieuThu: true,
       },
     });

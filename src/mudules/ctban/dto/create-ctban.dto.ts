@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -8,8 +9,21 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { PAYMENT_METHOD, PaymentMethodType } from 'src/constants';
+
+export class ProductOfCtban {
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'Count must be a number' })
+  @IsNotEmpty({ message: 'Count is required' })
+  count: number;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'Product id must be a number' })
+  @IsNotEmpty({ message: 'Product id is required' })
+  productId: number;
+}
 
 export class CreateCtbanDto {
   @ApiProperty({ example: '2021-09-01' })
@@ -58,4 +72,19 @@ export class CreateCtbanDto {
   @IsNumber({}, { message: 'DonBanHang id must be a number' })
   @IsNotEmpty({ message: 'DonBanHang id is required' })
   donBanHangId: number;
+
+  @ApiProperty({
+    type: [ProductOfCtban],
+    description: 'List of products',
+    example: [{ productId: 1, count: 1 }],
+  })
+  @IsArray({ message: 'Products must be an array' })
+  @ArrayNotEmpty({ message: 'Products must not be empty' })
+  @IsNotEmpty({ message: 'Products is required' })
+  @ValidateNested({
+    each: true,
+    message: 'Each product must be an object of ProductOfCtban',
+  })
+  @Type(() => ProductOfCtban)
+  products: ProductOfCtban[];
 }

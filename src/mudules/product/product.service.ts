@@ -37,12 +37,20 @@ export class ProductService {
     return product;
   }
 
-  findOneGroup(id: number) {
-    return this.productRepository.findOneGroup(id);
+  async findOneGroup(id: number) {
+    const productGroup = await this.productRepository.findOneGroup(id);
+    if (!productGroup) {
+      throw new NotFoundException('Product group not found');
+    }
+    return productGroup;
   }
 
-  findOne(id: number) {
-    return this.productRepository.findOne(id);
+  async findOne(id: number) {
+    const product = await this.productRepository.findOne(id);
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    return product;
   }
 
   updateGroup(id: number, updateProductGroupDto: any) {

@@ -12,6 +12,7 @@ import { GetCtbanDto } from './dto/get-ctban.dto';
 import { CtbanRepository } from './ctban.repository';
 import { EmployeeService } from '../employee/employee.service';
 import { DonBanHangService } from '../don-ban-hang/don-ban-hang.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class CtbanService {
@@ -19,6 +20,7 @@ export class CtbanService {
     private readonly ctbanRepository: CtbanRepository,
     private readonly employeeService: EmployeeService,
     private readonly donBanHangService: DonBanHangService,
+    private readonly productService: ProductService,
   ) {}
 
   async create(createCtbanDto: CreateCtbanDto) {
@@ -28,12 +30,23 @@ export class CtbanService {
     const donBanHang = await this.donBanHangService.findOne(
       createCtbanDto.donBanHangId,
     );
+    const productOfCtban = await Promise.all(
+      createCtbanDto.products.map(async (each) => {
+        const product = await this.productService.findOne(each.productId);
+        return {
+          product: product,
+          count: each.count,
+          price: product.priceDelivery,
+        };
+      }),
+    );
     const customer = donBanHang.customer;
     return this.ctbanRepository.create(
       createCtbanDto,
       warehouseKeeper,
       donBanHang,
       customer,
+      productOfCtban,
     );
   }
 

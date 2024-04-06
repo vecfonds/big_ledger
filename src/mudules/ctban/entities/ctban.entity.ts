@@ -43,9 +43,6 @@ export class Ctban extends AbstractEntity {
   })
   donBanHang: DonBanHang;
 
-  @ManyToOne(() => Customer, (customer) => customer.ctbans, { nullable: false })
-  customer: Customer;
-
   @OneToMany(() => ProductOfCtban, (productOfCtban) => productOfCtban.ctban)
   productOfCtban: ProductOfCtban[];
 
@@ -56,10 +53,10 @@ export class Ctban extends AbstractEntity {
 @Entity({ name: 'product_of_ctban' })
 export class ProductOfCtban extends AbstractEntity {
   @Column({ type: 'int' })
-  soLuong: number;
+  count: number;
 
   @Column({ type: 'int' })
-  donGia: number;
+  price: number;
 
   @ManyToOne(() => Ctban, (ctban) => ctban.productOfCtban, { nullable: false })
   ctban: Ctban;

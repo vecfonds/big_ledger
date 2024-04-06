@@ -47,9 +47,6 @@ export class Customer extends AbstractEntity {
   @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.customer)
   donBanHangs: DonBanHang[];
 
-  @OneToMany(() => Ctban, (ctban) => ctban.customer)
-  ctbans: Ctban[];
-
   @OneToMany(() => PhieuThuTienMat, (phieuThu) => phieuThu.customer)
   phieuThu: PhieuThuTienMat[];
 
