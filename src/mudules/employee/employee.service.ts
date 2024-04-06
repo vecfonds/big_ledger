@@ -1,14 +1,44 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateAccountantDto } from './dto/create-employee.dto';
+import {
+  CreateAccountantDto,
+  CreateOtherEmployee,
+} from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeRepository } from './employee.repository';
+import { generateHash } from 'src/common/utils';
+import { USER_ROLE } from 'src/constants';
 
 @Injectable()
 export class EmployeeService {
   constructor(private readonly employeeRepository: EmployeeRepository) {}
 
-  create(createEmployeeDto: CreateAccountantDto) {
-    return 'This action adds a new employee';
+  createAccountant(createAccountantDto: CreateAccountantDto) {
+    const hashedPassword = generateHash(createAccountantDto.password);
+    return this.employeeRepository.createAccountant(
+      createAccountantDto,
+      hashedPassword,
+    );
+  }
+
+  createOtherEmployee(createOtherEmployee: CreateOtherEmployee) {
+    switch (createOtherEmployee.role) {
+      case USER_ROLE.ADMIN:
+        return this.employeeRepository.createAdmin(createOtherEmployee);
+      case USER_ROLE.PURCHARSING_OFFICER:
+        return this.employeeRepository.createPurchasingOfficer(
+          createOtherEmployee,
+        );
+      case USER_ROLE.SALESPERSON:
+        return this.employeeRepository.createSalesperson(createOtherEmployee);
+      case USER_ROLE.WAREHOUSE_KEEPER:
+        return this.employeeRepository.createWarehouseKeeper(
+          createOtherEmployee,
+        );
+      default:
+        throw new NotFoundException(
+          `Role ${createOtherEmployee.role} not found`,
+        );
+    }
   }
 
   findAll() {

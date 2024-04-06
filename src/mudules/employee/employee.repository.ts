@@ -9,6 +9,14 @@ import {
   Admin,
   WarehouseKeeper,
 } from './entities/employee.entity';
+import {
+  CreateAdminDto,
+  CreateAccountantDto,
+  CreatePurchasingOfficerDto,
+  CreateSalespersonDto,
+  CreateWarehouseKeeperDto,
+} from './dto/create-employee.dto';
+import { DEFAULT_VALUES } from 'src/constants';
 
 @Injectable()
 export class EmployeeRepository {
@@ -25,8 +33,34 @@ export class EmployeeRepository {
     this.wKeeperRepository = this.dataSource.getRepository(WarehouseKeeper);
   }
 
-  create() {
-    return 'This action adds a new donMuaHang';
+  createAdmin(createAdminDto: CreateAdminDto) {
+    return this.adminRepository.save(createAdminDto);
+  }
+
+  createAccountant(createAccountantDto: CreateAccountantDto, password: string) {
+    const newAccountant = this.accountantRepository.create({
+      name: createAccountantDto.name,
+      email: createAccountantDto.email,
+      phone: createAccountantDto.phone,
+      address: createAccountantDto.address,
+      password: password,
+      avatar: createAccountantDto.avatar ?? DEFAULT_VALUES.DEFAULT_AVATAR,
+    });
+    return this.accountantRepository.save(newAccountant);
+  }
+
+  createSalesperson(createSalespersonDto: CreateSalespersonDto) {
+    return this.salespersonRepository.save(createSalespersonDto);
+  }
+
+  createPurchasingOfficer(
+    createPurchasingOfficerDto: CreatePurchasingOfficerDto,
+  ) {
+    return this.pOfficerRepository.save(createPurchasingOfficerDto);
+  }
+
+  createWarehouseKeeper(createWarehouseKeeperDto: CreateWarehouseKeeperDto) {
+    return this.wKeeperRepository.save(createWarehouseKeeperDto);
   }
 
   findAllWarehouseKeeper() {

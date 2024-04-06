@@ -4,8 +4,11 @@ import {
   IsOptional,
   IsNotEmpty,
   MinLength,
+  IsIn,
+  IsStrongPassword,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { USER_ROLE, UserRoleType } from 'src/constants';
 
 abstract class CreateEmployeeDto {
   @ApiProperty({ example: 'Accountant A' })
@@ -30,18 +33,46 @@ abstract class CreateEmployeeDto {
 }
 
 export class CreateAccountantDto extends CreateEmployeeDto {
-  @ApiProperty({ example: 'password' })
+  @ApiProperty({ example: 'Password@1' })
   @IsString({ message: 'Password is not valid' })
   @IsNotEmpty({ message: 'Password is required' })
-  @MinLength(6, { message: 'Password is too short' })
+  @IsStrongPassword(
+    {
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    },
+    {
+      message:
+        'Password must have at least 1 lowercase, 1 uppercase, 1 number, 1 symbol',
+    },
+  )
   password: string;
 
   @ApiProperty({ example: 'avatar' })
   @IsString({ message: 'Avatar is not valid' })
   @IsOptional()
-  avatar: string;
+  avatar?: string;
+}
+
+export class CreateOtherEmployee extends CreateEmployeeDto {
+  @ApiProperty({
+    example: USER_ROLE.ADMIN,
+    type: 'enum',
+    enum: Object.values(USER_ROLE),
+  })
+  @IsIn(Object.values(USER_ROLE), { message: 'Role is not valid' })
+  @IsString({ message: 'Role is not valid' })
+  @IsNotEmpty({ message: 'Role is required' })
+  role: UserRoleType;
 }
 
 export class CreateSalespersonDto extends CreateEmployeeDto {}
 
 export class CreatePurchasingOfficerDto extends CreateEmployeeDto {}
+
+export class CreateWarehouseKeeperDto extends CreateEmployeeDto {}
+
+export class CreateAdminDto extends CreateEmployeeDto {}

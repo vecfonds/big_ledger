@@ -8,7 +8,10 @@ import {
   Delete,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
-import { CreateAccountantDto } from './dto/create-employee.dto';
+import {
+  CreateAccountantDto,
+  CreateOtherEmployee,
+} from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -17,9 +20,14 @@ import { ApiTags } from '@nestjs/swagger';
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Post()
-  create(@Body() createEmployeeDto: CreateAccountantDto) {
-    return this.employeeService.create(createEmployeeDto);
+  @Post('accountant')
+  createAccountant(@Body() createAccountantDto: CreateAccountantDto) {
+    return this.employeeService.createAccountant(createAccountantDto);
+  }
+
+  @Post('other')
+  createOther(@Body() createOtherEmployeeDto: CreateOtherEmployee) {
+    return this.employeeService.createOtherEmployee(createOtherEmployeeDto);
   }
 
   @Get()
