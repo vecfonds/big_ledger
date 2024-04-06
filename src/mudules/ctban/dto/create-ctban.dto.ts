@@ -39,13 +39,23 @@ export class CreateCtbanDto {
   @IsNotEmpty({ message: 'Receiver is required' })
   receiver: string;
 
-  @ApiProperty({ example: [1] })
-  @IsNumber(undefined, {
-    each: true,
-    message: 'DonMuaHangIds must be an array of numbers',
-  })
-  @IsArray({ message: 'DonMuaHangIds must be an array' })
-  @ArrayNotEmpty({ message: 'DonMuaHangIds must not be empty' })
-  @IsNotEmpty({ message: 'DonMuaHangIds is required' })
-  donBanHangIds: number[];
+  @ApiProperty({ example: '2021-09-01' })
+  @IsDateString(undefined, { message: 'PaymentTerm must be a string' })
+  @IsNotEmpty({ message: 'PaymentTerm is required' })
+  paymentTerm: string;
+
+  // @ApiProperty({ example: [1] })
+  // @IsNumber(undefined, {
+  //   each: true,
+  //   message: 'DonMuaHangIds must be an array of numbers',
+  // })
+  // @IsArray({ message: 'DonMuaHangIds must be an array' })
+  // @ArrayNotEmpty({ message: 'DonMuaHangIds must not be empty' })
+  // @IsNotEmpty({ message: 'DonMuaHangIds is required' })
+  // donBanHangIds: number[];
+
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'DonBanHang id must be a number' })
+  @IsNotEmpty({ message: 'DonBanHang id is required' })
+  donBanHangId: number;
 }

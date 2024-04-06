@@ -19,13 +19,13 @@ export class CtbanRepository {
   create(
     createCtbanDto: CreateCtbanDto,
     warehouseKeeper: WarehouseKeeper,
-    donBanHangs: DonBanHang[],
+    donBanHang: DonBanHang,
     customer: Customer,
   ) {
     const newCtban = this.ctbanRepository.create({
       ...createCtbanDto,
       warehouseKeeper: warehouseKeeper,
-      donBanHangs: donBanHangs,
+      donBanHang: donBanHang,
       customer: customer,
     });
     return this.ctbanRepository.save(newCtban);
@@ -39,7 +39,7 @@ export class CtbanRepository {
     return this.ctbanRepository.findAndCount({
       relations: {
         warehouseKeeper: true,
-        donBanHangs: true,
+        donBanHang: true,
         productOfCtban: true,
         phieuThu: true,
       },
@@ -57,7 +57,7 @@ export class CtbanRepository {
     return this.ctbanRepository.findAndCount({
       relations: {
         warehouseKeeper: true,
-        donBanHangs: true,
+        donBanHang: true,
         productOfCtban: true,
         phieuThu: true,
       },
@@ -72,7 +72,7 @@ export class CtbanRepository {
       },
       relations: {
         warehouseKeeper: true,
-        donBanHangs: true,
+        donBanHang: true,
         productOfCtban: true,
         phieuThu: true,
       },

@@ -61,8 +61,8 @@ export class DonBanHang extends AbstractEntity {
   )
   productOfDonBanHangs: ProductOfDonBanHang[];
 
-  @ManyToMany(() => Ctban, (ctban) => ctban.donBanHangs)
-  ctbans: Ctban[];
+  @OneToMany(() => Ctban, (ctban) => ctban.donBanHang)
+  ctban: Ctban[];
 }
 
 @Entity({ name: 'product_of_don_ban_hang' })

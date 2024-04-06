@@ -35,11 +35,13 @@ export class Ctban extends AbstractEntity {
   @Column({ type: 'varchar' })
   receiver: string;
 
-  @ManyToMany(() => DonBanHang, (donBanHang) => donBanHang.ctbans, {
+  @Column({ type: 'date' })
+  paymentTerm: Date;
+
+  @ManyToOne(() => DonBanHang, (donBanHang) => donBanHang.ctban, {
     nullable: false,
   })
-  @JoinTable({ name: 'don_ban_hang_of_ctban' })
-  donBanHangs: DonBanHang[];
+  donBanHang: DonBanHang;
 
   @ManyToOne(() => Customer, (customer) => customer.ctbans, { nullable: false })
   customer: Customer;

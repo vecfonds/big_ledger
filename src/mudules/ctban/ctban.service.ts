@@ -25,14 +25,14 @@ export class CtbanService {
     const warehouseKeeper = await this.employeeService.findOneWarehouseKeeper(
       createCtbanDto.warehouseKeeperId,
     );
-    const donBanHangs = await this.donBanHangService.findByIds(
-      createCtbanDto.donBanHangIds,
+    const donBanHang = await this.donBanHangService.findOne(
+      createCtbanDto.donBanHangId,
     );
-    const customer = donBanHangs[0].customer;
+    const customer = donBanHang.customer;
     return this.ctbanRepository.create(
       createCtbanDto,
       warehouseKeeper,
-      donBanHangs,
+      donBanHang,
       customer,
     );
   }
