@@ -12,6 +12,7 @@ import { CustomerService } from '../customer/customer.service';
 import { GetDonBanHangDto } from './dto/get-don-ban-hang.dto';
 import { ORDER, OrderType } from 'src/constants';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class DonBanHangService {
@@ -19,25 +20,33 @@ export class DonBanHangService {
     private readonly donBanHangRepository: DonBanHangRepository,
     private readonly employeeService: EmployeeService,
     private readonly customerService: CustomerService,
+    private readonly productService: ProductService,
   ) {}
 
   async create(createDonBanHangDto: CreateDonBanHangDto) {
+    if (
+      createDonBanHangDto.productIds.length !==
+      createDonBanHangDto.quantities.length
+    ) {
+      throw new UnprocessableEntityException(
+        'Product ids and quantities must have the same length',
+      );
+    }
+    const products = await this.productService.findByIds(
+      createDonBanHangDto.productIds,
+    );
     const salesperson = await this.employeeService.findOneSalesperson(
       createDonBanHangDto.salespersonId,
     );
-    if (!salesperson) {
-      throw new NotFoundException('Salesperson not found');
-    }
     const customer = await this.customerService.findOne(
       createDonBanHangDto.customerId,
     );
-    if (!customer) {
-      throw new NotFoundException('Customer not found');
-    }
     return this.donBanHangRepository.create(
       createDonBanHangDto,
       salesperson,
       customer,
+      products,
+      createDonBanHangDto.quantities,
     );
   }
 

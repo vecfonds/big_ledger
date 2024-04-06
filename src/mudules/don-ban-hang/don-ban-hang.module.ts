@@ -4,11 +4,12 @@ import { DonBanHangController } from './don-ban-hang.controller';
 import { DonBanHangRepository } from './don-ban-hang.repository';
 import { EmployeeModule } from '../employee/employee.module';
 import { CustomerModule } from '../customer/customer.module';
+import { ProductModule } from '../product/product.module';
 
 @Module({
   controllers: [DonBanHangController],
   providers: [DonBanHangService, DonBanHangRepository],
   exports: [DonBanHangService],
-  imports: [EmployeeModule, CustomerModule],
+  imports: [EmployeeModule, CustomerModule, ProductModule],
 })
 export class DonBanHangModule {}

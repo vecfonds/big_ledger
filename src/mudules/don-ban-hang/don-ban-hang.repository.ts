@@ -2,30 +2,51 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
-import { DonBanHang } from './entities/don-ban-hang.entity';
+import {
+  DonBanHang,
+  ProductOfDonBanHang,
+} from './entities/don-ban-hang.entity';
 import { CreateDonBanHangDto } from './dto/create-don-ban-hang.dto';
 import { Salesperson } from '../employee/entities/employee.entity';
 import { Customer } from '../customer/entities/customer.entity';
 import { OrderType } from 'src/constants';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class DonBanHangRepository {
   private readonly donBanHangRepository: Repository<DonBanHang>;
+  private readonly productOfDonBanHangRepository: Repository<ProductOfDonBanHang>;
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {
     this.donBanHangRepository = this.dataSource.getRepository(DonBanHang);
+    this.productOfDonBanHangRepository =
+      this.dataSource.getRepository(ProductOfDonBanHang);
   }
 
   create(
     createDonBanHangDto: CreateDonBanHangDto,
     salesperson: Salesperson,
     customer: Customer,
+    products: Product[],
+    counts: number[],
   ) {
     const newDonBanHang = this.donBanHangRepository.create({
       ...createDonBanHangDto,
       salesperson: salesperson,
       customer: customer,
     });
-    return this.donBanHangRepository.save(newDonBanHang);
+    return this.dataSource.transaction(async (manager) => {
+      const donBanHang = await manager.save(newDonBanHang);
+      const productOfDonBanHangs = products.map((product, index) => {
+        return this.productOfDonBanHangRepository.create({
+          donBanHang: donBanHang,
+          product: product,
+          price: product.priceDelivery,
+          count: counts[index],
+        });
+      });
+      await manager.save(productOfDonBanHangs);
+      return donBanHang;
+    });
   }
 
   findAll(take: number, skip: number, sorts: [string, OrderType][]) {

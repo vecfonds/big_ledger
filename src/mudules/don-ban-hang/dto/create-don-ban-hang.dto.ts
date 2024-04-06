@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsDateString,
   IsIn,
   IsNotEmpty,
@@ -62,4 +64,24 @@ export class CreateDonBanHangDto {
   @IsNumber({}, { message: 'customerId must be a number' })
   @IsOptional()
   customerId: number;
+
+  @ApiProperty({ example: [1] })
+  @IsNumber(undefined, {
+    each: true,
+    message: 'productIds must be an array of numbers',
+  })
+  @IsNotEmpty({ message: 'productIds is required' })
+  @IsArray({ message: 'productIds must be an array' })
+  @ArrayNotEmpty({ message: 'productIds must not be empty' })
+  productIds: number[];
+
+  @ApiProperty({ example: [1] })
+  @IsNumber(undefined, {
+    each: true,
+    message: 'quantities must be an array of numbers',
+  })
+  @IsNotEmpty({ message: 'quantities is required' })
+  @IsArray({ message: 'quantities must be an array' })
+  @ArrayNotEmpty({ message: 'quantities must not be empty' })
+  quantities: number[];
 }
