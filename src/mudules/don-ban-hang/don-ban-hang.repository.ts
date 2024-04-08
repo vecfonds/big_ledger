@@ -110,7 +110,9 @@ export class DonBanHangRepository {
         salesperson: true,
         customer: true,
         productOfDonBanHangs: true,
-        ctban: true,
+        ctban: {
+          productOfCtban: true,
+        },
       },
     });
   }
