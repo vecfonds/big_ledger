@@ -1,0 +1,2 @@
+- Tạo chứng từ bán hàng lấy giá từng sản phẩm lưu trong đơn bán hàng
+- Thêm controler deliveryTerm vào module donBanHang
