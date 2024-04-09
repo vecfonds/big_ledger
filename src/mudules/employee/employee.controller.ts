@@ -30,14 +30,54 @@ export class EmployeeController {
     return this.employeeService.createOtherEmployee(createOtherEmployeeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.employeeService.findAll();
+  @Get('warehouse-keeper')
+  findAllWarehouseKeeper() {
+    return this.employeeService.findAllWareHouseKeeper();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.employeeService.findOne(+id);
+  @Get('purchasing-officer')
+  findAllPurchasingOfficer() {
+    return this.employeeService.findAllPurchasingOfficer();
+  }
+
+  @Get('salesperson')
+  findAllSalesperson() {
+    return this.employeeService.findAllSalesperson();
+  }
+
+  @Get('admin')
+  findAllAdmin() {
+    return this.employeeService.findAllAdmin();
+  }
+
+  @Get('accountant')
+  findAllAccountant() {
+    return this.employeeService.findAllAccountant();
+  }
+
+  @Get('warehouse-keeper/:id')
+  findOneWarehouseKeeper(@Param('id') id: string) {
+    return this.employeeService.findOneWarehouseKeeper(+id);
+  }
+
+  @Get('purchasing-officer/:id')
+  findOnePurchasingOfficer(@Param('id') id: string) {
+    return this.employeeService.findOnePurchasingOfficer(+id);
+  }
+
+  @Get('salesperson/:id')
+  findOneSalesperson(@Param('id') id: string) {
+    return this.employeeService.findOneSalesperson(+id);
+  }
+
+  @Get('admin/:id')
+  findOneAdmin(@Param('id') id: string) {
+    return this.employeeService.findOneAdmin(+id);
+  }
+
+  @Get('accountant/:id')
+  findOneAccountant(@Param('id') id: string) {
+    return this.employeeService.findOneAccountant(+id);
   }
 
   @Patch(':id')
