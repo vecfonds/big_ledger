@@ -58,11 +58,11 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
-        productOfDonBanHangs: true,
+        productOfDonBanHangs: {
+          product: true,
+        },
         ctban: {
-          productOfCtban: {
-            product: true,
-          },
+          productOfCtban: true,
         },
       },
       order: sortsObject,
@@ -80,11 +80,11 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
-        productOfDonBanHangs: true,
+        productOfDonBanHangs: {
+          product: true,
+        },
         ctban: {
-          productOfCtban: {
-            product: true,
-          },
+          productOfCtban: true,
         },
       },
       order: sortsObject,
@@ -99,7 +99,9 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
-        productOfDonBanHangs: true,
+        productOfDonBanHangs: {
+          product: true,
+        },
         ctban: true,
       },
     });
@@ -113,11 +115,11 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
-        productOfDonBanHangs: true,
+        productOfDonBanHangs: {
+          product: true,
+        },
         ctban: {
-          productOfCtban: {
-            product: true,
-          },
+          productOfCtban: true,
         },
       },
     });
