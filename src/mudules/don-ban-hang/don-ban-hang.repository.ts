@@ -62,7 +62,9 @@ export class DonBanHangRepository {
           product: true,
         },
         ctban: {
-          productOfCtban: true,
+          productOfCtban: {
+            product: true,
+          },
         },
       },
       order: sortsObject,
@@ -84,7 +86,9 @@ export class DonBanHangRepository {
           product: true,
         },
         ctban: {
-          productOfCtban: true,
+          productOfCtban: {
+            product: true,
+          },
         },
       },
       order: sortsObject,
@@ -119,7 +123,9 @@ export class DonBanHangRepository {
           product: true,
         },
         ctban: {
-          productOfCtban: true,
+          productOfCtban: {
+            product: true,
+          },
         },
       },
     });
