@@ -7,7 +7,6 @@ import { WarehouseKeeper } from '../employee/entities/employee.entity';
 import { DonBanHang } from '../don-ban-hang/entities/don-ban-hang.entity';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
 import { OrderType } from 'src/constants';
-import { Customer } from '../customer/entities/customer.entity';
 import { Product } from '../product/entities/product.entity';
 
 @Injectable()
@@ -21,7 +20,6 @@ export class CtbanRepository {
     createCtbanDto: CreateCtbanDto,
     warehouseKeeper: WarehouseKeeper,
     donBanHang: DonBanHang,
-    customer: Customer,
     productOfCtban: { product: Product; count: number; price: number }[],
   ) {
     const newCtban = this.ctbanRepository.create({

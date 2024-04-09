@@ -40,12 +40,10 @@ export class CtbanService {
         };
       }),
     );
-    const customer = donBanHang.customer;
     return this.ctbanRepository.create(
       createCtbanDto,
       warehouseKeeper,
       donBanHang,
-      customer,
       productOfCtban,
     );
   }

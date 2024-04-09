@@ -4,14 +4,12 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsDateString,
-  IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { PAYMENT_METHOD, PaymentMethodType } from 'src/constants';
 
 export class ProductOfCtban {
   @ApiProperty({ example: 1 })
@@ -35,13 +33,6 @@ export class CreateCtbanDto {
   @IsNumber({}, { message: 'WarehouseKeeper id must be a number' })
   @IsNotEmpty({ message: 'WarehouseKeeper id is required' })
   warehouseKeeperId: number;
-
-  @ApiProperty({ example: PAYMENT_METHOD.CASH, enum: PAYMENT_METHOD })
-  @IsIn(Object.values(PAYMENT_METHOD), {
-    message: 'PaymentMethod is not valid',
-  })
-  @IsNotEmpty({ message: 'PaymentMethod is required' })
-  paymentMethod: PaymentMethodType;
 
   @ApiProperty({ example: 'Content' })
   @IsString({ message: 'Content must be a string' })

@@ -1,18 +1,10 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
-import { PAYMENT_METHOD, PaymentMethodType } from '../../../constants';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';
 import { ChungTuCuaPhieuThu } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
-import { Customer } from 'src/mudules/customer/entities/customer.entity';
+import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 
 @Entity({ name: 'ctban' })
 export class Ctban extends AbstractEntity {
@@ -26,9 +18,6 @@ export class Ctban extends AbstractEntity {
   )
   warehouseKeeper: WarehouseKeeper;
 
-  @Column({ type: 'enum', enum: PAYMENT_METHOD })
-  paymentMethod: PaymentMethodType;
-
   @Column({ type: 'varchar', nullable: true })
   content?: string;
 
@@ -37,6 +26,13 @@ export class Ctban extends AbstractEntity {
 
   @Column({ type: 'date' })
   paymentTerm: Date;
+
+  @Column({
+    type: 'enum',
+    enum: Object.values(PAYMENT_STATUS),
+    default: PAYMENT_STATUS.NOT_PAID,
+  })
+  paymentStatus: PaymentStatusType;
 
   @ManyToOne(() => DonBanHang, (donBanHang) => donBanHang.ctban, {
     nullable: false,
