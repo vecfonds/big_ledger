@@ -78,7 +78,9 @@ export class CtbanRepository {
           customer: true,
         },
         productOfCtban: {
-          product: true,
+          product: {
+            productGroup: true,
+          },
         },
         phieuThu: true,
       },

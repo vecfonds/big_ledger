@@ -59,7 +59,9 @@ export class DonBanHangRepository {
         salesperson: true,
         customer: true,
         productOfDonBanHangs: {
-          product: true,
+          product: {
+            productGroup: true,
+          },
         },
         ctban: {
           productOfCtban: {
@@ -83,7 +85,9 @@ export class DonBanHangRepository {
         salesperson: true,
         customer: true,
         productOfDonBanHangs: {
-          product: true,
+          product: {
+            productGroup: true,
+          },
         },
         ctban: {
           productOfCtban: {
@@ -120,7 +124,9 @@ export class DonBanHangRepository {
         salesperson: true,
         customer: true,
         productOfDonBanHangs: {
-          product: true,
+          product: {
+            productGroup: true,
+          },
         },
         ctban: {
           productOfCtban: {
