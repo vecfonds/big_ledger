@@ -95,9 +95,12 @@ export class CtbanRepository {
         warehouseKeeper: true,
         donBanHang: {
           customer: true,
+          salesperson: true,
         },
         productOfCtban: {
-          product: true,
+          product: {
+            productGroup: true,
+          },
         },
         phieuThu: true,
       },
