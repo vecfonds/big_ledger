@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -8,6 +9,8 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Min,
+  ValidateNested,
 } from 'class-validator';
 import {
   DELIVERY_STATUS,
@@ -17,6 +20,19 @@ import {
   PAYMENT_STATUS,
   PaymentStatusType,
 } from 'src/constants';
+
+export class ProductOfDonBanHang {
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'Count must be a number' })
+  @IsNotEmpty({ message: 'Count is required' })
+  @Min(1, { message: 'Count must be greater than or equal to 1' })
+  count: number;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'Product id must be a number' })
+  @IsNotEmpty({ message: 'Product id is required' })
+  productId: number;
+}
 
 export class CreateDonBanHangDto {
   @ApiProperty({ example: '2021-09-01' })
@@ -65,23 +81,18 @@ export class CreateDonBanHangDto {
   @IsOptional()
   customerId: number;
 
-  @ApiProperty({ example: [1] })
-  @IsNumber(undefined, {
-    each: true,
-    message: 'productIds must be an array of numbers',
+  @ApiProperty({
+    type: [ProductOfDonBanHang],
+    description: 'List of products',
+    example: [{ productId: 1, count: 1 }],
   })
-  @IsNotEmpty({ message: 'productIds is required' })
-  @IsArray({ message: 'productIds must be an array' })
-  @ArrayNotEmpty({ message: 'productIds must not be empty' })
-  productIds: number[];
-
-  @ApiProperty({ example: [1] })
-  @IsNumber(undefined, {
+  @IsArray({ message: 'Products must be an array' })
+  @ArrayNotEmpty({ message: 'Products must not be empty' })
+  @IsNotEmpty({ message: 'Products is required' })
+  @ValidateNested({
     each: true,
-    message: 'quantities must be an array of numbers',
+    message: 'Each product must be an object of ProductOfDonBanHang',
   })
-  @IsNotEmpty({ message: 'quantities is required' })
-  @IsArray({ message: 'quantities must be an array' })
-  @ArrayNotEmpty({ message: 'quantities must not be empty' })
-  quantities: number[];
+  @Type(() => ProductOfDonBanHang)
+  products: ProductOfDonBanHang[];
 }

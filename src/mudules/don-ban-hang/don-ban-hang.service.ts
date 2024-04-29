@@ -24,16 +24,16 @@ export class DonBanHangService {
   ) {}
 
   async create(createDonBanHangDto: CreateDonBanHangDto) {
-    if (
-      createDonBanHangDto.productIds.length !==
-      createDonBanHangDto.quantities.length
-    ) {
-      throw new UnprocessableEntityException(
-        'Product ids and quantities must have the same length',
-      );
-    }
-    const products = await this.productService.findByIds(
-      createDonBanHangDto.productIds,
+    const productsPromise = createDonBanHangDto.products.map(
+      async (product) => {
+        return await this.productService.findOne(product.productId);
+      },
+    );
+    const products = await Promise.all(productsPromise);
+    const productsQuantity = createDonBanHangDto.products.map(
+      (product, index) => {
+        return product.count;
+      },
     );
     const salesperson = await this.employeeService.findOneSalesperson(
       createDonBanHangDto.salespersonId,
@@ -46,7 +46,7 @@ export class DonBanHangService {
       salesperson,
       customer,
       products,
-      createDonBanHangDto.quantities,
+      productsQuantity,
     );
   }
 

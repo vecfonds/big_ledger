@@ -8,6 +8,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Min,
   ValidateNested,
 } from 'class-validator';
 
@@ -15,6 +16,7 @@ export class ProductOfCtban {
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'Count must be a number' })
   @IsNotEmpty({ message: 'Count is required' })
+  @Min(1, { message: 'Count must be greater than or equal to 1' })
   count: number;
 
   @ApiProperty({ example: 1 })
