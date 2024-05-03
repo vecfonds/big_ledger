@@ -10,6 +10,8 @@ import { AuthModule } from './mudules/auth/auth.module';
 // import { LocationEntity } from './mudules/location/entities/location.entity';
 // import { CommentEntity } from './mudules/comment/entities/comment.entity';
 
+import { Announcement } from './mudules/announcement/entities/announcement.entity';
+import { AnnouncementModule } from './mudules/announcement/announcement.module';
 import { BankAccount } from './mudules/bank-account/entities/bank-account.entity';
 import { BankAccountModule } from './mudules/bank-account/bank-account.module';
 import { Ctban, ProductOfCtban } from './mudules/ctban/entities/ctban.entity';
@@ -83,6 +85,7 @@ dotenv.config();
       // },
       synchronize: true,
       entities: [
+        Announcement,
         BankAccount,
         Ctban,
         ProductOfCtban,
@@ -116,6 +119,7 @@ dotenv.config();
       ],
     }),
     AuthModule,
+    AnnouncementModule,
     BankAccountModule,
     CtbanModule,
     CtmuaModule,
