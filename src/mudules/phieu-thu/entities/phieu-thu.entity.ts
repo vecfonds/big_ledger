@@ -8,13 +8,13 @@ import { BankAccount } from 'src/mudules/bank-account/entities/bank-account.enti
 @Entity({ name: 'phieu_thu_tien_mat' })
 export class PhieuThuTienMat extends AbstractEntity {
   @Column({ type: 'date' })
-  ngayThu: Date;
+  receiveDate: Date;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung?: string;
+  content?: string;
 
   @Column({ type: 'varchar', nullable: true })
-  nguoiNop?: string;
+  submitter?: string;
 
   @ManyToOne(() => Customer, (customer) => customer.phieuThu, {
     nullable: false,
@@ -41,10 +41,10 @@ export class PhieuThuTienGui extends PhieuThuTienMat {
 @Entity({ name: 'chung_tu_cua_phieu_thu' })
 export class ChungTuCuaPhieuThu extends AbstractEntity {
   @Column({ type: 'int' })
-  soTien: number;
+  money: number;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung?: string;
+  content?: string;
 
   @ManyToOne(() => PhieuThuTienMat, (phieuThu) => phieuThu.chungTu, {
     nullable: false,

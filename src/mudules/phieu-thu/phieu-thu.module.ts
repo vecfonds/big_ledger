@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
 import { PhieuThuService } from './phieu-thu.service';
-import { PhieuThuController } from './phieu-thu.controller';
+import {
+  PhieuThuTienGuiController,
+  PhieuThuTienMatController,
+} from './phieu-thu.controller';
+import { PhieuThuRepository } from './phieu-thu.repository';
 
 @Module({
-  controllers: [PhieuThuController],
-  providers: [PhieuThuService],
+  controllers: [PhieuThuTienMatController, PhieuThuTienGuiController],
+  providers: [PhieuThuService, PhieuThuRepository],
 })
 export class PhieuThuModule {}
