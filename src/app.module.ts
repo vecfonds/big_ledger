@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import * as dotenv from 'dotenv';
 
 import { AuthModule } from './mudules/auth/auth.module';
@@ -118,6 +119,7 @@ dotenv.config();
         SupplierGroup,
       ],
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     AnnouncementModule,
     BankAccountModule,

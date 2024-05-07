@@ -4,7 +4,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 
-import { ORDER, OrderType } from 'src/constants';
+import { ORDER, OrderType, PaymentStatusType } from 'src/constants';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
@@ -75,6 +75,10 @@ export class CtbanService {
     // );
     const pagination = new PaginationDto(1, 9999, 1, donBanHangs[1]);
     return { data: donBanHangs[0], pagination: pagination };
+  }
+
+  findByPaymentStatus(status: PaymentStatusType[]) {
+    return this.ctbanRepository.findByPaymentStatus(status);
   }
 
   async findOne(id: number) {

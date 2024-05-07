@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { Ctban, ProductOfCtban } from './entities/ctban.entity';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { WarehouseKeeper } from '../employee/entities/employee.entity';
 import { DonBanHang } from '../don-ban-hang/entities/don-ban-hang.entity';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
-import { OrderType } from 'src/constants';
+import { OrderType, PaymentStatusType } from 'src/constants';
 import { Product } from '../product/entities/product.entity';
 
 @Injectable()
@@ -85,6 +85,14 @@ export class CtbanRepository {
         phieuThu: true,
       },
       order: sortsObject,
+    });
+  }
+
+  findByPaymentStatus(status: PaymentStatusType[]) {
+    return this.ctbanRepository.find({
+      where: {
+        paymentStatus: In(status),
+      },
     });
   }
 

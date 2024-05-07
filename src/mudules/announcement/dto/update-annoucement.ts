@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator';
 
-export class GetAnnouncementDto {
+export class UpdateAnnouncementDto {
   @ApiProperty({ type: 'boolean', example: false })
-  @IsBooleanString({ message: 'isRead must be a boolean' })
+  @IsBoolean({ message: 'isRead must be a boolean' })
   @IsOptional()
   isRead?: boolean;
 
   @ApiProperty({ type: 'boolean', example: false })
-  @IsBooleanString({ message: 'isRead must be a boolean' })
+  @IsBoolean({ message: 'isRead must be a boolean' })
   @IsOptional()
   isResolved?: boolean;
 }

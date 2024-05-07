@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   ANNOUNCEMENT_TYPE,
@@ -6,6 +6,7 @@ import {
 } from 'src/constants/annoucement-type';
 
 @Entity({ name: 'announcement' })
+@Unique('entity_type', ['entityId', 'type'])
 export class Announcement extends AbstractEntity {
   @Column({ type: 'varchar' })
   message: string;
@@ -20,5 +21,5 @@ export class Announcement extends AbstractEntity {
   type: AnnouncementType;
 
   @Column({ type: 'int' })
-  id: number;
+  entityId: number;
 }

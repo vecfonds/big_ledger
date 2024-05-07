@@ -11,13 +11,17 @@ export class AnnouncementRepository {
     this.announcementRepository = this.dataSource.getRepository(Announcement);
   }
 
-  create(message: string, type: AnnouncementType, id: number) {
+  create(message: string, type: AnnouncementType, entityId: number) {
     const newAnnouncement = this.announcementRepository.create({
       message,
       type,
-      id,
+      entityId,
+      isRead: false,
+      isResolved: false,
     });
-    return this.announcementRepository.save(newAnnouncement);
+    return this.announcementRepository.upsert(newAnnouncement, {
+      conflictPaths: ['entityId', 'type'],
+    });
   }
 
   findAll(isRead: boolean[], isResolved: boolean[]) {
@@ -40,8 +44,11 @@ export class AnnouncementRepository {
     });
   }
 
-  update(id: number, announcement: Announcement) {
-    return this.announcementRepository.update(id, announcement);
+  update(id: number, isRead: boolean, isResolved: boolean) {
+    return this.announcementRepository.update(id, {
+      isRead: isRead,
+      isResolved: isResolved,
+    });
   }
 
   delete(id: number) {
