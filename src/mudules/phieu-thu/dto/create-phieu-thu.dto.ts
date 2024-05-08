@@ -74,5 +74,5 @@ export class CreatePhieuThuTienGuiDto extends CreatePhieuThuTienMatDto {
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'ID tài khoản ngân hàng không hợp lệ' })
   @IsNotEmpty({ message: 'ID tài khoản ngân hàng không được để trống' })
-  bankAccountId?: number;
+  bankAccountId: number;
 }

@@ -11,6 +11,7 @@ import { PhieuThuRepository } from './phieu-thu.repository';
 import { CustomerService } from '../customer/customer.service';
 import { EmployeeService } from '../employee/employee.service';
 import { CtbanService } from '../ctban/ctban.service';
+import { BankAccountService } from '../bank-account/bank-account.service';
 
 @Injectable()
 export class PhieuThuService {
@@ -19,6 +20,7 @@ export class PhieuThuService {
     private readonly customerService: CustomerService,
     private readonly employeeService: EmployeeService,
     private readonly ctbanService: CtbanService,
+    private readonly bankAccountService: BankAccountService,
   ) {}
 
   // Tien mat
@@ -72,8 +74,36 @@ export class PhieuThuService {
 
   // Tien gui
 
-  createTienGui(createPhieuThuDto: CreatePhieuThuTienGuiDto) {
-    return 'This action adds a new phieuThu';
+  async createTienGui(createPhieuThuDto: CreatePhieuThuTienGuiDto) {
+    const customer = await this.customerService.findOne(
+      createPhieuThuDto.customerId,
+    );
+    const salesperson = await this.employeeService.findOneSalesperson(
+      createPhieuThuDto.salespersonID,
+    );
+    const bankAccount = await this.bankAccountService.findOne(
+      createPhieuThuDto.bankAccountId,
+    );
+    const chungtu = await Promise.all(
+      createPhieuThuDto.chungTuDto.map(async (chungtu) => {
+        const ctban = await this.ctbanService.findOne(chungtu.ctbanId);
+        // const totalMoney = await this.ctbanService.findTotalMoney(ctban.id)
+        return {
+          ctban: ctban,
+          money: chungtu.money,
+          content: chungtu.content ?? '',
+          bankAccount: bankAccount,
+        };
+      }),
+    );
+
+    return this.phieuThuRepository.createPhieuThuTienGui(
+      createPhieuThuDto,
+      customer,
+      salesperson,
+      chungtu,
+      bankAccount,
+    );
   }
 
   findAllTienGui() {
