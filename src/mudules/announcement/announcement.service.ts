@@ -2,10 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { GetAnnouncementDto } from './dto/get-announcement.dto';
 import { AnnouncementRepository } from './announcement.repository';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import {
-  ANNOUNCEMENT_TYPE,
-  AnnouncementType,
-} from 'src/constants/annoucement-type';
+import { ANNOUNCEMENT_TYPE, AnnouncementType } from 'src/constants';
 import { CtbanService } from '../ctban/ctban.service';
 import { PAYMENT_STATUS } from 'src/constants';
 import { UpdateAnnouncementDto } from './dto/update-annoucement';

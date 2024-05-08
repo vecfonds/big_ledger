@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Announcement } from './entities/announcement.entity';
 import { DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { AnnouncementType } from 'src/constants/annoucement-type';
+import { AnnouncementType } from 'src/constants';
 
 @Injectable()
 export class AnnouncementRepository {

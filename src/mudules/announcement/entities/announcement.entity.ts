@@ -1,9 +1,6 @@
 import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
-import {
-  ANNOUNCEMENT_TYPE,
-  AnnouncementType,
-} from 'src/constants/annoucement-type';
+import { ANNOUNCEMENT_TYPE, AnnouncementType } from 'src/constants';
 
 @Entity({ name: 'announcement' })
 @Unique('entity_type', ['entityId', 'type'])
