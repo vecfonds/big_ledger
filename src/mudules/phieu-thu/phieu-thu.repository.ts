@@ -1,7 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { PhieuThuTienMat, PhieuThuTienGui } from './entities/phieu-thu.entity';
+import {
+  PhieuThuTienMat,
+  PhieuThuTienGui,
+  ChungTuCuaPhieuThu,
+} from './entities/phieu-thu.entity';
+import { CreatePhieuThuTienMatDto } from './dto/create-phieu-thu.dto';
+import { Customer } from '../customer/entities/customer.entity';
+import { Salesperson } from '../employee/entities/employee.entity';
+import { Ctban } from '../ctban/entities/ctban.entity';
 
 @Injectable()
 export class PhieuThuRepository {
@@ -14,8 +22,32 @@ export class PhieuThuRepository {
 
   // Tien mat
 
-  createPhieuThuTienMat() {
-    return this.ptTienMatRepository.create();
+  createPhieuThuTienMat(
+    createPhieuThuDto: CreatePhieuThuTienMatDto,
+    customer: Customer,
+    salesperson: Salesperson,
+    chungtu: { ctban: Ctban; money: number; content: string }[],
+  ) {
+    const newPhieuThu = this.ptTienMatRepository.create({
+      ...createPhieuThuDto,
+      customer: customer,
+      salesperson: salesperson,
+    });
+    return this.dataSource.transaction(async (manager) => {
+      const phieuThu = await manager.save(newPhieuThu);
+      await Promise.all(
+        chungtu.map(async (each) => {
+          const chungTu = manager.create(ChungTuCuaPhieuThu, {
+            ctban: each.ctban,
+            money: each.money,
+            content: each.content,
+            phieuThu: phieuThu,
+          });
+          return manager.save(chungTu);
+        }),
+      );
+      return phieuThu;
+    });
   }
 
   findAllPhieuThuTienMat() {

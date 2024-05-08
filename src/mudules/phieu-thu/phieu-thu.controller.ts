@@ -8,15 +8,21 @@ import {
   Delete,
 } from '@nestjs/common';
 import { PhieuThuService } from './phieu-thu.service';
-import { CreatePhieuThuDto } from './dto/create-phieu-thu.dto';
-import { UpdatePhieuThuDto } from './dto/update-phieu-thu.dto';
+import {
+  CreatePhieuThuTienMatDto,
+  CreatePhieuThuTienGuiDto,
+} from './dto/create-phieu-thu.dto';
+import {
+  UpdatePhieuThuTienMatDto,
+  UpdatePhieuThuTienGuiDto,
+} from './dto/update-phieu-thu.dto';
 
 @Controller('phieu-thu-tien-mat')
 export class PhieuThuTienMatController {
   constructor(private readonly phieuThuService: PhieuThuService) {}
 
   @Post()
-  create(@Body() createPhieuThuDto: CreatePhieuThuDto) {
+  create(@Body() createPhieuThuDto: CreatePhieuThuTienMatDto) {
     return this.phieuThuService.createTienMat(createPhieuThuDto);
   }
 
@@ -49,7 +55,7 @@ export class PhieuThuTienGuiController {
   constructor(private readonly phieuThuService: PhieuThuService) {}
 
   @Post()
-  create(@Body() createPhieuThuDto: CreatePhieuThuDto) {
+  create(@Body() createPhieuThuDto: CreatePhieuThuTienGuiDto) {
     return this.phieuThuService.createTienGui(createPhieuThuDto);
   }
 

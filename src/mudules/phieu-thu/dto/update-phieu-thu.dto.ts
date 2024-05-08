@@ -1,4 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreatePhieuThuDto } from './create-phieu-thu.dto';
+import {
+  CreatePhieuThuTienGuiDto,
+  CreatePhieuThuTienMatDto,
+} from './create-phieu-thu.dto';
 
-export class UpdatePhieuThuDto extends PartialType(CreatePhieuThuDto) {}
+export class UpdatePhieuThuTienMatDto extends PartialType(
+  CreatePhieuThuTienMatDto,
+) {}
+
+export class UpdatePhieuThuTienGuiDto extends PartialType(
+  CreatePhieuThuTienGuiDto,
+) {}
