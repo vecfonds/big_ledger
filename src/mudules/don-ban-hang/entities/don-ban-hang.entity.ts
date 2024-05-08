@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   DELIVERY_STATUS,
@@ -7,6 +7,8 @@ import {
   DocumentStatusType,
   PAYMENT_STATUS,
   PaymentStatusType,
+  STOCK_STATUS,
+  StockStatusType,
 } from '../../../constants';
 import { Customer } from '../../customer/entities/customer.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
@@ -41,6 +43,9 @@ export class DonBanHang extends AbstractEntity {
     default: DOCUMENT_STATUS.UNDOCUMENTED,
   })
   documentStatus: DocumentStatusType;
+
+  @Column({ type: 'enum', enum: STOCK_STATUS, default: STOCK_STATUS.IN_STOCK })
+  stockStatus: StockStatusType;
 
   @Column({ type: 'date' })
   deliveryTerm: Date;

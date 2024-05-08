@@ -9,7 +9,7 @@ import {
 import { CreateDonBanHangDto } from './dto/create-don-ban-hang.dto';
 import { Salesperson } from '../employee/entities/employee.entity';
 import { Customer } from '../customer/entities/customer.entity';
-import { OrderType } from 'src/constants';
+import { OrderType, STOCK_STATUS, StockStatusType } from 'src/constants';
 import { Product } from '../product/entities/product.entity';
 
 @Injectable()
@@ -28,6 +28,7 @@ export class DonBanHangRepository {
     customer: Customer,
     products: Product[],
     counts: number[],
+    stockStatus: StockStatusType = STOCK_STATUS.IN_STOCK,
   ) {
     const newDonBanHang = this.donBanHangRepository.create({
       ...createDonBanHangDto,
