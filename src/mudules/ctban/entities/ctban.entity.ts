@@ -27,6 +27,9 @@ export class Ctban extends AbstractEntity {
   @Column({ type: 'date' })
   paymentTerm: Date;
 
+  @Column({ type: 'int', default: 0 })
+  paidAmount: number;
+
   @Column({
     type: 'enum',
     enum: Object.values(PAYMENT_STATUS),

@@ -89,6 +89,15 @@ export class CtbanService {
     return ctban;
   }
 
+  async findTotalMoney(id: number) {
+    const ctban = await this.findOne(id);
+    let total = 0;
+    ctban.productOfCtban.forEach((product) => {
+      total += product.price * product.count;
+    });
+    return total;
+  }
+
   update(id: number, updateCtbanDto: UpdateCtbanDto) {
     return `This action updates a #${id} ctban`;
   }
