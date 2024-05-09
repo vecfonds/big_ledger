@@ -24,6 +24,8 @@ import {
   CustomerGroup,
 } from './mudules/customer/entities/customer.entity';
 import { CustomerModule } from './mudules/customer/customer.module';
+import { DieuKhoan } from './mudules/dieu-khoan/entities/dieu-khoan.entity';
+import { DieuKhoanModule } from './mudules/dieu-khoan/dieu-khoan.module';
 import {
   DonBanHang,
   ProductOfDonBanHang,
@@ -94,6 +96,7 @@ dotenv.config();
         ProductOfCtmua,
         Customer,
         CustomerGroup,
+        DieuKhoan,
         DonBanHang,
         ProductOfDonBanHang,
         DonMuaHang,
@@ -126,6 +129,7 @@ dotenv.config();
     CtbanModule,
     CtmuaModule,
     CustomerModule,
+    DieuKhoanModule,
     DonBanHangModule,
     DonMuaHangModule,
     EmployeeModule,
