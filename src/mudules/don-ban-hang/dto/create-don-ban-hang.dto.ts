@@ -81,6 +81,11 @@ export class CreateDonBanHangDto {
   @IsOptional()
   customerId: number;
 
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'dieuKhoanId must be a number' })
+  @IsNotEmpty({ message: 'Dieu khoan id is required' })
+  dieuKhoanId: number;
+
   @ApiProperty({
     type: [ProductOfDonBanHang],
     description: 'List of products',

@@ -11,6 +11,7 @@ import { Salesperson } from '../employee/entities/employee.entity';
 import { Customer } from '../customer/entities/customer.entity';
 import { OrderType, STOCK_STATUS, StockStatusType } from 'src/constants';
 import { Product } from '../product/entities/product.entity';
+import { DieuKhoan } from '../dieu-khoan/entities/dieu-khoan.entity';
 
 @Injectable()
 export class DonBanHangRepository {
@@ -26,6 +27,7 @@ export class DonBanHangRepository {
     createDonBanHangDto: CreateDonBanHangDto,
     salesperson: Salesperson,
     customer: Customer,
+    dieuKhoan: DieuKhoan,
     products: Product[],
     counts: number[],
     stockStatus: StockStatusType = STOCK_STATUS.IN_STOCK,
@@ -34,6 +36,7 @@ export class DonBanHangRepository {
       ...createDonBanHangDto,
       salesperson: salesperson,
       customer: customer,
+      dieuKhoan: dieuKhoan,
     });
     return this.dataSource.transaction(async (manager) => {
       const donBanHang = await manager.save(newDonBanHang);
@@ -85,6 +88,7 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
+        dieuKhoan: true,
         productOfDonBanHangs: {
           product: {
             productGroup: true,

@@ -13,6 +13,7 @@ import { GetDonBanHangDto } from './dto/get-don-ban-hang.dto';
 import { ORDER, OrderType } from 'src/constants';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ProductService } from '../product/product.service';
+import { DieuKhoanService } from '../dieu-khoan/dieu-khoan.service';
 
 @Injectable()
 export class DonBanHangService {
@@ -21,6 +22,7 @@ export class DonBanHangService {
     private readonly employeeService: EmployeeService,
     private readonly customerService: CustomerService,
     private readonly productService: ProductService,
+    private readonly dieuKhoanService: DieuKhoanService,
   ) {}
 
   async create(createDonBanHangDto: CreateDonBanHangDto) {
@@ -41,10 +43,14 @@ export class DonBanHangService {
     const customer = await this.customerService.findOne(
       createDonBanHangDto.customerId,
     );
+    const dieuKhoan = await this.dieuKhoanService.findOne(
+      createDonBanHangDto.dieuKhoanId,
+    );
     return this.donBanHangRepository.create(
       createDonBanHangDto,
       salesperson,
       customer,
+      dieuKhoan,
       products,
       productsQuantity,
     );

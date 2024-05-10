@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
+import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 
 @Entity({ name: 'dieu-khoan' })
 export class DieuKhoan extends AbstractEntity {
@@ -17,4 +18,7 @@ export class DieuKhoan extends AbstractEntity {
 
   @Column({ type: 'int' })
   discountPeriod: number;
+
+  @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.dieuKhoan)
+  donBanHangs: DonBanHang[];
 }
