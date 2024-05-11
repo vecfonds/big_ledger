@@ -25,6 +25,14 @@ export class DieuKhoanRepository {
     return this.dieuKhoanRepository.find();
   }
 
+  findByCustomer(id: number, customer: Customer) {
+    return this.dieuKhoanRepository.find({
+      where: {
+        customer: customer,
+      },
+    });
+  }
+
   findOne(id: number) {
     return this.dieuKhoanRepository.findOne({
       where: {

@@ -22,6 +22,11 @@ export class DieuKhoanService {
     return this.dieuKhoanRepository.findAll();
   }
 
+  async findByCustomer(id: number) {
+    const customer = await this.customerService.findOne(id);
+    return this.dieuKhoanRepository.findByCustomer(id, customer);
+  }
+
   async findOne(id: number) {
     const dieuKhoan = await this.dieuKhoanRepository.findOne(id);
     if (!dieuKhoan) {

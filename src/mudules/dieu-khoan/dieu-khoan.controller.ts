@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DieuKhoanService } from './dieu-khoan.service';
 import { CreateDieuKhoanDto } from './dto/create-dieu-khoan.dto';
 import { UpdateDieuKhoanDto } from './dto/update-dieu-khoan.dto';
@@ -22,8 +30,16 @@ export class DieuKhoanController {
     return this.dieuKhoanService.findOne(+id);
   }
 
+  @Get('customer/:id')
+  findByCustomer(@Param('id') id: string) {
+    return this.dieuKhoanService.findByCustomer(+id);
+  }
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDieuKhoanDto: UpdateDieuKhoanDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDieuKhoanDto: UpdateDieuKhoanDto,
+  ) {
     return this.dieuKhoanService.update(+id, updateDieuKhoanDto);
   }
 
