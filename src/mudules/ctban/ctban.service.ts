@@ -40,10 +40,29 @@ export class CtbanService {
         };
       }),
     );
+    let totalProductValue = 0;
+    let totalTaxValue = 0;
+    let totalDiscountValue = 0;
+    for (const product of productOfCtban) {
+      const productValue = product.count * product.price;
+      const discountValue = (productValue * donBanHang.cktm.discountRate) / 100;
+      const taxValue =
+        ((productValue - discountValue) * product.product.productGroup.tax) /
+        100;
+      totalProductValue += productValue;
+      totalDiscountValue += discountValue;
+      totalTaxValue += taxValue;
+    }
+    const finalValue = totalProductValue - totalDiscountValue + totalTaxValue;
+
     return this.ctbanRepository.create(
       createCtbanDto,
       warehouseKeeper,
       donBanHang,
+      totalProductValue,
+      totalDiscountValue,
+      totalTaxValue,
+      finalValue,
       productOfCtban,
     );
   }

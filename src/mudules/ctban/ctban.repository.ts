@@ -20,12 +20,20 @@ export class CtbanRepository {
     createCtbanDto: CreateCtbanDto,
     warehouseKeeper: WarehouseKeeper,
     donBanHang: DonBanHang,
+    totalProductValue: number,
+    totalDiscountValue: number,
+    totalTaxValue: number,
+    finalValue: number,
     productOfCtban: { product: Product; count: number; price: number }[],
   ) {
     const newCtban = this.ctbanRepository.create({
       ...createCtbanDto,
       warehouseKeeper: warehouseKeeper,
       donBanHang: donBanHang,
+      totalProductValue: totalProductValue,
+      totalDiscountValue: totalDiscountValue,
+      totalTaxValue: totalTaxValue,
+      finalValue: finalValue,
     });
     return this.dataSource.transaction(async (manager) => {
       const ctban = await manager.save(newCtban);

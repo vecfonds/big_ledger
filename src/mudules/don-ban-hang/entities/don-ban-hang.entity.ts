@@ -86,7 +86,7 @@ export class ProductOfDonBanHang extends AbstractEntity {
   count: number;
 
   @Column({ type: 'int', default: 0 })
-  remain: number;
+  delivered: number;
 
   @Column({ type: 'int' })
   price: number;

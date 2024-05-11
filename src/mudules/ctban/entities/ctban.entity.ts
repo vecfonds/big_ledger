@@ -27,8 +27,20 @@ export class Ctban extends AbstractEntity {
   @Column({ type: 'date' })
   paymentTerm: Date;
 
+  @Column({ type: 'int' })
+  totalProductValue: number;
+
+  @Column({ type: 'int' })
+  totalTaxValue: number;
+
+  @Column({ type: 'int' })
+  totalDiscountValue: number;
+
+  @Column({ type: 'int' })
+  finalValue: number;
+
   @Column({ type: 'int', default: 0 })
-  paidAmount: number;
+  paidValue: number;
 
   @Column({
     type: 'enum',
