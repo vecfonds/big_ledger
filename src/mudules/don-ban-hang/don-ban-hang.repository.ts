@@ -12,6 +12,7 @@ import { Customer } from '../customer/entities/customer.entity';
 import { OrderType, STOCK_STATUS, StockStatusType } from 'src/constants';
 import { Product } from '../product/entities/product.entity';
 import { DieuKhoan } from '../dieu-khoan/entities/dieu-khoan.entity';
+import { Cktm } from '../cktm/entities/cktm.entity';
 
 @Injectable()
 export class DonBanHangRepository {
@@ -28,6 +29,7 @@ export class DonBanHangRepository {
     salesperson: Salesperson,
     customer: Customer,
     dieuKhoan: DieuKhoan,
+    cktm: Cktm,
     products: Product[],
     counts: number[],
     stockStatus: StockStatusType = STOCK_STATUS.IN_STOCK,
@@ -37,6 +39,7 @@ export class DonBanHangRepository {
       salesperson: salesperson,
       customer: customer,
       dieuKhoan: dieuKhoan,
+      cktm: cktm,
     });
     return this.dataSource.transaction(async (manager) => {
       const donBanHang = await manager.save(newDonBanHang);
@@ -89,6 +92,7 @@ export class DonBanHangRepository {
         salesperson: true,
         customer: true,
         dieuKhoan: true,
+        cktm: true,
         productOfDonBanHangs: {
           product: {
             productGroup: true,
@@ -128,6 +132,8 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
+        dieuKhoan: true,
+        cktm: true,
         productOfDonBanHangs: {
           product: {
             productGroup: true,

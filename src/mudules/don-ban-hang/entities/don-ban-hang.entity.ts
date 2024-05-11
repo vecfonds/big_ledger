@@ -15,6 +15,7 @@ import { Product } from 'src/mudules/product/entities/product.entity';
 import { Salesperson } from 'src/mudules/employee/entities/employee.entity';
 import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { DieuKhoan } from 'src/mudules/dieu-khoan/entities/dieu-khoan.entity';
+import { Cktm } from 'src/mudules/cktm/entities/cktm.entity';
 
 @Entity({ name: 'don_ban_hang' })
 export class DonBanHang extends AbstractEntity {
@@ -65,6 +66,9 @@ export class DonBanHang extends AbstractEntity {
     nullable: false,
   })
   dieuKhoan: DieuKhoan;
+
+  @ManyToOne(() => Cktm, (cktm) => cktm.donBanHangs, { nullable: false })
+  cktm: Cktm;
 
   @OneToMany(
     () => ProductOfDonBanHang,

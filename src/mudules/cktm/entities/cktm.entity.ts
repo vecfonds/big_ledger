@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Customer } from 'src/mudules/customer/entities/customer.entity';
+import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 
 @Entity({ name: 'cktm' })
 export class Cktm extends AbstractEntity {
@@ -18,4 +19,7 @@ export class Cktm extends AbstractEntity {
 
   @ManyToOne(() => Customer, (customer) => customer.dieuKhoans)
   customer: Customer;
+
+  @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.cktm)
+  donBanHangs: DonBanHang[];
 }
