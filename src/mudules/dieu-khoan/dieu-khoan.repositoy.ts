@@ -4,6 +4,7 @@ import { DataSource, Repository } from 'typeorm';
 import { DieuKhoan } from './entities/dieu-khoan.entity';
 import { CreateDieuKhoanDto } from './dto/create-dieu-khoan.dto';
 import { UpdateDieuKhoanDto } from './dto/update-dieu-khoan.dto';
+import { Customer } from '../customer/entities/customer.entity';
 
 @Injectable()
 export class DieuKhoanRepository {
@@ -12,8 +13,11 @@ export class DieuKhoanRepository {
     this.dieuKhoanRepository = this.dataSource.getRepository(DieuKhoan);
   }
 
-  create(createDieuKhoanDto: CreateDieuKhoanDto) {
-    const newDieuKhoan = this.dieuKhoanRepository.create(createDieuKhoanDto);
+  create(createDieuKhoanDto: CreateDieuKhoanDto, customer: Customer) {
+    const newDieuKhoan = this.dieuKhoanRepository.create({
+      ...createDieuKhoanDto,
+      customer: customer,
+    });
     return this.dieuKhoanRepository.save(newDieuKhoan);
   }
 

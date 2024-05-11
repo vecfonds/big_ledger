@@ -26,4 +26,9 @@ export class CreateDieuKhoanDto {
   @IsNumber({}, { message: 'Discount period must be a number' })
   @IsNotEmpty({ message: 'Discount period is required' })
   discountPeriod: number;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'CustomerId must be a number' })
+  @IsNotEmpty({ message: 'CustomerId is required' })
+  customerId: number;
 }
