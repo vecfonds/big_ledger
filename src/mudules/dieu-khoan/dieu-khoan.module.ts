@@ -6,7 +6,8 @@ import { CustomerModule } from '../customer/customer.module';
 
 @Module({
   controllers: [DieuKhoanController],
-  providers: [DieuKhoanService, DieuKhoanRepository, CustomerModule],
+  providers: [DieuKhoanService, DieuKhoanRepository],
+  imports: [CustomerModule],
   exports: [DieuKhoanService],
 })
 export class DieuKhoanModule {}
