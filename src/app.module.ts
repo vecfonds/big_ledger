@@ -15,6 +15,8 @@ import { Announcement } from './mudules/announcement/entities/announcement.entit
 import { AnnouncementModule } from './mudules/announcement/announcement.module';
 import { BankAccount } from './mudules/bank-account/entities/bank-account.entity';
 import { BankAccountModule } from './mudules/bank-account/bank-account.module';
+import { Cktm } from './mudules/cktm/entities/cktm.entity';
+import { CktmModule } from './mudules/cktm/cktm.module';
 import { Ctban, ProductOfCtban } from './mudules/ctban/entities/ctban.entity';
 import { CtbanModule } from './mudules/ctban/ctban.module';
 import { Ctmua, ProductOfCtmua } from './mudules/ctmua/entities/ctmua.entity';
@@ -90,6 +92,7 @@ dotenv.config();
       entities: [
         Announcement,
         BankAccount,
+        Cktm,
         Ctban,
         ProductOfCtban,
         Ctmua,
@@ -126,6 +129,7 @@ dotenv.config();
     AuthModule,
     AnnouncementModule,
     BankAccountModule,
+    CktmModule,
     CtbanModule,
     CtmuaModule,
     CustomerModule,
