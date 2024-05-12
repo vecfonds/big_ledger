@@ -25,12 +25,8 @@ export class DonBanHang extends AbstractEntity {
   @Column({ type: 'varchar', nullable: true })
   content?: string;
 
-  @Column({
-    type: 'enum',
-    enum: PAYMENT_STATUS,
-    default: PAYMENT_STATUS.NOT_PAID,
-  })
-  paymentStatus: PaymentStatusType;
+  @Column({ type: 'date' })
+  deliveryTerm: Date;
 
   @Column({
     type: 'enum',
@@ -39,18 +35,8 @@ export class DonBanHang extends AbstractEntity {
   })
   deliveryStatus: DeliveryStatusType;
 
-  @Column({
-    type: 'enum',
-    enum: DOCUMENT_STATUS,
-    default: DOCUMENT_STATUS.UNDOCUMENTED,
-  })
-  documentStatus: DocumentStatusType;
-
   @Column({ type: 'enum', enum: STOCK_STATUS, default: STOCK_STATUS.IN_STOCK })
   stockStatus: StockStatusType;
-
-  @Column({ type: 'date' })
-  deliveryTerm: Date;
 
   @ManyToOne(() => Salesperson, (salesperson) => salesperson.donBanHangs, {
     nullable: false,

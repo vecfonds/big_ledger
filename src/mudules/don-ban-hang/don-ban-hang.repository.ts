@@ -9,7 +9,12 @@ import {
 import { CreateDonBanHangDto } from './dto/create-don-ban-hang.dto';
 import { Salesperson } from '../employee/entities/employee.entity';
 import { Customer } from '../customer/entities/customer.entity';
-import { OrderType, STOCK_STATUS, StockStatusType } from 'src/constants';
+import {
+  DeliveryStatusType,
+  OrderType,
+  STOCK_STATUS,
+  StockStatusType,
+} from 'src/constants';
 import { Product } from '../product/entities/product.entity';
 import { DieuKhoan } from '../dieu-khoan/entities/dieu-khoan.entity';
 import { Cktm } from '../cktm/entities/cktm.entity';
@@ -145,6 +150,38 @@ export class DonBanHangRepository {
           },
         },
       },
+    });
+  }
+
+  findProductOfDonBanHang(donBanHang: DonBanHang, product: Product) {
+    return this.productOfDonBanHangRepository.findOne({
+      where: {
+        donBanHang: donBanHang,
+        product: product,
+      },
+    });
+  }
+
+  findProductsOfDonBanHang(donBanHang: DonBanHang) {
+    return this.productOfDonBanHangRepository.find({
+      where: {
+        donBanHang: donBanHang,
+      },
+    });
+  }
+
+  deliverProduct(productOfDonBanHangId: number, delivered: number) {
+    return this.productOfDonBanHangRepository.update(productOfDonBanHangId, {
+      delivered: delivered,
+    });
+  }
+
+  updateDeliveryStatus(
+    donBanHangId: number,
+    deliveryStatus: DeliveryStatusType,
+  ) {
+    return this.donBanHangRepository.update(donBanHangId, {
+      deliveryStatus: deliveryStatus,
     });
   }
 

@@ -30,7 +30,7 @@ export class CtbanService {
     const donBanHang = await this.donBanHangService.findOne(
       createCtbanDto.donBanHangId,
     );
-    const productOfCtban = await Promise.all(
+    const productOfCtbans = await Promise.all(
       createCtbanDto.products.map(async (each) => {
         const product = await this.productService.findOne(each.productId);
         return {
@@ -43,7 +43,7 @@ export class CtbanService {
     let totalProductValue = 0;
     let totalTaxValue = 0;
     let totalDiscountValue = 0;
-    for (const product of productOfCtban) {
+    for (const product of productOfCtbans) {
       const productValue = product.count * product.price;
       const discountValue = (productValue * donBanHang.cktm.discountRate) / 100;
       const taxValue =
@@ -55,6 +55,16 @@ export class CtbanService {
     }
     const finalValue = totalProductValue - totalDiscountValue + totalTaxValue;
 
+    for (const product of productOfCtbans) {
+      await this.donBanHangService.deliverProduct(
+        donBanHang,
+        product.product,
+        product.count,
+      );
+    }
+
+    await this.donBanHangService.checkAndUpdateDeliveryStatus(donBanHang.id);
+
     return this.ctbanRepository.create(
       createCtbanDto,
       warehouseKeeper,
@@ -63,7 +73,7 @@ export class CtbanService {
       totalDiscountValue,
       totalTaxValue,
       finalValue,
-      productOfCtban,
+      productOfCtbans,
     );
   }
 

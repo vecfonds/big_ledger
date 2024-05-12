@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
@@ -10,11 +11,13 @@ import { UpdateDonBanHangDto } from './dto/update-don-ban-hang.dto';
 import { EmployeeService } from '../employee/employee.service';
 import { CustomerService } from '../customer/customer.service';
 import { GetDonBanHangDto } from './dto/get-don-ban-hang.dto';
-import { ORDER, OrderType } from 'src/constants';
+import { DELIVERY_STATUS, ORDER, OrderType } from 'src/constants';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ProductService } from '../product/product.service';
 import { DieuKhoanService } from '../dieu-khoan/dieu-khoan.service';
 import { CktmService } from '../cktm/cktm.service';
+import { Product } from '../product/entities/product.entity';
+import { DonBanHang } from './entities/don-ban-hang.entity';
 
 @Injectable()
 export class DonBanHangService {
@@ -112,6 +115,61 @@ export class DonBanHangService {
       throw new NotFoundException('Don ban hang not found');
     }
     return donBanHang;
+  }
+
+  async deliverProduct(
+    donBanHang: DonBanHang,
+    product: Product,
+    count: number,
+  ) {
+    const productOfDonBanHang =
+      await this.donBanHangRepository.findProductOfDonBanHang(
+        donBanHang,
+        product,
+      );
+
+    if (!productOfDonBanHang) {
+      throw new ConflictException(
+        `Product ${product.id} not found in don ban hang ${donBanHang.id}`,
+      );
+    }
+
+    if (count > productOfDonBanHang.count - productOfDonBanHang.delivered) {
+      throw new ConflictException('Count of product in delivery is not valid');
+    }
+
+    return this.donBanHangRepository.deliverProduct(
+      productOfDonBanHang.id,
+      productOfDonBanHang.delivered + count,
+    );
+  }
+
+  async checkAndUpdateDeliveryStatus(donBanHangId: number) {
+    const donBanHang = await this.findOne(donBanHangId);
+    const productOfDonBanHangs =
+      await this.donBanHangRepository.findProductsOfDonBanHang(donBanHang);
+    let delivered = 0;
+    let count = 0;
+    for (const productOfDonBanHang of productOfDonBanHangs) {
+      delivered += productOfDonBanHang.delivered;
+      count += productOfDonBanHang.count;
+    }
+    if (delivered === count) {
+      return this.donBanHangRepository.updateDeliveryStatus(
+        donBanHangId,
+        DELIVERY_STATUS.DELIVERED,
+      );
+    } else if (delivered === 0) {
+      return this.donBanHangRepository.updateDeliveryStatus(
+        donBanHangId,
+        DELIVERY_STATUS.NOT_DELIVERED,
+      );
+    } else {
+      return this.donBanHangRepository.updateDeliveryStatus(
+        donBanHangId,
+        DELIVERY_STATUS.DELIVERING,
+      );
+    }
   }
 
   update(id: number, updateDonBanHangDto: UpdateDonBanHangDto) {
