@@ -19,4 +19,7 @@ export class Announcement extends AbstractEntity {
 
   @Column({ type: 'int' })
   entityId: number;
+
+  @Column({ type: 'int', default: 0 })
+  leftDate: number;
 }

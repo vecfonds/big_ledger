@@ -97,6 +97,7 @@ export class AnnouncementService {
           message,
           ANNOUNCEMENT_TYPE.THU,
           ctban.id,
+          leftDate,
         );
       }
     });
@@ -128,6 +129,7 @@ export class AnnouncementService {
           message,
           ANNOUNCEMENT_TYPE.BAN_HANG,
           donBanHang.id,
+          leftDate,
         );
       }
     });

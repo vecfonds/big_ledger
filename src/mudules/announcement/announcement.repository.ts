@@ -11,11 +11,17 @@ export class AnnouncementRepository {
     this.announcementRepository = this.dataSource.getRepository(Announcement);
   }
 
-  create(message: string, type: AnnouncementType, entityId: number) {
+  create(
+    message: string,
+    type: AnnouncementType,
+    entityId: number,
+    leftDate: number,
+  ) {
     const newAnnouncement = this.announcementRepository.create({
       message,
       type,
       entityId,
+      leftDate: leftDate,
       isRead: false,
       isResolved: false,
     });
@@ -31,7 +37,7 @@ export class AnnouncementRepository {
         isRead: In(isRead),
       },
       order: {
-        createdAt: 'DESC',
+        leftDate: 'ASC',
       },
     });
   }
