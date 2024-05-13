@@ -30,11 +30,12 @@ export class AnnouncementRepository {
     });
   }
 
-  findAll(isRead: boolean[], isResolved: boolean[]) {
+  findAll(isRead: boolean[], isResolved: boolean[], type: AnnouncementType[]) {
     return this.announcementRepository.find({
       where: {
         isResolved: In(isResolved),
         isRead: In(isRead),
+        type: In(type),
       },
       order: {
         leftDate: 'ASC',

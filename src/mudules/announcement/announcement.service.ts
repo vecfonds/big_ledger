@@ -58,6 +58,7 @@ export class AnnouncementService {
   findAll(getAnnouncementDto: GetAnnouncementDto) {
     const isRead: boolean[] = [];
     const isResolved: boolean[] = [];
+    const type: AnnouncementType[] = [];
     if (getAnnouncementDto.isRead) {
       isRead.push(getAnnouncementDto.isRead);
     } else {
@@ -70,7 +71,15 @@ export class AnnouncementService {
       isResolved.push(false);
       isResolved.push(true);
     }
-    return this.announcementRepository.findAll(isRead, isResolved);
+    if (getAnnouncementDto.type) {
+      type.push(getAnnouncementDto.type);
+    } else {
+      type.push(ANNOUNCEMENT_TYPE.THU);
+      type.push(ANNOUNCEMENT_TYPE.CHI);
+      type.push(ANNOUNCEMENT_TYPE.BAN_HANG);
+      type.push(ANNOUNCEMENT_TYPE.MUA_HANG);
+    }
+    return this.announcementRepository.findAll(isRead, isResolved, type);
   }
 
   async findOne(id: number) {
