@@ -115,6 +115,8 @@ export class CtbanRepository {
         donBanHang: {
           customer: true,
           salesperson: true,
+          cktm: true,
+          dieuKhoan: true,
         },
         productOfCtban: {
           product: {
