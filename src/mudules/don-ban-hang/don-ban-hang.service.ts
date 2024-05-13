@@ -11,7 +11,12 @@ import { UpdateDonBanHangDto } from './dto/update-don-ban-hang.dto';
 import { EmployeeService } from '../employee/employee.service';
 import { CustomerService } from '../customer/customer.service';
 import { GetDonBanHangDto } from './dto/get-don-ban-hang.dto';
-import { DELIVERY_STATUS, ORDER, OrderType } from 'src/constants';
+import {
+  DELIVERY_STATUS,
+  DeliveryStatusType,
+  ORDER,
+  OrderType,
+} from 'src/constants';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ProductService } from '../product/product.service';
 import { DieuKhoanService } from '../dieu-khoan/dieu-khoan.service';
@@ -99,6 +104,10 @@ export class DonBanHangService {
     // );
     const pagination = new PaginationDto(1, 9999, 1, donBanHangs[1]);
     return { data: donBanHangs[0], pagination: pagination };
+  }
+
+  findByDeliveryStatus(deliveryStatus: DeliveryStatusType[]) {
+    return this.donBanHangRepository.findByDeliveryStatus(deliveryStatus);
   }
 
   async findByIds(ids: number[]) {

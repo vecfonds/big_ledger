@@ -2,17 +2,24 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { GetAnnouncementDto } from './dto/get-announcement.dto';
 import { AnnouncementRepository } from './announcement.repository';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { ANNOUNCEMENT_TYPE, AnnouncementType } from 'src/constants';
+import {
+  ANNOUNCEMENT_TYPE,
+  AnnouncementType,
+  DELIVERY_STATUS,
+  PAYMENT_STATUS,
+} from 'src/constants';
 import { CtbanService } from '../ctban/ctban.service';
-import { PAYMENT_STATUS } from 'src/constants';
 import { UpdateAnnouncementDto } from './dto/update-annoucement';
-import { floor } from 'lodash';
+import { DonBanHangService } from '../don-ban-hang/don-ban-hang.service';
 
 const messageGenerator = (
   type: AnnouncementType,
   id: number,
   leftDate: number,
 ) => {
+  if (leftDate < 0) {
+    return `Phiếu ${type} ${id} đã quá hạn ${-leftDate} ngày.`;
+  }
   return `Phiếu ${type} ${id} sắp đến hạn: còn ${leftDate} ngày.`;
 };
 
@@ -21,6 +28,7 @@ export class AnnouncementService {
   constructor(
     private readonly announcementRepository: AnnouncementRepository,
     private readonly ctbanService: CtbanService,
+    private readonly donBanHangService: DonBanHangService,
   ) {}
 
   create() {
@@ -64,8 +72,8 @@ export class AnnouncementService {
   }
 
   @Cron(CronExpression.EVERY_10_SECONDS)
-  async handleCron() {
-    console.log('Cron job started');
+  async checkCtban() {
+    console.log('Cron job: checkCtban');
     const ctban = await this.ctbanService.findByPaymentStatus([
       PAYMENT_STATUS.BEING_PAID,
       PAYMENT_STATUS.NOT_PAID,
@@ -89,6 +97,37 @@ export class AnnouncementService {
           message,
           ANNOUNCEMENT_TYPE.THU,
           ctban.id,
+        );
+      }
+    });
+  }
+
+  @Cron(CronExpression.EVERY_10_SECONDS)
+  async checkDonBanHang() {
+    console.log('Cron job: checkDonBanHang');
+    const donBanHangs = await this.donBanHangService.findByDeliveryStatus([
+      DELIVERY_STATUS.NOT_DELIVERED,
+      DELIVERY_STATUS.DELIVERING,
+    ]);
+
+    donBanHangs.forEach(async (donBanHang) => {
+      const term = new Date(donBanHang.deliveryTerm);
+      term.setHours(8, 0, 0, 0);
+      const now = new Date();
+      now.setHours(8, 0, 0, 0);
+      const leftTime = term.getTime() - now.getTime();
+      const leftDate = leftTime / (1000 * 60 * 60 * 24);
+
+      if (leftDate <= 3) {
+        const message = messageGenerator(
+          ANNOUNCEMENT_TYPE.BAN_HANG,
+          donBanHang.id,
+          leftDate,
+        );
+        await this.announcementRepository.create(
+          message,
+          ANNOUNCEMENT_TYPE.BAN_HANG,
+          donBanHang.id,
         );
       }
     });

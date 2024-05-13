@@ -113,6 +113,14 @@ export class DonBanHangRepository {
     });
   }
 
+  findByDeliveryStatus(deliveryStatus: DeliveryStatusType[]) {
+    return this.donBanHangRepository.find({
+      where: {
+        deliveryStatus: In(deliveryStatus),
+      },
+    });
+  }
+
   findByIds(ids: number[]) {
     return this.donBanHangRepository.find({
       where: {
