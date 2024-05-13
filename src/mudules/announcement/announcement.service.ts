@@ -11,16 +11,35 @@ import {
 import { CtbanService } from '../ctban/ctban.service';
 import { UpdateAnnouncementDto } from './dto/update-annoucement';
 import { DonBanHangService } from '../don-ban-hang/don-ban-hang.service';
+import { MailerService } from '@nestjs-modules/mailer';
 
 const messageGenerator = (
   type: AnnouncementType,
   id: number,
   leftDate: number,
 ) => {
-  if (leftDate < 0) {
-    return `Phiếu ${type} ${id} đã quá hạn ${-leftDate} ngày.`;
+  let entity: string;
+  switch (type) {
+    case ANNOUNCEMENT_TYPE.THU:
+      entity = 'Phiếu thu';
+      break;
+    case ANNOUNCEMENT_TYPE.CHI:
+      entity = 'Phiếu chi';
+      break;
+    case ANNOUNCEMENT_TYPE.BAN_HANG:
+      entity = 'Đơn bán hàng';
+      break;
+    case ANNOUNCEMENT_TYPE.MUA_HANG:
+      entity = 'Đơn mua hàng';
+      break;
+    default:
+      entity = 'Thông báo';
+      break;
   }
-  return `Phiếu ${type} ${id} sắp đến hạn: còn ${leftDate} ngày.`;
+  if (leftDate < 0) {
+    return `${entity} ${id} đã quá hạn ${-leftDate} ngày.`;
+  }
+  return `${entity} ${id} sắp đến hạn: còn ${leftDate} ngày.`;
 };
 
 @Injectable()
@@ -29,6 +48,7 @@ export class AnnouncementService {
     private readonly announcementRepository: AnnouncementRepository,
     private readonly ctbanService: CtbanService,
     private readonly donBanHangService: DonBanHangService,
+    private readonly mailerService: MailerService,
   ) {}
 
   create() {
@@ -131,7 +151,32 @@ export class AnnouncementService {
           donBanHang.id,
           leftDate,
         );
+        // if (leftDate <= 10) {
+        //   await this.sendEmail(
+        //     'long01639637721@gmail.com',
+        //     'Thông báo',
+        //     message,
+        //     message,
+        //   );
+        // }
       }
     });
   }
+
+  // async sendEmail(to: string, subject: string, text: string, html: string) {
+  //   await this.mailerService
+  //     .sendMail({
+  //       to: to, // List of receivers email address
+  //       from: 'longdoan.student@gmail.com', // Senders email address
+  //       subject: subject, // Subject line
+  //       text: text, // plaintext body
+  //       html: html, // '<b>welcome</b>',  HTML body content
+  //     })
+  //     .then((success) => {
+  //       console.log('Send mail success');
+  //     })
+  //     .catch((err) => {
+  //       console.log('Send mail fail:', err);
+  //     });
+  // }
 }
