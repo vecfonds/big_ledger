@@ -156,8 +156,12 @@ export class DonBanHangRepository {
   findProductOfDonBanHang(donBanHang: DonBanHang, product: Product) {
     return this.productOfDonBanHangRepository.findOne({
       where: {
-        donBanHang: donBanHang,
-        product: product,
+        donBanHang: {
+          id: donBanHang.id,
+        },
+        product: {
+          id: product.id,
+        },
       },
     });
   }
@@ -165,7 +169,9 @@ export class DonBanHangRepository {
   findProductsOfDonBanHang(donBanHang: DonBanHang) {
     return this.productOfDonBanHangRepository.find({
       where: {
-        donBanHang: donBanHang,
+        donBanHang: {
+          id: donBanHang.id,
+        },
       },
     });
   }

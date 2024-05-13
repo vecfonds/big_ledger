@@ -29,7 +29,7 @@ export class Accountant extends Emmployee {
   @Column({ type: 'varchar' })
   avatar: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   refreshToken: string;
 }
 

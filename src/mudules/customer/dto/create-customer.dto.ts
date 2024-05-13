@@ -38,7 +38,7 @@ export class CreateCustomerDto {
   @IsOptional()
   note?: string;
 
-  @ApiProperty({ example: 'Active' })
+  @ApiProperty({ example: 'ACTIVE' })
   @IsString({ message: 'Status is not valid' })
   @IsNotEmpty({ message: 'Status is required' })
   @IsIn(Object.values(CUSTOMER_STATUS), { message: 'Status is not valid' })
