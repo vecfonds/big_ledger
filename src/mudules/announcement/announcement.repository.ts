@@ -16,13 +16,14 @@ export class AnnouncementRepository {
     type: AnnouncementType,
     entityId: number,
     leftDate: number,
+    isRead: boolean,
   ) {
     const newAnnouncement = this.announcementRepository.create({
       message,
       type,
       entityId,
       leftDate: leftDate,
-      isRead: false,
+      isRead: isRead,
       isResolved: false,
     });
     return this.announcementRepository.upsert(newAnnouncement, {
@@ -47,6 +48,15 @@ export class AnnouncementRepository {
     return this.announcementRepository.findOne({
       where: {
         id: id,
+      },
+    });
+  }
+
+  findByEntity(entityId: number, type: AnnouncementType) {
+    return this.announcementRepository.findOne({
+      where: {
+        entityId: entityId,
+        type: type,
       },
     });
   }

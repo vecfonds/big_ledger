@@ -100,6 +100,17 @@ export class AnnouncementService {
     return this.announcementRepository.update(id, isRead, isResolved);
   }
 
+  async findByEntity(entityId: number, type: AnnouncementType) {
+    const annoucement = await this.announcementRepository.findByEntity(
+      entityId,
+      type,
+    );
+    if (!annoucement) {
+      throw new NotFoundException(`Annoucement with ${entityId} not found.`);
+    }
+    return annoucement;
+  }
+
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkCtban() {
     console.log('Cron job: checkCtban');
@@ -117,6 +128,12 @@ export class AnnouncementService {
       const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
       if (leftDate <= 3) {
+        const annoucement = await this.announcementRepository.findByEntity(
+          ctban.id,
+          ANNOUNCEMENT_TYPE.THU,
+        );
+        const isRead =
+          annoucement?.leftDate === leftDate ? annoucement.isRead : false;
         const message = messageGenerator(
           ANNOUNCEMENT_TYPE.THU,
           ctban.id,
@@ -127,6 +144,7 @@ export class AnnouncementService {
           ANNOUNCEMENT_TYPE.THU,
           ctban.id,
           leftDate,
+          isRead,
         );
       }
     });
@@ -149,6 +167,12 @@ export class AnnouncementService {
       const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
       if (leftDate <= 3) {
+        const annoucement = await this.announcementRepository.findByEntity(
+          donBanHang.id,
+          ANNOUNCEMENT_TYPE.BAN_HANG,
+        );
+        const isRead =
+          annoucement?.leftDate === leftDate ? annoucement.isRead : false;
         const message = messageGenerator(
           ANNOUNCEMENT_TYPE.BAN_HANG,
           donBanHang.id,
@@ -159,6 +183,7 @@ export class AnnouncementService {
           ANNOUNCEMENT_TYPE.BAN_HANG,
           donBanHang.id,
           leftDate,
+          isRead,
         );
         // if (leftDate <= 10) {
         //   await this.sendEmail(
