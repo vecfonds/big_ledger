@@ -150,6 +150,9 @@ export class DonBanHangService {
       await this.donBanHangRepository.findProductsOfDonBanHang(donBanHang);
     let delivered = 0;
     let count = 0;
+    if (productOfDonBanHangs.length === 0) {
+      return;
+    }
     for (const productOfDonBanHang of productOfDonBanHangs) {
       delivered += productOfDonBanHang.delivered;
       count += productOfDonBanHang.count;
