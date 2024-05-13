@@ -73,6 +73,8 @@ import {
 import { ProductModule } from './mudules/product/product.module';
 import { Supplier, SupplierGroup } from './mudules/supplier/entities';
 import { SupplierModule } from './mudules/supplier/supplier.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 dotenv.config();
 
@@ -126,6 +128,27 @@ dotenv.config();
       ],
     }),
     ScheduleModule.forRoot(),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.MAIL_PASSWORD,
+        },
+      },
+      // defaults: {
+      //   from: '"nest-modules" <user@outlook.com>',
+      // },
+      template: {
+        dir: process.cwd() + '/mail-template/',
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
     AuthModule,
     AnnouncementModule,
     BankAccountModule,
