@@ -63,6 +63,9 @@ export class PhieuThuRepository {
       where: {
         id: id,
       },
+      relations: {
+        chungTu: true,
+      },
     });
   }
 
@@ -106,6 +109,10 @@ export class PhieuThuRepository {
     return this.ptTienGuiRepository.findOne({
       where: {
         id: id,
+      },
+      relations: {
+        chungTu: true,
+        bankAccount: true,
       },
     });
   }
