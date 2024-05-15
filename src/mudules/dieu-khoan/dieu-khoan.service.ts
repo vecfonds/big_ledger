@@ -24,7 +24,7 @@ export class DieuKhoanService {
 
   async findByCustomer(id: number) {
     const customer = await this.customerService.findOne(id);
-    return this.dieuKhoanRepository.findByCustomer(id, customer);
+    return this.dieuKhoanRepository.findByCustomer(id);
   }
 
   async findOne(id: number) {

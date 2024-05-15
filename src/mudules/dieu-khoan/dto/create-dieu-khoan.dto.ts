@@ -12,20 +12,15 @@ export class CreateDieuKhoanDto {
   @IsNotEmpty({ message: 'Description is required' })
   description: string;
 
-  @ApiProperty({ example: 10 })
-  @IsNumber({}, { message: 'Discount must be a number' })
-  @IsNotEmpty({ message: 'Discount is required' })
-  discount: number;
+  @ApiProperty({ example: 5 })
+  @IsNumber({}, { message: 'PaymentPeriod must be a number' })
+  @IsNotEmpty({ message: 'PaymentPeriod is required' })
+  paymentPeriod: number;
 
-  @ApiProperty({ example: 30 })
-  @IsNumber({}, { message: 'Credit period must be a number' })
-  @IsNotEmpty({ message: 'Credit period is required' })
-  creditPeriod: number;
-
-  @ApiProperty({ example: 10 })
-  @IsNumber({}, { message: 'Discount period must be a number' })
-  @IsNotEmpty({ message: 'Discount period is required' })
-  discountPeriod: number;
+  @ApiProperty({ example: 100000 })
+  @IsNumber({}, { message: 'MinProductValue must be a number' })
+  @IsNotEmpty({ message: 'MinProductValue is required' })
+  minProductValue: number;
 
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'CustomerId must be a number' })

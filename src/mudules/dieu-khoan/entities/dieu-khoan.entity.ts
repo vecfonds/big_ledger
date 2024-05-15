@@ -11,17 +11,20 @@ export class DieuKhoan extends AbstractEntity {
   @Column({ type: 'varchar' })
   description: string;
 
-  @Column({ type: 'int' })
-  creditPeriod: number;
+  @Column({ type: 'int', default: 0 })
+  paymentPeriod: number;
+
+  @Column({ type: 'int', default: 0 })
+  minProductValue: number;
 
   @ManyToOne(() => Customer, (customer) => customer.dieuKhoans)
   customer: Customer;
 
-  @Column({ type: 'int' })
-  discountPeriod: number;
+  // @Column({ type: 'int' })
+  // discountPeriod: number;
 
-  @Column({ type: 'int' })
-  discount: number;
+  // @Column({ type: 'int' })
+  // discount: number;
 
   @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.dieuKhoan)
   donBanHangs: DonBanHang[];
