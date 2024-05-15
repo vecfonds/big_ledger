@@ -128,6 +128,18 @@ export class CtbanRepository {
     });
   }
 
+  makePayment(id: number, money: number) {
+    return this.ctbanRepository.update(id, {
+      paidValue: money,
+    });
+  }
+
+  updatePaymentStatus(id: number, status: PaymentStatusType) {
+    return this.ctbanRepository.update(id, {
+      paymentStatus: status,
+    });
+  }
+
   update(id: number, updateCtbanDto: UpdateCtbanDto) {
     return this.ctbanRepository.update(id, updateCtbanDto);
   }

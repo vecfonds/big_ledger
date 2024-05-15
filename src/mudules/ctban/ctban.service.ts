@@ -1,10 +1,16 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 
-import { ORDER, OrderType, PaymentStatusType } from 'src/constants';
+import {
+  ORDER,
+  OrderType,
+  PAYMENT_STATUS,
+  PaymentStatusType,
+} from 'src/constants';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
@@ -125,6 +131,27 @@ export class CtbanService {
       total += product.price * product.count;
     });
     return total;
+  }
+
+  async makePayment(id: number, money: number) {
+    const ctban = await this.findOne(id);
+    if (ctban.paidValue + money > ctban.finalValue) {
+      throw new ConflictException('Số tiền thanh toán không hợp lệ');
+    }
+    await this.ctbanRepository.makePayment(id, money + ctban.paidValue);
+    if (money + ctban.paidValue === ctban.finalValue) {
+      await this.ctbanRepository.updatePaymentStatus(id, PAYMENT_STATUS.PAID);
+    } else if (money + ctban.paidValue > 0) {
+      await this.ctbanRepository.updatePaymentStatus(
+        id,
+        PAYMENT_STATUS.BEING_PAID,
+      );
+    } else {
+      await this.ctbanRepository.updatePaymentStatus(
+        id,
+        PAYMENT_STATUS.NOT_PAID,
+      );
+    }
   }
 
   update(id: number, updateCtbanDto: UpdateCtbanDto) {

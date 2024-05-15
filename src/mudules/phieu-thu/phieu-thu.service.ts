@@ -32,10 +32,9 @@ export class PhieuThuService {
     const salesperson = await this.employeeService.findOneSalesperson(
       createPhieuThuDto.salespersonID,
     );
-    const chungtu = await Promise.all(
+    const chungTus = await Promise.all(
       createPhieuThuDto.chungTuDto.map(async (chungtu) => {
         const ctban = await this.ctbanService.findOne(chungtu.ctbanId);
-        // const totalMoney = await this.ctbanService.findTotalMoney(ctban.id)
         return {
           ctban: ctban,
           money: chungtu.money,
@@ -44,11 +43,15 @@ export class PhieuThuService {
       }),
     );
 
+    chungTus.forEach(async (ct) => {
+      await this.ctbanService.makePayment(ct.ctban.id, ct.money);
+    });
+
     return this.phieuThuRepository.createPhieuThuTienMat(
       createPhieuThuDto,
       customer,
       salesperson,
-      chungtu,
+      chungTus,
     );
   }
 
@@ -84,10 +87,9 @@ export class PhieuThuService {
     const bankAccount = await this.bankAccountService.findOne(
       createPhieuThuDto.bankAccountId,
     );
-    const chungtu = await Promise.all(
+    const chungTus = await Promise.all(
       createPhieuThuDto.chungTuDto.map(async (chungtu) => {
         const ctban = await this.ctbanService.findOne(chungtu.ctbanId);
-        // const totalMoney = await this.ctbanService.findTotalMoney(ctban.id)
         return {
           ctban: ctban,
           money: chungtu.money,
@@ -97,11 +99,15 @@ export class PhieuThuService {
       }),
     );
 
+    chungTus.forEach(async (ct) => {
+      await this.ctbanService.makePayment(ct.ctban.id, ct.money);
+    });
+
     return this.phieuThuRepository.createPhieuThuTienGui(
       createPhieuThuDto,
       customer,
       salesperson,
-      chungtu,
+      chungTus,
       bankAccount,
     );
   }

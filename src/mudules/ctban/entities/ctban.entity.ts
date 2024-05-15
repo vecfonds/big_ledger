@@ -30,13 +30,13 @@ export class Ctban extends AbstractEntity {
   @Column({ type: 'int' })
   totalProductValue: number;
 
-  @Column({ type: 'real' })
+  @Column({ type: 'int' })
   totalTaxValue: number;
 
-  @Column({ type: 'real' })
+  @Column({ type: 'int' })
   totalDiscountValue: number;
 
-  @Column({ type: 'real' })
+  @Column({ type: 'int' })
   finalValue: number;
 
   @Column({ type: 'int', default: 0 })
