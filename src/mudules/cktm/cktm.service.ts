@@ -24,7 +24,7 @@ export class CktmService {
 
   async findByCustomer(customerId: number) {
     const customer = await this.customerService.findOne(customerId);
-    return this.cktmRepository.findByCustomer(customer);
+    return this.cktmRepository.findByCustomer(customerId);
   }
 
   async findOne(id: number) {

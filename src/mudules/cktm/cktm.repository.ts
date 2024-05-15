@@ -24,10 +24,12 @@ export class CktmRepository {
     return this.cktmRepository.find();
   }
 
-  findByCustomer(customer: Customer) {
+  findByCustomer(id: number) {
     return this.cktmRepository.find({
       where: {
-        customer: customer,
+        customer: {
+          id: id,
+        },
       },
     });
   }
