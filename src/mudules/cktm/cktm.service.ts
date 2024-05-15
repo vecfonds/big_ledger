@@ -35,11 +35,12 @@ export class CktmService {
     return cktm;
   }
 
-  update(id: number, updateCktmDto: UpdateCktmDto) {
-    return `This action updates a #${id} cktm`;
+  async update(id: number, updateCktmDto: UpdateCktmDto) {
+    await this.findOne(id);
+    return this.cktmRepository.update(id, updateCktmDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} cktm`;
+    return this.cktmRepository.remove(id);
   }
 }

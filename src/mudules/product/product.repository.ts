@@ -6,6 +6,10 @@ import {
   CreateProductDto,
   CreateProductGroupDto,
 } from './dto/create-product.dto';
+import {
+  UpdateProductDto,
+  UpdateProductGroupDto,
+} from './dto/update-product.dto';
 
 @Injectable()
 export class ProductRepository {
@@ -82,11 +86,11 @@ export class ProductRepository {
     return this.productRepository.delete(id);
   }
 
-  updateGroup(id: number, productGroup: ProductGroup) {
+  updateGroup(id: number, productGroup: UpdateProductGroupDto) {
     return this.productGroupRepository.update(id, productGroup);
   }
 
-  update(id: number, product: Product) {
+  update(id: number, product: UpdateProductDto) {
     return this.productRepository.update(id, product);
   }
 }

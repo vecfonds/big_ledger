@@ -35,11 +35,12 @@ export class DieuKhoanService {
     return dieuKhoan;
   }
 
-  update(id: number, updateDieuKhoanDto: UpdateDieuKhoanDto) {
+  async update(id: number, updateDieuKhoanDto: UpdateDieuKhoanDto) {
+    await this.findOne(id);
     return this.dieuKhoanRepository.update(id, updateDieuKhoanDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} dieuKhoan`;
+    return this.dieuKhoanRepository.remove(id);
   }
 }

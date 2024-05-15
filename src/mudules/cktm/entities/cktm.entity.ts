@@ -17,7 +17,7 @@ export class Cktm extends AbstractEntity {
   @Column({ type: 'int' })
   discountRate: number;
 
-  @ManyToOne(() => Customer, (customer) => customer.dieuKhoans)
+  @ManyToOne(() => Customer, (customer) => customer.cktms)
   customer: Customer;
 
   @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.cktm)

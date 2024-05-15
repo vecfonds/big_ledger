@@ -4,6 +4,7 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { DonBanHang } from '../../don-ban-hang/entities/don-ban-hang.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { DieuKhoan } from 'src/mudules/dieu-khoan/entities/dieu-khoan.entity';
+import { Cktm } from 'src/mudules/cktm/entities/cktm.entity';
 
 @Entity({ name: 'customer_groups' })
 export class CustomerGroup extends AbstractEntity {
@@ -55,4 +56,7 @@ export class Customer extends AbstractEntity {
 
   @ManyToOne(() => DieuKhoan, (dieuKhoan) => dieuKhoan.customer)
   dieuKhoans: DieuKhoan;
+
+  @ManyToOne(() => Cktm, (cktm) => cktm.customer)
+  cktms: Cktm;
 }

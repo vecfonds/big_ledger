@@ -3,6 +3,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { BankAccount } from './entities/bank-account.entity';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
+import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
 
 @Injectable()
 export class BankAccountRepository {
@@ -27,5 +28,13 @@ export class BankAccountRepository {
         id: id,
       },
     });
+  }
+
+  update(id: number, updateBankAccountDto: UpdateBankAccountDto) {
+    return this.bankAccountRepository.update(id, updateBankAccountDto);
+  }
+
+  remove(id: number) {
+    return this.bankAccountRepository.delete(id);
   }
 }

@@ -23,11 +23,12 @@ export class BankAccountService {
     return bankAccount;
   }
 
-  update(id: number, updateBankAccountDto: UpdateBankAccountDto) {
-    return `This action updates a #${id} bankAccount`;
+  async update(id: number, updateBankAccountDto: UpdateBankAccountDto) {
+    await this.findOne(id);
+    return this.bankAccountRepository.update(id, updateBankAccountDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} bankAccount`;
+    return this.bankAccountRepository.remove(id);
   }
 }

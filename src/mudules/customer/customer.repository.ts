@@ -74,6 +74,8 @@ export class CustomerRepository {
         customerGroup: true,
         donBanHangs: true,
         phieuThu: true,
+        dieuKhoans: true,
+        cktms: true,
       },
     });
   }

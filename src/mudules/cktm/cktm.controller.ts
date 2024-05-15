@@ -35,10 +35,10 @@ export class CktmController {
     return this.cktmService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateCktmDto: UpdateCktmDto) {
-  //   return this.cktmService.update(+id, updateCktmDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCktmDto: UpdateCktmDto) {
+    return this.cktmService.update(+id, updateCktmDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

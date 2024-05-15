@@ -7,6 +7,10 @@ import {
   CreateSupplierDto,
   CreateSupplierGroupDto,
 } from './dto/create-supplier.dto';
+import {
+  UpdateSupplierDto,
+  UpdateSupplierGroupDto,
+} from './dto/update-supplier.dto';
 
 @Injectable()
 export class SupplierRepository {
@@ -75,11 +79,11 @@ export class SupplierRepository {
     });
   }
 
-  updateGroup(id: number, supplierGroup: SupplierGroup) {
+  updateGroup(id: number, supplierGroup: UpdateSupplierGroupDto) {
     return this.supplierGroupRepository.update(id, supplierGroup);
   }
 
-  update(id: number, supplier: Supplier) {
+  update(id: number, supplier: UpdateSupplierDto) {
     return this.supplierRepository.update(id, supplier);
   }
 

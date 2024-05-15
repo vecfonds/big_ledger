@@ -43,10 +43,10 @@ export class ProductController {
     return this.productService.update(+id, updateProductDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.productService.remove(+id);
+  // }
 }
 
 @ApiTags('Doi tuong')
@@ -77,8 +77,8 @@ export class ProductGroupController {
     return this.productService.updateGroup(+id, updateProductGroupDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.removeGroup(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.productService.removeGroup(+id);
+  // }
 }

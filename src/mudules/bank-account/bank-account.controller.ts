@@ -32,13 +32,13 @@ export class BankAccountController {
     return this.bankAccountService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateBankAccountDto: UpdateBankAccountDto,
-  // ) {
-  //   return this.bankAccountService.update(+id, updateBankAccountDto);
-  // }
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateBankAccountDto: UpdateBankAccountDto,
+  ) {
+    return this.bankAccountService.update(+id, updateBankAccountDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

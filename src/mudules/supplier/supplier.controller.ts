@@ -47,10 +47,10 @@ export class SupplierController {
     return this.supplierService.update(+id, updateSupplierDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.supplierService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.supplierService.remove(+id);
+  // }
 }
 
 @ApiTags('Doi tuong')
@@ -81,8 +81,8 @@ export class SupplierGroupController {
     return this.supplierService.updateGroup(+id, updateSupplierGroupDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.supplierService.removeGroup(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.supplierService.removeGroup(+id);
+  // }
 }

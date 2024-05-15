@@ -68,11 +68,16 @@ export class CustomerService {
     return customer;
   }
 
-  updateGroup(id: number, updateCustomerGroupDto: UpdateCustomerGroupDto) {
+  async updateGroup(
+    id: number,
+    updateCustomerGroupDto: UpdateCustomerGroupDto,
+  ) {
+    await this.findOneGroup(id);
     return this.customerRepository.updateGroup(id, updateCustomerGroupDto);
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
+  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+    await this.findOne(id);
     return this.customerRepository.update(id, updateCustomerDto);
   }
 

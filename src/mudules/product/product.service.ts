@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import {
+  UpdateProductDto,
+  UpdateProductGroupDto,
+} from './dto/update-product.dto';
 import { ProductRepository } from './product.repository';
 
 @Injectable()
@@ -53,19 +56,21 @@ export class ProductService {
     return product;
   }
 
-  updateGroup(id: number, updateProductGroupDto: any) {
-    return `This action updates a #${id} product group`;
+  async updateGroup(id: number, updateProductGroupDto: UpdateProductGroupDto) {
+    await this.findOneGroup(id);
+    return this.productRepository.updateGroup(id, updateProductGroupDto);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    await this.findOne(id);
+    return this.productRepository.update(id, updateProductDto);
   }
 
   removeGroup(id: number) {
-    return `This action removes a #${id} product group`;
+    return this.productRepository.removeGroup(id);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} product`;
+    return this.productRepository.remove(id);
   }
 }

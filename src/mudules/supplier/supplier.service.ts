@@ -44,19 +44,24 @@ export class SupplierService {
     return this.supplierRepository.findOne(id);
   }
 
-  updateGroup(id: number, updateSupplierGroupDto: UpdateSupplierGroupDto) {
-    return `This action updates a #${id} supplier group`;
+  async updateGroup(
+    id: number,
+    updateSupplierGroupDto: UpdateSupplierGroupDto,
+  ) {
+    await this.findOneGroup(id);
+    return this.supplierRepository.updateGroup(id, updateSupplierGroupDto);
   }
 
-  update(id: number, updateSupplierDto: UpdateSupplierDto) {
-    return `This action updates a #${id} supplier`;
+  async update(id: number, updateSupplierDto: UpdateSupplierDto) {
+    await this.findOne(id);
+    return this.supplierRepository.update(id, updateSupplierDto);
   }
 
   removeGroup(id: number) {
-    return `This action removes a #${id} supplier group`;
+    return this.supplierRepository.removeGroup(id);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} supplier`;
+    return this.supplierRepository.remove(id);
   }
 }
