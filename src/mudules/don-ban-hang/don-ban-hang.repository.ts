@@ -35,9 +35,7 @@ export class DonBanHangRepository {
     customer: Customer,
     dieuKhoan: DieuKhoan,
     cktm: Cktm,
-    products: Product[],
-    counts: number[],
-    stockStatus: StockStatusType = STOCK_STATUS.IN_STOCK,
+    productsOfDonBanHang: { product: Product; count: number; price: number }[],
   ) {
     const newDonBanHang = this.donBanHangRepository.create({
       ...createDonBanHangDto,
@@ -48,15 +46,17 @@ export class DonBanHangRepository {
     });
     return this.dataSource.transaction(async (manager) => {
       const donBanHang = await manager.save(newDonBanHang);
-      const productOfDonBanHangs = products.map((product, index) => {
-        return this.productOfDonBanHangRepository.create({
-          donBanHang: donBanHang,
-          product: product,
-          price: product.priceDelivery,
-          count: counts[index],
-        });
-      });
-      await manager.save(productOfDonBanHangs);
+      await Promise.all(
+        productsOfDonBanHang.map(async (each) => {
+          const productOfDonBanHang = manager.create(ProductOfDonBanHang, {
+            product: each.product,
+            count: each.count,
+            price: each.price,
+            donBanHang: donBanHang,
+          });
+          return manager.save(productOfDonBanHang);
+        }),
+      );
       return donBanHang;
     });
   }
@@ -184,7 +184,7 @@ export class DonBanHangRepository {
     });
   }
 
-  deliverProduct(productOfDonBanHangId: number, delivered: number) {
+  deliverDonBanHang(productOfDonBanHangId: number, delivered: number) {
     return this.productOfDonBanHangRepository.update(productOfDonBanHangId, {
       delivered: delivered,
     });

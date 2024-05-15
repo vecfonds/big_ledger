@@ -62,9 +62,24 @@ export class CtbanService {
     const finalValue = totalProductValue - totalDiscountValue + totalTaxValue;
 
     for (const product of productOfCtbans) {
-      await this.donBanHangService.deliverProduct(
+      if (product.count > product.product.ordered) {
+        throw new ConflictException(
+          `Product ${product.product.id} out of stock`,
+        );
+      }
+    }
+
+    for (const product of productOfCtbans) {
+      await this.donBanHangService.deliverDonBanHang(
         donBanHang,
         product.product,
+        product.count,
+      );
+    }
+
+    for (const product of productOfCtbans) {
+      await this.productService.deliverProduct(
+        product.product.id,
         product.count,
       );
     }

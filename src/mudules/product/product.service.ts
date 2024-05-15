@@ -66,6 +66,20 @@ export class ProductService {
     return this.productRepository.update(id, updateProductDto);
   }
 
+  async orderProduct(id: number, order: number) {
+    const product = await this.findOne(id);
+    return this.productRepository.orderProduct(
+      id,
+      product.category - order,
+      product.ordered + order,
+    );
+  }
+
+  async deliverProduct(id: number, count: number) {
+    const product = await this.findOne(id);
+    return this.productRepository.deliverProduct(id, product.ordered - count);
+  }
+
   removeGroup(id: number) {
     return this.productRepository.removeGroup(id);
   }

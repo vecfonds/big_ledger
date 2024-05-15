@@ -36,16 +36,15 @@ export class DonBanHangService {
   ) {}
 
   async create(createDonBanHangDto: CreateDonBanHangDto) {
-    const productsPromise = createDonBanHangDto.products.map(
-      async (product) => {
-        return await this.productService.findOne(product.productId);
-      },
-    );
-    const products = await Promise.all(productsPromise);
-    const productsQuantity = createDonBanHangDto.products.map(
-      (product, index) => {
-        return product.count;
-      },
+    const productsOfDonBanHang = await Promise.all(
+      createDonBanHangDto.products.map(async (each) => {
+        const product = await this.productService.findOne(each.productId);
+        return {
+          product: product,
+          count: each.count,
+          price: product.priceDelivery,
+        };
+      }),
     );
     const salesperson = await this.employeeService.findOneSalesperson(
       createDonBanHangDto.salespersonId,
@@ -57,14 +56,26 @@ export class DonBanHangService {
       createDonBanHangDto.dieuKhoanId,
     );
     const cktm = await this.cktmService.findOne(createDonBanHangDto.cktmId);
+
+    for (const product of productsOfDonBanHang) {
+      if (product.product.category < product.count) {
+        throw new ConflictException(
+          `Product ${product.product.id} out of stock`,
+        );
+      }
+    }
+
+    for (const product of productsOfDonBanHang) {
+      await this.productService.orderProduct(product.product.id, product.count);
+    }
+
     return this.donBanHangRepository.create(
       createDonBanHangDto,
       salesperson,
       customer,
       dieuKhoan,
       cktm,
-      products,
-      productsQuantity,
+      productsOfDonBanHang,
     );
   }
 
@@ -126,7 +137,7 @@ export class DonBanHangService {
     return donBanHang;
   }
 
-  async deliverProduct(
+  async deliverDonBanHang(
     donBanHang: DonBanHang,
     product: Product,
     count: number,
@@ -147,7 +158,7 @@ export class DonBanHangService {
       throw new ConflictException('Count of product in delivery is not valid');
     }
 
-    return this.donBanHangRepository.deliverProduct(
+    return this.donBanHangRepository.deliverDonBanHang(
       productOfDonBanHang.id,
       productOfDonBanHang.delivered + count,
     );

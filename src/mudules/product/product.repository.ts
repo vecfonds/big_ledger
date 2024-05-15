@@ -78,6 +78,19 @@ export class ProductRepository {
     });
   }
 
+  orderProduct(id: number, newCategory: number, newOdered: number) {
+    return this.productRepository.update(id, {
+      category: newCategory,
+      ordered: newOdered,
+    });
+  }
+
+  deliverProduct(id: number, newOdered: number) {
+    return this.productRepository.update(id, {
+      ordered: newOdered,
+    });
+  }
+
   removeGroup(id: number) {
     return this.productGroupRepository.delete(id);
   }

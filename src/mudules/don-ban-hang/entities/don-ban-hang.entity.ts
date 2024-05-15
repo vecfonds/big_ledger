@@ -1,15 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
-import {
-  DELIVERY_STATUS,
-  DOCUMENT_STATUS,
-  DeliveryStatusType,
-  DocumentStatusType,
-  PAYMENT_STATUS,
-  PaymentStatusType,
-  STOCK_STATUS,
-  StockStatusType,
-} from '../../../constants';
+import { DELIVERY_STATUS, DeliveryStatusType } from '../../../constants';
 import { Customer } from '../../customer/entities/customer.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
 import { Salesperson } from 'src/mudules/employee/entities/employee.entity';
@@ -34,9 +25,6 @@ export class DonBanHang extends AbstractEntity {
     default: DELIVERY_STATUS.NOT_DELIVERED,
   })
   deliveryStatus: DeliveryStatusType;
-
-  @Column({ type: 'enum', enum: STOCK_STATUS, default: STOCK_STATUS.IN_STOCK })
-  stockStatus: StockStatusType;
 
   @ManyToOne(() => Salesperson, (salesperson) => salesperson.donBanHangs, {
     nullable: false,
