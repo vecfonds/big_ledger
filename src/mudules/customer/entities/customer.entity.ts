@@ -54,9 +54,9 @@ export class Customer extends AbstractEntity {
   @ManyToOne(() => CustomerGroup, (customerGroup) => customerGroup.customers)
   customerGroup: CustomerGroup;
 
-  @ManyToOne(() => DieuKhoan, (dieuKhoan) => dieuKhoan.customer)
+  @OneToMany(() => DieuKhoan, (dieuKhoan) => dieuKhoan.customer)
   dieuKhoans: DieuKhoan;
 
-  @ManyToOne(() => Cktm, (cktm) => cktm.customer)
+  @OneToMany(() => Cktm, (cktm) => cktm.customer)
   cktms: Cktm;
 }

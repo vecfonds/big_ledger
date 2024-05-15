@@ -39,6 +39,9 @@ export class CktmRepository {
       where: {
         id: id,
       },
+      relations: {
+        customer: true,
+      },
     });
   }
 

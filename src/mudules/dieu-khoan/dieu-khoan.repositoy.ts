@@ -40,6 +40,9 @@ export class DieuKhoanRepository {
       where: {
         id: id,
       },
+      relations: {
+        customer: true,
+      },
     });
   }
 
