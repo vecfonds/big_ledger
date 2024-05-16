@@ -66,7 +66,8 @@ export class CtbanRepository {
         productOfCtban: {
           product: true,
         },
-        phieuThu: true,
+        phieuThuTienGui: true,
+        phieuThuTienMat: true,
       },
       take: pageSize,
       skip: pageSize * (currentPage - 1),
@@ -91,7 +92,8 @@ export class CtbanRepository {
             productGroup: true,
           },
         },
-        phieuThu: true,
+        phieuThuTienGui: true,
+        phieuThuTienMat: true,
       },
       order: sortsObject,
     });
@@ -123,7 +125,8 @@ export class CtbanRepository {
             productGroup: true,
           },
         },
-        phieuThu: true,
+        phieuThuTienGui: true,
+        phieuThuTienMat: true,
       },
     });
   }

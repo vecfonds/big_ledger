@@ -26,31 +26,76 @@ export class PhieuThuTienMat extends AbstractEntity {
   })
   salesperson: Salesperson;
 
-  @OneToMany(() => ChungTuCuaPhieuThu, (chungTu) => chungTu.phieuThu)
-  chungTu: ChungTuCuaPhieuThu[];
+  @OneToMany(
+    () => ChungTuCuaPhieuThuTienMat,
+    (chungTu) => chungTu.phieuThuTienMat,
+  )
+  chungTuCuaPhieuThu: ChungTuCuaPhieuThuTienMat[];
 }
 
 @Entity('phieu_thu_tien_gui')
-export class PhieuThuTienGui extends PhieuThuTienMat {
+export class PhieuThuTienGui extends AbstractEntity {
+  @Column({ type: 'date' })
+  receiveDate: Date;
+
+  @Column({ type: 'varchar', nullable: true })
+  content?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  submitter?: string;
+
+  @ManyToOne(() => Customer, (customer) => customer.phieuThu, {
+    nullable: false,
+  })
+  customer: Customer;
+
+  @ManyToOne(() => Salesperson, (salesperson) => salesperson.phieuThu, {
+    nullable: false,
+  })
+  salesperson: Salesperson;
+
   @ManyToOne(() => BankAccount, (bankAccount) => bankAccount.phieuChi, {
     nullable: false,
   })
   bankAccount: BankAccount;
+
+  @OneToMany(
+    () => ChungTuCuaPhieuThuTienGui,
+    (chungTu) => chungTu.phieuThuTienGui,
+  )
+  chungTuCuaPhieuThu: ChungTuCuaPhieuThuTienGui[];
 }
 
-@Entity({ name: 'chung_tu_cua_phieu_thu' })
-export class ChungTuCuaPhieuThu extends AbstractEntity {
+@Entity({ name: 'chung_tu_cua_phieu_thu_tien_mat' })
+export class ChungTuCuaPhieuThuTienMat extends AbstractEntity {
   @Column({ type: 'int' })
   money: number;
 
   @Column({ type: 'varchar', nullable: true })
   content?: string;
 
-  @ManyToOne(() => PhieuThuTienMat, (phieuThu) => phieuThu.chungTu, {
+  @ManyToOne(() => PhieuThuTienMat, (phieuThu) => phieuThu.chungTuCuaPhieuThu, {
     nullable: false,
   })
-  phieuThu: PhieuThuTienMat;
+  phieuThuTienMat: PhieuThuTienMat;
 
-  @ManyToOne(() => Ctban, (ctban) => ctban.phieuThu, { nullable: false })
+  @ManyToOne(() => Ctban, (ctban) => ctban.phieuThuTienMat, { nullable: false })
+  ctban: Ctban;
+}
+
+@Entity({ name: 'chung_tu_cua_phieu_thu_tien_gui' })
+export class ChungTuCuaPhieuThuTienGui extends AbstractEntity {
+  @Column({ type: 'int' })
+  money: number;
+
+  @Column({ type: 'varchar', nullable: true })
+  content?: string;
+
+  @ManyToOne(() => PhieuThuTienGui, (phieuThu) => phieuThu.chungTuCuaPhieuThu, {
+    nullable: false,
+  })
+  phieuThuTienGui: PhieuThuTienGui;
+
+  @ManyToOne(() => Ctban, (ctban) => ctban.phieuThuTienGui, { nullable: false })
   ctban: Ctban;
 }

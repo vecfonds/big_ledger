@@ -4,7 +4,8 @@ import { DataSource, Repository } from 'typeorm';
 import {
   PhieuThuTienMat,
   PhieuThuTienGui,
-  ChungTuCuaPhieuThu,
+  ChungTuCuaPhieuThuTienGui,
+  ChungTuCuaPhieuThuTienMat,
 } from './entities/phieu-thu.entity';
 import {
   CreatePhieuThuTienMatDto,
@@ -41,11 +42,11 @@ export class PhieuThuRepository {
       const phieuThu = await manager.save(newPhieuThu);
       await Promise.all(
         chungtu.map(async (each) => {
-          const chungTu = manager.create(ChungTuCuaPhieuThu, {
+          const chungTu = manager.create(ChungTuCuaPhieuThuTienMat, {
             ctban: each.ctban,
             money: each.money,
             content: each.content,
-            phieuThu: phieuThu,
+            phieuThuTienMat: phieuThu,
           });
           return manager.save(chungTu);
         }),
@@ -57,7 +58,7 @@ export class PhieuThuRepository {
   findAllPhieuThuTienMat() {
     return this.ptTienMatRepository.find({
       relations: {
-        chungTu: {
+        chungTuCuaPhieuThu: {
           ctban: true,
         },
         customer: true,
@@ -72,7 +73,7 @@ export class PhieuThuRepository {
         id: id,
       },
       relations: {
-        chungTu: {
+        chungTuCuaPhieuThu: {
           ctban: true,
         },
         customer: true,
@@ -100,11 +101,11 @@ export class PhieuThuRepository {
       const phieuThu = await manager.save(newPhieuThu);
       await Promise.all(
         chungtu.map(async (each) => {
-          const chungTu = manager.create(ChungTuCuaPhieuThu, {
+          const chungTu = manager.create(ChungTuCuaPhieuThuTienGui, {
             ctban: each.ctban,
             money: each.money,
             content: each.content,
-            phieuThu: phieuThu,
+            phieuThuTienGui: phieuThu,
           });
           return manager.save(chungTu);
         }),
@@ -116,7 +117,7 @@ export class PhieuThuRepository {
   findAllPhieuThuTienGui() {
     return this.ptTienGuiRepository.find({
       relations: {
-        chungTu: {
+        chungTuCuaPhieuThu: {
           ctban: true,
         },
         bankAccount: true,
@@ -132,7 +133,7 @@ export class PhieuThuRepository {
         id: id,
       },
       relations: {
-        chungTu: {
+        chungTuCuaPhieuThu: {
           ctban: true,
         },
         bankAccount: true,

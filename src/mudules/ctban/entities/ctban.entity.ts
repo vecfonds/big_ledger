@@ -3,7 +3,10 @@ import { AbstractEntity } from 'src/common/abstract.entity';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';
-import { ChungTuCuaPhieuThu } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
+import {
+  ChungTuCuaPhieuThuTienGui,
+  ChungTuCuaPhieuThuTienMat,
+} from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 import { ReportDccnCustomerDetail } from 'src/mudules/report-dccn/entities/report-dccn.entity';
 
@@ -58,8 +61,11 @@ export class Ctban extends AbstractEntity {
   @OneToMany(() => ProductOfCtban, (productOfCtban) => productOfCtban.ctban)
   productOfCtban: ProductOfCtban[];
 
-  @OneToMany(() => ChungTuCuaPhieuThu, (chungTu) => chungTu.ctban)
-  phieuThu: ChungTuCuaPhieuThu[];
+  @OneToMany(() => ChungTuCuaPhieuThuTienGui, (chungTu) => chungTu.ctban)
+  phieuThuTienGui: ChungTuCuaPhieuThuTienGui[];
+
+  @OneToMany(() => ChungTuCuaPhieuThuTienMat, (chungTu) => chungTu.ctban)
+  phieuThuTienMat: ChungTuCuaPhieuThuTienMat[];
 
   @OneToMany(
     () => ReportDccnCustomerDetail,

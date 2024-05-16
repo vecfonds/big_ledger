@@ -59,7 +59,8 @@ import { PhieuChiModule } from './mudules/phieu-chi/phieu-chi.module';
 import {
   PhieuThuTienMat,
   PhieuThuTienGui,
-  ChungTuCuaPhieuThu,
+  ChungTuCuaPhieuThuTienMat,
+  ChungTuCuaPhieuThuTienGui,
 } from './mudules/phieu-thu/entities/phieu-thu.entity';
 import { PhieuThuModule } from './mudules/phieu-thu/phieu-thu.module';
 import { PhieuNhap } from './mudules/phieu-nhap/entities/phieu-nhap.entity';
@@ -129,7 +130,8 @@ dotenv.config();
         ChungTuCuaPhieuChi,
         PhieuThuTienMat,
         PhieuThuTienGui,
-        ChungTuCuaPhieuThu,
+        ChungTuCuaPhieuThuTienMat,
+        ChungTuCuaPhieuThuTienGui,
         PhieuNhap,
         PhieuXuat,
         Product,
