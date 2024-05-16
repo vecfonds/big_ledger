@@ -55,7 +55,15 @@ export class PhieuThuRepository {
   }
 
   findAllPhieuThuTienMat() {
-    return this.ptTienMatRepository.find();
+    return this.ptTienMatRepository.find({
+      relations: {
+        chungTu: {
+          ctban: true,
+        },
+        customer: true,
+        salesperson: true,
+      },
+    });
   }
 
   findOnePhieuThuTienMat(id: number) {
@@ -106,7 +114,16 @@ export class PhieuThuRepository {
   }
 
   findAllPhieuThuTienGui() {
-    return this.ptTienGuiRepository.find();
+    return this.ptTienGuiRepository.find({
+      relations: {
+        chungTu: {
+          ctban: true,
+        },
+        bankAccount: true,
+        customer: true,
+        salesperson: true,
+      },
+    });
   }
 
   findOnePhieuThuTienGui(id: number) {
