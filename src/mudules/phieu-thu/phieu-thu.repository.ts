@@ -64,7 +64,11 @@ export class PhieuThuRepository {
         id: id,
       },
       relations: {
-        chungTu: true,
+        chungTu: {
+          ctban: true,
+        },
+        customer: true,
+        salesperson: true,
       },
     });
   }
@@ -111,8 +115,12 @@ export class PhieuThuRepository {
         id: id,
       },
       relations: {
-        chungTu: true,
+        chungTu: {
+          ctban: true,
+        },
         bankAccount: true,
+        customer: true,
+        salesperson: true,
       },
     });
   }
