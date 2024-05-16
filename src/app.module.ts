@@ -71,6 +71,17 @@ import {
   ProductGroup,
 } from './mudules/product/entities/product.entity';
 import { ProductModule } from './mudules/product/product.module';
+import {
+  ReportDccn,
+  ReportDccnDetail,
+  ReportDccnCustomerDetail,
+} from './mudules/report-dccn/entities/report-dccn.entity';
+import { ReportDccnModule } from './mudules/report-dccn/report-dccn.module';
+import {
+  ReportThcn,
+  ReportThcnDetail,
+} from './mudules/report-thcn/entities/report-thcn.entity';
+import { ReportThcnModule } from './mudules/report-thcn/report-thcn.module';
 import { Supplier, SupplierGroup } from './mudules/supplier/entities';
 import { SupplierModule } from './mudules/supplier/supplier.module';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -123,6 +134,11 @@ dotenv.config();
         PhieuXuat,
         Product,
         ProductGroup,
+        ReportDccn,
+        ReportDccnDetail,
+        ReportDccnCustomerDetail,
+        ReportThcn,
+        ReportThcnDetail,
         Supplier,
         SupplierGroup,
       ],
@@ -167,6 +183,8 @@ dotenv.config();
     PhieuNhapModule,
     PhieuXuatModule,
     ProductModule,
+    ReportDccnModule,
+    ReportThcnModule,
     SupplierModule,
   ],
   controllers: [],

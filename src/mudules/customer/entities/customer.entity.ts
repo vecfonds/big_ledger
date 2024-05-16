@@ -5,6 +5,8 @@ import { DonBanHang } from '../../don-ban-hang/entities/don-ban-hang.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { DieuKhoan } from 'src/mudules/dieu-khoan/entities/dieu-khoan.entity';
 import { Cktm } from 'src/mudules/cktm/entities/cktm.entity';
+import { ReportThcnDetail } from 'src/mudules/report-thcn/entities/report-thcn.entity';
+import { ReportDccnDetail } from 'src/mudules/report-dccn/entities/report-dccn.entity';
 
 @Entity({ name: 'customer_groups' })
 export class CustomerGroup extends AbstractEntity {
@@ -59,4 +61,16 @@ export class Customer extends AbstractEntity {
 
   @OneToMany(() => Cktm, (cktm) => cktm.customer)
   cktms: Cktm;
+
+  @OneToMany(
+    () => ReportThcnDetail,
+    (reportThcnDetail) => reportThcnDetail.customer,
+  )
+  reportThcnDetails: ReportThcnDetail[];
+
+  @OneToMany(
+    () => ReportDccnDetail,
+    (reportDccnDetail) => reportDccnDetail.customer,
+  )
+  reportDccnDetails: ReportDccnDetail[];
 }

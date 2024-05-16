@@ -5,6 +5,7 @@ import { Product } from 'src/mudules/product/entities/product.entity';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';
 import { ChungTuCuaPhieuThu } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
+import { ReportDccnCustomerDetail } from 'src/mudules/report-dccn/entities/report-dccn.entity';
 
 @Entity({ name: 'ctban' })
 export class Ctban extends AbstractEntity {
@@ -59,6 +60,12 @@ export class Ctban extends AbstractEntity {
 
   @OneToMany(() => ChungTuCuaPhieuThu, (chungTu) => chungTu.ctban)
   phieuThu: ChungTuCuaPhieuThu[];
+
+  @OneToMany(
+    () => ReportDccnCustomerDetail,
+    (reportDccnCustomerDetail) => reportDccnCustomerDetail.ctban,
+  )
+  reportDccnCustomerDetails: ReportDccnCustomerDetail[];
 }
 
 @Entity({ name: 'product_of_ctban' })
