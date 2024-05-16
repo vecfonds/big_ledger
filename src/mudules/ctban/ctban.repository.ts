@@ -104,6 +104,11 @@ export class CtbanRepository {
       where: {
         paymentStatus: In(status),
       },
+      relations: {
+        donBanHang: {
+          customer: true,
+        },
+      },
     });
   }
 

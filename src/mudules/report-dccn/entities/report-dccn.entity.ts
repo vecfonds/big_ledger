@@ -32,10 +32,10 @@ export class ReportDccnDetail extends AbstractEntity {
   customer: Customer;
 
   @Column({ type: 'int' })
-  collecttedTotal: number;
+  collectedTotal: number;
 
   @Column({ type: 'int' })
-  notCollecttedTotal: number;
+  notCollectedTotal: number;
 
   @OneToMany(
     () => ReportDccnCustomerDetail,
@@ -57,10 +57,10 @@ export class ReportDccnCustomerDetail extends AbstractEntity {
   ctban: Ctban;
 
   @Column({ type: 'int' })
-  collectted: number;
+  collected: number;
 
   @Column({ type: 'int' })
-  notCollectted: number;
+  notCollected: number;
 
   @ManyToOne(
     () => ReportDccnDetail,

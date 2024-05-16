@@ -1,22 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportDccnDto } from './dto/create-report-dccn.dto';
 import { UpdateReportDccnDto } from './dto/update-report-dccn.dto';
 import { ReportDccnRepository } from './report-dccn.repository';
+import { CtbanService } from '../ctban/ctban.service';
+import { PAYMENT_STATUS } from 'src/constants';
 
 @Injectable()
 export class ReportDccnService {
-  constructor(private readonly reportDccnRepository: ReportDccnRepository) {}
+  constructor(
+    private readonly reportDccnRepository: ReportDccnRepository,
+    private readonly ctbanService: CtbanService,
+  ) {}
 
-  create(createReportDccnDto: CreateReportDccnDto) {
-    return 'This action adds a new reportDccn';
+  async create(createReportDccnDto: CreateReportDccnDto) {
+    const ctbans =
+      await this.ctbanService.findByPaymentStatusAndGroupByCustomer([
+        PAYMENT_STATUS.NOT_PAID,
+        PAYMENT_STATUS.BEING_PAID,
+      ]);
+    return this.reportDccnRepository.create(createReportDccnDto, ctbans);
   }
 
   findAll() {
-    return `This action returns all reportDccn`;
+    return this.reportDccnRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reportDccn`;
+  async findOne(id: number) {
+    const reportDccn = await this.reportDccnRepository.findOne(id);
+    if (!reportDccn) {
+      throw new NotFoundException('ReportDccn not found');
+    }
+    return reportDccn;
   }
 
   update(id: number, updateReportDccnDto: UpdateReportDccnDto) {

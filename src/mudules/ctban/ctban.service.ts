@@ -19,6 +19,8 @@ import { CtbanRepository } from './ctban.repository';
 import { EmployeeService } from '../employee/employee.service';
 import { DonBanHangService } from '../don-ban-hang/don-ban-hang.service';
 import { ProductService } from '../product/product.service';
+import { Customer } from '../customer/entities/customer.entity';
+import { Ctban } from './entities/ctban.entity';
 
 @Injectable()
 export class CtbanService {
@@ -146,6 +148,41 @@ export class CtbanService {
       total += product.price * product.count;
     });
     return total;
+  }
+
+  async findByPaymentStatusAndGroupByCustomer(
+    status: PaymentStatusType[],
+  ): Promise<
+    {
+      customer: Customer;
+      ctbans: { ctban: Ctban; collected: number; notCollected: number }[];
+      collectedTotal: number;
+      notCollectedTotal: number;
+    }[]
+  > {
+    const ctbans = await this.ctbanRepository.findByPaymentStatus(status);
+    const ctbansGroupByCustomer = new Map();
+    for (const ctban of ctbans) {
+      if (!ctbansGroupByCustomer.has(ctban.donBanHang.customer.id)) {
+        ctbansGroupByCustomer.set(ctban.donBanHang.customer.id, {
+          customer: ctban.donBanHang.customer,
+          ctbans: [],
+          collectedTotal: 0,
+          notCollectedTotal: 0,
+        });
+      }
+      ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).ctbans.push({
+        ctban: ctban,
+        collected: ctban.paidValue,
+        notCollected: ctban.finalValue - ctban.paidValue,
+      });
+      ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).collectedTotal +=
+        ctban.paidValue;
+      ctbansGroupByCustomer.get(
+        ctban.donBanHang.customer.id,
+      ).notCollectedTotal += ctban.finalValue - ctban.paidValue;
+    }
+    return Array.from(ctbansGroupByCustomer.values());
   }
 
   async makePayment(id: number, money: number) {
