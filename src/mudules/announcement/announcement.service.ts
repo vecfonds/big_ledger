@@ -21,10 +21,10 @@ const messageGenerator = (
   let entity: string;
   switch (type) {
     case ANNOUNCEMENT_TYPE.THU:
-      entity = 'Phiếu thu';
+      entity = 'Hóa đơn phải thu';
       break;
     case ANNOUNCEMENT_TYPE.CHI:
-      entity = 'Phiếu chi';
+      entity = 'Hóa đơn phải chi';
       break;
     case ANNOUNCEMENT_TYPE.BAN_HANG:
       entity = 'Đơn bán hàng';
