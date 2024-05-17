@@ -79,6 +79,46 @@ export class DonBanHangService {
     );
   }
 
+  async createRaw(createDonBanHangDto: CreateDonBanHangDto) {
+    const productsOfDonBanHang = await Promise.all(
+      createDonBanHangDto.products.map(async (each) => {
+        const product = await this.productService.findOne(each.productId);
+        return {
+          product: product,
+          count: each.count,
+          price: product.priceDelivery,
+        };
+      }),
+    );
+    const salesperson = await this.employeeService.findOneSalesperson(
+      createDonBanHangDto.salespersonId,
+    );
+    const customer = await this.customerService.findOne(
+      createDonBanHangDto.customerId,
+    );
+    const dieuKhoan = await this.dieuKhoanService.findOne(
+      createDonBanHangDto.dieuKhoanId,
+    );
+    const cktm = await this.cktmService.findOne(createDonBanHangDto.cktmId);
+
+    for (const product of productsOfDonBanHang) {
+      if (product.product.category < product.count) {
+        throw new ConflictException(
+          `Product ${product.product.id} out of stock`,
+        );
+      }
+    }
+
+    return this.donBanHangRepository.createRaw(
+      createDonBanHangDto,
+      salesperson,
+      customer,
+      dieuKhoan,
+      cktm,
+      productsOfDonBanHang,
+    );
+  }
+
   async findAll(query: GetDonBanHangDto) {
     let sortOptions: [string, OrderType][] = [];
     if (query.sorts) {

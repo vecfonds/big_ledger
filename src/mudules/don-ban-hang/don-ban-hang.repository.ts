@@ -61,6 +61,33 @@ export class DonBanHangRepository {
     });
   }
 
+  createRaw(
+    createDonBanHangDto: CreateDonBanHangDto,
+    salesperson: Salesperson,
+    customer: Customer,
+    dieuKhoan: DieuKhoan,
+    cktm: Cktm,
+    productsOfDonBanHang: { product: Product; count: number; price: number }[],
+  ) {
+    const newDonBanHang = this.donBanHangRepository.create({
+      ...createDonBanHangDto,
+      salesperson: salesperson,
+      customer: customer,
+      dieuKhoan: dieuKhoan,
+      cktm: cktm,
+    });
+    const productsOfDonBanHangEntities = productsOfDonBanHang.map((each) => {
+      return this.productOfDonBanHangRepository.create({
+        product: each.product,
+        count: each.count,
+        price: each.price,
+        donBanHang: newDonBanHang,
+      });
+    });
+    newDonBanHang.productOfDonBanHangs = productsOfDonBanHangEntities;
+    return newDonBanHang;
+  }
+
   findAll(take: number, skip: number, sorts: [string, OrderType][]) {
     let sortsObject: { [key: string]: OrderType } = {};
     sorts.forEach(([key, value]) => {

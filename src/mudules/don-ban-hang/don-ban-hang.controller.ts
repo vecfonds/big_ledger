@@ -22,6 +22,11 @@ export class DonBanHangController {
     return this.donBanHangService.create(createDonBanHangDto);
   }
 
+  @Post('raw')
+  createRaw(@Body() createDonBanHangDto: CreateDonBanHangDto) {
+    return this.donBanHangService.createRaw(createDonBanHangDto);
+  }
+
   @Get()
   findAll(@Query() query: GetDonBanHangDto) {
     return this.donBanHangService.findAll(query);
