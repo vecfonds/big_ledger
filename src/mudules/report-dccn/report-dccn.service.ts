@@ -32,6 +32,24 @@ export class ReportDccnService {
     return this.reportDccnRepository.create(createReportDccnDto, ctbans);
   }
 
+  async findRaw(createReportDccnDto: CreateReportDccnDto) {
+    const startDate = new Date(createReportDccnDto.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(createReportDccnDto.endDate);
+    endDate.setHours(23, 59, 59, 999);
+    const customers = await this.customerService.findByIds(
+      createReportDccnDto.customerIds,
+    );
+    const ctbans =
+      await this.ctbanService.findByPaymentStatusAndGroupByCustomer(
+        [PAYMENT_STATUS.NOT_PAID, PAYMENT_STATUS.BEING_PAID],
+        startDate,
+        endDate,
+        customers,
+      );
+    return ctbans;
+  }
+
   findAll() {
     return this.reportDccnRepository.findAll();
   }

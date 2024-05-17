@@ -20,6 +20,11 @@ export class ReportThcnController {
     return this.reportThcnService.create(createReportThcnDto);
   }
 
+  @Post('raw')
+  findRaw(@Body() createReportThcnDto: CreateReportThcnDto) {
+    return this.reportThcnService.findRaw(createReportThcnDto);
+  }
+
   @Get()
   findAll() {
     return this.reportThcnService.findAll();
