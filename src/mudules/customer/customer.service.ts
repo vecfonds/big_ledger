@@ -36,6 +36,14 @@ export class CustomerService {
     return this.customerRepository.findAll();
   }
 
+  async findByIds(ids: number[]) {
+    const customers = await this.customerRepository.findByIds(ids);
+    if (customers.length !== ids.length) {
+      throw new NotFoundException('Some customers not found');
+    }
+    return customers;
+  }
+
   async findOneGroup(id: number) {
     const customerGroup = await this.customerRepository.findOneGroup(id);
     if (!customerGroup) {

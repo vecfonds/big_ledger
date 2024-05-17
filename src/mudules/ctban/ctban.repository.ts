@@ -116,11 +116,17 @@ export class CtbanRepository {
     status: PaymentStatusType[],
     startDate: Date,
     endDate: Date,
+    customerIds: number[],
   ) {
     return this.ctbanRepository.find({
       where: {
         paymentStatus: In(status),
         createdAt: Between(startDate, endDate),
+        donBanHang: {
+          customer: {
+            id: In(customerIds),
+          },
+        },
       },
       relations: {
         donBanHang: {

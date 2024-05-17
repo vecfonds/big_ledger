@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateReportDccnDto {
   @ApiProperty({ type: 'date', example: '2021-09-01' })
@@ -21,4 +21,9 @@ export class CreateReportDccnDto {
   @IsNotEmpty({ message: 'Mô tả không được để trống' })
   @IsString({ message: 'Mô tả không hợp lệ' })
   description: string;
+
+  @ApiProperty({ type: 'array', example: [1, 2, 3] })
+  @IsNotEmpty({ message: 'Danh sách khách hàng không được để trống' })
+  @IsArray({ message: 'Danh sách khách hàng không hợp lệ' })
+  customerIds: number[];
 }

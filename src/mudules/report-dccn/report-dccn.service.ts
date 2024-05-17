@@ -4,12 +4,14 @@ import { UpdateReportDccnDto } from './dto/update-report-dccn.dto';
 import { ReportDccnRepository } from './report-dccn.repository';
 import { CtbanService } from '../ctban/ctban.service';
 import { PAYMENT_STATUS } from 'src/constants';
+import { CustomerService } from '../customer/customer.service';
 
 @Injectable()
 export class ReportDccnService {
   constructor(
     private readonly reportDccnRepository: ReportDccnRepository,
     private readonly ctbanService: CtbanService,
+    private readonly customerService: CustomerService,
   ) {}
 
   async create(createReportDccnDto: CreateReportDccnDto) {
@@ -17,11 +19,15 @@ export class ReportDccnService {
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(createReportDccnDto.endDate);
     endDate.setHours(23, 59, 59, 999);
+    const customers = await this.customerService.findByIds(
+      createReportDccnDto.customerIds,
+    );
     const ctbans =
       await this.ctbanService.findByPaymentStatusAndGroupByCustomer(
         [PAYMENT_STATUS.NOT_PAID, PAYMENT_STATUS.BEING_PAID],
         startDate,
         endDate,
+        customers,
       );
     return this.reportDccnRepository.create(createReportDccnDto, ctbans);
   }

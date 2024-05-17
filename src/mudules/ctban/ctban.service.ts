@@ -154,6 +154,7 @@ export class CtbanService {
     status: PaymentStatusType[],
     startDate: Date = new Date(0),
     endDate: Date = new Date(),
+    customers: Customer[],
   ): Promise<
     {
       customer: Customer;
@@ -166,10 +167,12 @@ export class CtbanService {
   > {
     const now = new Date();
     now.setHours(8, 0, 0, 0);
+    const customerIds = customers.map((customer) => customer.id);
     const ctbans = await this.ctbanRepository.findByPaymentStatusAndDate(
       status,
       startDate,
       endDate,
+      customerIds,
     );
     const ctbansGroupByCustomer = new Map();
     for (const ctban of ctbans) {
