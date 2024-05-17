@@ -152,6 +152,8 @@ export class CtbanService {
 
   async findByPaymentStatusAndGroupByCustomer(
     status: PaymentStatusType[],
+    startDate: Date = new Date(0),
+    endDate: Date = new Date(),
   ): Promise<
     {
       customer: Customer;
@@ -164,7 +166,11 @@ export class CtbanService {
   > {
     const now = new Date();
     now.setHours(8, 0, 0, 0);
-    const ctbans = await this.ctbanRepository.findByPaymentStatus(status);
+    const ctbans = await this.ctbanRepository.findByPaymentStatusAndDate(
+      status,
+      startDate,
+      endDate,
+    );
     const ctbansGroupByCustomer = new Map();
     for (const ctban of ctbans) {
       if (!ctbansGroupByCustomer.has(ctban.donBanHang.customer.id)) {

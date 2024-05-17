@@ -13,11 +13,16 @@ export class ReportDccnService {
   ) {}
 
   async create(createReportDccnDto: CreateReportDccnDto) {
+    const startDate = new Date(createReportDccnDto.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(createReportDccnDto.endDate);
+    endDate.setHours(23, 59, 59, 999);
     const ctbans =
-      await this.ctbanService.findByPaymentStatusAndGroupByCustomer([
-        PAYMENT_STATUS.NOT_PAID,
-        PAYMENT_STATUS.BEING_PAID,
-      ]);
+      await this.ctbanService.findByPaymentStatusAndGroupByCustomer(
+        [PAYMENT_STATUS.NOT_PAID, PAYMENT_STATUS.BEING_PAID],
+        startDate,
+        endDate,
+      );
     return this.reportDccnRepository.create(createReportDccnDto, ctbans);
   }
 

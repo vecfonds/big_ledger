@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, In, Repository } from 'typeorm';
+import { Between, DataSource, In, Repository } from 'typeorm';
 import { Ctban, ProductOfCtban } from './entities/ctban.entity';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
@@ -103,6 +103,24 @@ export class CtbanRepository {
     return this.ctbanRepository.find({
       where: {
         paymentStatus: In(status),
+      },
+      relations: {
+        donBanHang: {
+          customer: true,
+        },
+      },
+    });
+  }
+
+  findByPaymentStatusAndDate(
+    status: PaymentStatusType[],
+    startDate: Date,
+    endDate: Date,
+  ) {
+    return this.ctbanRepository.find({
+      where: {
+        paymentStatus: In(status),
+        createdAt: Between(startDate, endDate),
       },
       relations: {
         donBanHang: {
