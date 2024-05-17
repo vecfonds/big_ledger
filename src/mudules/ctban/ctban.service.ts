@@ -158,8 +158,12 @@ export class CtbanService {
       ctbans: { ctban: Ctban; collected: number; notCollected: number }[];
       collectedTotal: number;
       notCollectedTotal: number;
+      inOfDate: number;
+      outOfDate: number;
     }[]
   > {
+    const now = new Date();
+    now.setHours(8, 0, 0, 0);
     const ctbans = await this.ctbanRepository.findByPaymentStatus(status);
     const ctbansGroupByCustomer = new Map();
     for (const ctban of ctbans) {
@@ -169,6 +173,8 @@ export class CtbanService {
           ctbans: [],
           collectedTotal: 0,
           notCollectedTotal: 0,
+          inOfDate: 0,
+          outOfDate: 0,
         });
       }
       ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).ctbans.push({
@@ -181,6 +187,15 @@ export class CtbanService {
       ctbansGroupByCustomer.get(
         ctban.donBanHang.customer.id,
       ).notCollectedTotal += ctban.finalValue - ctban.paidValue;
+      const paymentTerm = new Date(ctban.paymentTerm);
+      paymentTerm.setHours(8, 0, 0, 0);
+      if (paymentTerm.getTime() < now.getTime()) {
+        ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).outOfDate +=
+          ctban.finalValue - ctban.paidValue;
+      } else {
+        ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).inOfDate +=
+          ctban.finalValue - ctban.paidValue;
+      }
     }
     return Array.from(ctbansGroupByCustomer.values());
   }

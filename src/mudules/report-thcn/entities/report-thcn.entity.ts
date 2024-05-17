@@ -31,7 +31,7 @@ export class ReportThcnDetail extends AbstractEntity {
   customer: Customer;
 
   @Column({ type: 'int', default: 0 })
-  colectted: number;
+  collectedTotal: number;
 
   @Column({ type: 'int' })
   outOfDate: number;
