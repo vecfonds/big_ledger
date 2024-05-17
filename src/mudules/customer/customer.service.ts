@@ -37,6 +37,7 @@ export class CustomerService {
   }
 
   async findByIds(ids: number[]) {
+    if (ids.length === 0) return this.customerRepository.findAll();
     const customers = await this.customerRepository.findByIds(ids);
     if (customers.length !== ids.length) {
       throw new NotFoundException('Some customers not found');
