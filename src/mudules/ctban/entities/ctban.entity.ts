@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
@@ -9,6 +9,7 @@ import {
 } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 import { ReportDccnCustomerDetail } from 'src/mudules/report-dccn/entities/report-dccn.entity';
+import { ReportDtbh } from 'src/mudules/report-dtbh/entities/report-dtbh.entity';
 
 @Entity({ name: 'ctban' })
 export class Ctban extends AbstractEntity {
@@ -72,6 +73,9 @@ export class Ctban extends AbstractEntity {
     (reportDccnCustomerDetail) => reportDccnCustomerDetail.ctban,
   )
   reportDccnCustomerDetails: ReportDccnCustomerDetail[];
+
+  @ManyToMany(() => ReportDtbh, (reportDtbh) => reportDtbh.ctbans)
+  reportDtbhs: ReportDtbh[];
 }
 
 @Entity({ name: 'product_of_ctban' })

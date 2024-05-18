@@ -21,6 +21,7 @@ import { DonBanHangService } from '../don-ban-hang/don-ban-hang.service';
 import { ProductService } from '../product/product.service';
 import { Customer } from '../customer/entities/customer.entity';
 import { Ctban } from './entities/ctban.entity';
+import { Salesperson } from '../employee/entities/employee.entity';
 
 @Injectable()
 export class CtbanService {
@@ -207,6 +208,33 @@ export class CtbanService {
       }
     }
     return Array.from(ctbansGroupByCustomer.values());
+  }
+
+  async findBySalesperson(
+    startDate: Date = new Date(0),
+    endDate: Date = new Date(),
+    salesperson: Salesperson,
+  ) {
+    const now = new Date();
+    now.setHours(8, 0, 0, 0);
+    const ctbans = await this.ctbanRepository.findBySalespersonAndDate(
+      salesperson.id,
+      startDate,
+      endDate,
+    );
+    const totalProductValue = ctbans.reduce(
+      (total, ctban) => total + ctban.totalProductValue,
+      0,
+    );
+    const totalDiscountValue = ctbans.reduce(
+      (total, ctban) => total + ctban.totalDiscountValue,
+      0,
+    );
+    return {
+      ctbans: ctbans,
+      totalProductValue: totalProductValue,
+      totalDiscountValue: totalDiscountValue,
+    };
   }
 
   async makePayment(id: number, money: number) {
