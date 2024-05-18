@@ -1,6 +1,5 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
-import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { Salesperson } from 'src/mudules/employee/entities/employee.entity';
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 

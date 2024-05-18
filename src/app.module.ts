@@ -83,6 +83,8 @@ import {
   ReportThcnDetail,
 } from './mudules/report-thcn/entities/report-thcn.entity';
 import { ReportThcnModule } from './mudules/report-thcn/report-thcn.module';
+import { ReportDtbh } from './mudules/report-dtbh/entities/report-dtbh.entity';
+import { ReportDtbhModule } from './mudules/report-dtbh/report-dtbh.module';
 import { Supplier, SupplierGroup } from './mudules/supplier/entities';
 import { SupplierModule } from './mudules/supplier/supplier.module';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -141,6 +143,7 @@ dotenv.config();
         ReportDccnCustomerDetail,
         ReportThcn,
         ReportThcnDetail,
+        ReportDtbh,
         Supplier,
         SupplierGroup,
       ],
@@ -187,6 +190,7 @@ dotenv.config();
     ProductModule,
     ReportDccnModule,
     ReportThcnModule,
+    ReportDtbhModule,
     SupplierModule,
   ],
   controllers: [],
