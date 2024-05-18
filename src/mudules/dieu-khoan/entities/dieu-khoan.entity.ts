@@ -15,7 +15,7 @@ export class DieuKhoan extends AbstractEntity {
   paymentPeriod: number;
 
   @Column({ type: 'int', default: 0 })
-  minProductValue: number;
+  minOrderQuantity: number;
 
   @ManyToOne(() => Customer, (customer) => customer.dieuKhoans)
   customer: Customer;
@@ -26,6 +26,6 @@ export class DieuKhoan extends AbstractEntity {
   // @Column({ type: 'int' })
   // discount: number;
 
-  @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.dieuKhoan)
-  donBanHangs: DonBanHang[];
+  // @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.dieuKhoan)
+  // donBanHangs: DonBanHang[];
 }

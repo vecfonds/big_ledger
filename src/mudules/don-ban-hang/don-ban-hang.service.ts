@@ -52,10 +52,6 @@ export class DonBanHangService {
     const customer = await this.customerService.findOne(
       createDonBanHangDto.customerId,
     );
-    const dieuKhoan = await this.dieuKhoanService.findOne(
-      createDonBanHangDto.dieuKhoanId,
-    );
-    const cktm = await this.cktmService.findOne(createDonBanHangDto.cktmId);
 
     for (const product of productsOfDonBanHang) {
       if (product.product.category < product.count) {
@@ -73,8 +69,6 @@ export class DonBanHangService {
       createDonBanHangDto,
       salesperson,
       customer,
-      dieuKhoan,
-      cktm,
       productsOfDonBanHang,
     );
   }
@@ -96,10 +90,6 @@ export class DonBanHangService {
     const customer = await this.customerService.findOne(
       createDonBanHangDto.customerId,
     );
-    const dieuKhoan = await this.dieuKhoanService.findOne(
-      createDonBanHangDto.dieuKhoanId,
-    );
-    const cktm = await this.cktmService.findOne(createDonBanHangDto.cktmId);
 
     for (const product of productsOfDonBanHang) {
       if (product.product.category < product.count) {
@@ -113,8 +103,6 @@ export class DonBanHangService {
       createDonBanHangDto,
       salesperson,
       customer,
-      dieuKhoan,
-      cktm,
       productsOfDonBanHang,
     );
   }

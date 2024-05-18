@@ -53,7 +53,7 @@ export class CtbanService {
     let totalDiscountValue = 0;
     for (const product of productOfCtbans) {
       const productValue = product.count * product.price;
-      const discountValue = (productValue * donBanHang.cktm.discountRate) / 100;
+      const discountValue = (productValue * donBanHang.discountRate) / 100;
       const taxValue =
         ((productValue - discountValue) * product.product.productGroup.tax) /
         100;

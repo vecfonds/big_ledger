@@ -36,13 +36,11 @@ export class DonBanHang extends AbstractEntity {
   })
   customer: Customer;
 
-  @ManyToOne(() => DieuKhoan, (dieuKhoan) => dieuKhoan.donBanHangs, {
-    nullable: false,
-  })
-  dieuKhoan: DieuKhoan;
+  @Column({ type: 'int', default: 7 })
+  paymentPeriod: number;
 
-  @ManyToOne(() => Cktm, (cktm) => cktm.donBanHangs, { nullable: false })
-  cktm: Cktm;
+  @Column({ type: 'int', default: 0 })
+  discountRate: number;
 
   @OneToMany(
     () => ProductOfDonBanHang,

@@ -33,16 +33,12 @@ export class DonBanHangRepository {
     createDonBanHangDto: CreateDonBanHangDto,
     salesperson: Salesperson,
     customer: Customer,
-    dieuKhoan: DieuKhoan,
-    cktm: Cktm,
     productsOfDonBanHang: { product: Product; count: number; price: number }[],
   ) {
     const newDonBanHang = this.donBanHangRepository.create({
       ...createDonBanHangDto,
       salesperson: salesperson,
       customer: customer,
-      dieuKhoan: dieuKhoan,
-      cktm: cktm,
     });
     return this.dataSource.transaction(async (manager) => {
       const donBanHang = await manager.save(newDonBanHang);
@@ -65,16 +61,12 @@ export class DonBanHangRepository {
     createDonBanHangDto: CreateDonBanHangDto,
     salesperson: Salesperson,
     customer: Customer,
-    dieuKhoan: DieuKhoan,
-    cktm: Cktm,
     productsOfDonBanHang: { product: Product; count: number; price: number }[],
   ) {
     const newDonBanHang = this.donBanHangRepository.create({
       ...createDonBanHangDto,
       salesperson: salesperson,
       customer: customer,
-      dieuKhoan: dieuKhoan,
-      cktm: cktm,
     });
     const productsOfDonBanHangEntities = productsOfDonBanHang.map((each) => {
       return this.productOfDonBanHangRepository.create({
@@ -123,8 +115,6 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
-        dieuKhoan: true,
-        cktm: true,
         productOfDonBanHangs: {
           product: {
             productGroup: true,
@@ -172,8 +162,6 @@ export class DonBanHangRepository {
       relations: {
         salesperson: true,
         customer: true,
-        dieuKhoan: true,
-        cktm: true,
         productOfDonBanHangs: {
           product: {
             productGroup: true,

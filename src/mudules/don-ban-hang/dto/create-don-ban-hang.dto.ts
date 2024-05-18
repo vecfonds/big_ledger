@@ -81,15 +81,15 @@ export class CreateDonBanHangDto {
   @IsOptional()
   customerId: number;
 
-  @ApiProperty({ example: 1 })
-  @IsNumber({}, { message: 'dieuKhoanId must be a number' })
-  @IsNotEmpty({ message: 'Dieu khoan id is required' })
-  dieuKhoanId: number;
+  @ApiProperty({ example: 30 })
+  @IsNumber({}, { message: 'Payment period must be a number' })
+  @IsNotEmpty({ message: 'Payment period is required' })
+  paymentPeriod: number;
 
-  @ApiProperty({ example: 1 })
-  @IsNumber({}, { message: 'cktmId must be a number' })
-  @IsNotEmpty({ message: 'Cktm id is required' })
-  cktmId: number;
+  @ApiProperty({ example: 5 })
+  @IsNumber({}, { message: 'Discount rate must be a number' })
+  @IsNotEmpty({ message: 'Discount rate is required' })
+  discountRate: number;
 
   @ApiProperty({
     type: [ProductOfDonBanHang],

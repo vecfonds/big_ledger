@@ -20,6 +20,6 @@ export class Cktm extends AbstractEntity {
   @ManyToOne(() => Customer, (customer) => customer.cktms)
   customer: Customer;
 
-  @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.cktm)
-  donBanHangs: DonBanHang[];
+  // @OneToMany(() => DonBanHang, (donBanHang) => donBanHang.cktm)
+  // donBanHangs: DonBanHang[];
 }
