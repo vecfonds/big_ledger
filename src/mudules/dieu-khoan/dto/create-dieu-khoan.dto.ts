@@ -17,10 +17,10 @@ export class CreateDieuKhoanDto {
   @IsNotEmpty({ message: 'PaymentPeriod is required' })
   paymentPeriod: number;
 
-  @ApiProperty({ example: 100000 })
-  @IsNumber({}, { message: 'MinProductValue must be a number' })
-  @IsNotEmpty({ message: 'MinProductValue is required' })
-  minProductValue: number;
+  @ApiProperty({ example: 10 })
+  @IsNumber({}, { message: 'MinOrderQuantity must be a number' })
+  @IsNotEmpty({ message: 'MinOrderQuantity is required' })
+  minOrderQuantity: number;
 
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'CustomerId must be a number' })
