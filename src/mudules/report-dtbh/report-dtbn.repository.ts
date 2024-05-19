@@ -3,6 +3,8 @@ import { DataSource, Repository } from 'typeorm';
 import { ReportDtbh } from './entities/report-dtbh.entity';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { CreateReportDtbhDto } from './dto/create-report-dtbh.dto';
+import { ReportDtbhDetailType } from './type/report-dtbh.type';
+import { Salesperson } from '../employee/entities/employee.entity';
 
 @Injectable()
 export class ReportDtbhRepository {
@@ -11,11 +13,19 @@ export class ReportDtbhRepository {
     this.reportDtbhRepository = this.dataSource.getRepository(ReportDtbh);
   }
 
-  create(createReportDtbhDto: CreateReportDtbhDto) {
-    const reportDtbh = this.reportDtbhRepository.create(createReportDtbhDto);
-    return this.dataSource.transaction(async (manager) => {
-      return manager.save(reportDtbh);
+  create(
+    createReportDtbhDto: CreateReportDtbhDto,
+    reportDtbnDetail: ReportDtbhDetailType,
+    salesperson: Salesperson,
+  ) {
+    const reportDtbh = this.reportDtbhRepository.create({
+      ...createReportDtbhDto,
+      productValuetotal: reportDtbnDetail.totalProductValue,
+      discountValueTotal: reportDtbnDetail.totalDiscountValue,
+      salesperson: salesperson,
+      ctbans: reportDtbnDetail.ctbans,
     });
+    return this.reportDtbhRepository.save(reportDtbh);
   }
 
   findAll() {

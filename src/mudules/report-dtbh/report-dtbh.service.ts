@@ -13,6 +13,26 @@ export class ReportDtbhService {
     private readonly employeeService: EmployeeService,
   ) {}
 
+  async create(createReportDtbhDto: CreateReportDtbhDto) {
+    const startDate = new Date(createReportDtbhDto.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(createReportDtbhDto.endDate);
+    endDate.setHours(23, 59, 59, 999);
+    const salesperson = await this.employeeService.findOneSalesperson(
+      createReportDtbhDto.salespersonId,
+    );
+    const ctbans = await this.ctbanService.findBySalesperson(
+      startDate,
+      endDate,
+      salesperson,
+    );
+    return this.reportDtbhRepository.create(
+      createReportDtbhDto,
+      ctbans,
+      salesperson,
+    );
+  }
+
   async createRaw(createReportDtbhDto: CreateReportDtbhDto) {
     const startDate = new Date(createReportDtbhDto.startDate);
     startDate.setHours(0, 0, 0, 0);

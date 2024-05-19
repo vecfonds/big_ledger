@@ -17,7 +17,7 @@ export class ReportDtbhController {
 
   @Post()
   create(@Body() createReportDtbhDto: CreateReportDtbhDto) {
-    return this.reportDtbhService.createRaw(createReportDtbhDto);
+    return this.reportDtbhService.create(createReportDtbhDto);
   }
 
   @Post('raw')
