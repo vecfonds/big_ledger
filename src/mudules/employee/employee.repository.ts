@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
 import {
@@ -73,6 +73,14 @@ export class EmployeeRepository {
 
   findAllSalesperson() {
     return this.salespersonRepository.find();
+  }
+
+  findSalespersonByIds(ids: number[]) {
+    return this.salespersonRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
   }
 
   findAllAdmin() {

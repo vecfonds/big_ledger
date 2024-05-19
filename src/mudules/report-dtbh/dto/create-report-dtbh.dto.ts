@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsArray,
+  IsString,
+  IsNumber,
+  ArrayNotEmpty,
+} from 'class-validator';
 
 export class CreateReportDtbhDto {
   @ApiProperty({ type: 'date', example: '2021-09-01' })
@@ -22,8 +29,9 @@ export class CreateReportDtbhDto {
   @IsString({ message: 'Mô tả không hợp lệ' })
   description: string;
 
-  @ApiProperty({ type: 'number', example: 1 })
-  @IsNotEmpty({ message: 'Nhân viên không được để trống' })
-  @IsNumber({}, { message: 'Nhân viên không hợp lệ' })
-  salespersonId: number;
+  @ApiProperty({ type: 'array', example: [1, 2] })
+  @IsArray({ message: 'Danh sách nhân viên không hợp lệ' })
+  @IsNotEmpty({ message: 'Danh sách nhân viên không được để trống' })
+  @IsNumber({}, { each: true, message: 'Id nhân viên không hợp lệ' })
+  salespersonIds: number[];
 }

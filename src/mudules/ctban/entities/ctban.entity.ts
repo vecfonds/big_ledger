@@ -9,7 +9,7 @@ import {
 } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 import { ReportDccnCustomerDetail } from 'src/mudules/report-dccn/entities/report-dccn.entity';
-import { ReportDtbh } from 'src/mudules/report-dtbh/entities/report-dtbh.entity';
+import { ReportDtbhDetail } from 'src/mudules/report-dtbh/entities/report-dtbh.entity';
 
 @Entity({ name: 'ctban' })
 export class Ctban extends AbstractEntity {
@@ -74,8 +74,11 @@ export class Ctban extends AbstractEntity {
   )
   reportDccnCustomerDetails: ReportDccnCustomerDetail[];
 
-  @ManyToMany(() => ReportDtbh, (reportDtbh) => reportDtbh.ctbans)
-  reportDtbhs: ReportDtbh[];
+  @ManyToMany(
+    () => ReportDtbhDetail,
+    (reportDtbhDetail) => reportDtbhDetail.ctbans,
+  )
+  reportDtbhDetails: ReportDtbhDetail[];
 }
 
 @Entity({ name: 'product_of_ctban' })

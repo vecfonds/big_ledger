@@ -6,7 +6,10 @@ import { PhieuChiTienMat } from 'src/mudules/phieu-chi/entities/phieu-chi.entity
 import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
-import { ReportDtbh } from 'src/mudules/report-dtbh/entities/report-dtbh.entity';
+import {
+  ReportDtbh,
+  ReportDtbhDetail,
+} from 'src/mudules/report-dtbh/entities/report-dtbh.entity';
 
 abstract class Emmployee extends AbstractEntity {
   @Column({ type: 'varchar' })
@@ -42,8 +45,11 @@ export class Salesperson extends Emmployee {
   @OneToMany(() => PhieuThuTienMat, (phieuThu) => phieuThu.salesperson)
   phieuThu: PhieuThuTienMat[];
 
-  @OneToMany(() => ReportDtbh, (reportDtbh) => reportDtbh.salesperson)
-  reportDtbhs: ReportDtbh[];
+  @OneToMany(
+    () => ReportDtbhDetail,
+    (reportDtbhDetail) => reportDtbhDetail.salesperson,
+  )
+  reportDtbhDetails: ReportDtbh[];
 }
 
 @Entity({ name: 'purchasing_officers' })

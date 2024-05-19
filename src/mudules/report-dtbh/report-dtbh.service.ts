@@ -18,19 +18,15 @@ export class ReportDtbhService {
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(createReportDtbhDto.endDate);
     endDate.setHours(23, 59, 59, 999);
-    const salesperson = await this.employeeService.findOneSalesperson(
-      createReportDtbhDto.salespersonId,
+    const salespersons = await this.employeeService.findSalespersonByIds(
+      createReportDtbhDto.salespersonIds,
     );
-    const ctbans = await this.ctbanService.findBySalesperson(
+    const ctbans = await this.ctbanService.findBySalespersons(
       startDate,
       endDate,
-      salesperson,
+      salespersons,
     );
-    return this.reportDtbhRepository.create(
-      createReportDtbhDto,
-      ctbans,
-      salesperson,
-    );
+    return this.reportDtbhRepository.create(createReportDtbhDto, ctbans);
   }
 
   async createRaw(createReportDtbhDto: CreateReportDtbhDto) {
@@ -38,13 +34,13 @@ export class ReportDtbhService {
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(createReportDtbhDto.endDate);
     endDate.setHours(23, 59, 59, 999);
-    const salesperson = await this.employeeService.findOneSalesperson(
-      createReportDtbhDto.salespersonId,
+    const salespersons = await this.employeeService.findSalespersonByIds(
+      createReportDtbhDto.salespersonIds,
     );
-    const ctbans = await this.ctbanService.findBySalesperson(
+    const ctbans = await this.ctbanService.findBySalespersons(
       startDate,
       endDate,
-      salesperson,
+      salespersons,
     );
     return ctbans;
   }

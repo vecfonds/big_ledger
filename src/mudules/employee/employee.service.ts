@@ -61,6 +61,18 @@ export class EmployeeService {
     return this.employeeRepository.findAllSalesperson();
   }
 
+  async findSalespersonByIds(ids: number[]) {
+    if (ids.length === 0) {
+      return this.findAllSalesperson();
+    }
+    const salespersons =
+      await this.employeeRepository.findSalespersonByIds(ids);
+    if (salespersons.length !== ids.length) {
+      throw new NotFoundException('Some salesperson not found');
+    }
+    return salespersons;
+  }
+
   findAllAdmin() {
     return this.employeeRepository.findAllAdmin();
   }

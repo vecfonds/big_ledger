@@ -210,31 +210,37 @@ export class CtbanService {
     return Array.from(ctbansGroupByCustomer.values());
   }
 
-  async findBySalesperson(
+  async findBySalespersons(
     startDate: Date = new Date(0),
     endDate: Date = new Date(),
-    salesperson: Salesperson,
+    salespersons: Salesperson[],
   ) {
-    const now = new Date();
-    now.setHours(8, 0, 0, 0);
-    const ctbans = await this.ctbanRepository.findBySalespersonAndDate(
-      salesperson.id,
-      startDate,
-      endDate,
+    const salespersonIds = salespersons.map((salesperson) => salesperson.id);
+    const ctbans = await Promise.all(
+      salespersons.map(async (salesperson) => {
+        const ctbansOfSalesperson =
+          await this.ctbanRepository.findBySalespersonAndDate(
+            salesperson.id,
+            startDate,
+            endDate,
+          );
+        const totalProductValue = ctbansOfSalesperson.reduce(
+          (acc, ctban) => acc + ctban.totalProductValue,
+          0,
+        );
+        const totalDiscountValue = ctbansOfSalesperson.reduce(
+          (acc, ctban) => acc + ctban.totalDiscountValue,
+          0,
+        );
+        return {
+          ctbans: ctbansOfSalesperson,
+          salesperson: salesperson,
+          totalProductValue: totalProductValue,
+          totalDiscountValue: totalDiscountValue,
+        };
+      }),
     );
-    const totalProductValue = ctbans.reduce(
-      (total, ctban) => total + ctban.totalProductValue,
-      0,
-    );
-    const totalDiscountValue = ctbans.reduce(
-      (total, ctban) => total + ctban.totalDiscountValue,
-      0,
-    );
-    return {
-      ctbans: ctbans,
-      totalProductValue: totalProductValue,
-      totalDiscountValue: totalDiscountValue,
-    };
+    return ctbans;
   }
 
   async makePayment(id: number, money: number) {

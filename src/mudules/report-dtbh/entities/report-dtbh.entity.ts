@@ -1,7 +1,14 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { Salesperson } from 'src/mudules/employee/entities/employee.entity';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity({ name: 'report_dtbh' })
 export class ReportDtbh extends AbstractEntity {
@@ -17,16 +24,28 @@ export class ReportDtbh extends AbstractEntity {
   @Column({ type: 'date' })
   endDate: Date;
 
-  @Column({ type: 'int' })
-  productValuetotal: number;
+  @OneToMany(
+    () => ReportDtbhDetail,
+    (reportDtbhDetail) => reportDtbhDetail.reportDtbh,
+  )
+  reportDtbhDetails: ReportDtbhDetail[];
+}
 
-  @Column({ type: 'int' })
-  discountValueTotal: number;
-
-  @ManyToOne(() => Salesperson, (salesperson) => salesperson.reportDtbhs)
+@Entity({ name: 'report-dtbn-detail' })
+export class ReportDtbhDetail extends AbstractEntity {
+  @ManyToOne(() => Salesperson, (salesperson) => salesperson.reportDtbhDetails)
   salesperson: Salesperson;
 
-  @ManyToMany(() => Ctban, (ctban) => ctban.reportDtbhs)
-  @JoinTable({ name: 'report_dtbh_ctban' })
+  @Column({ type: 'int' })
+  totalProductValue: number;
+
+  @Column({ type: 'int' })
+  totalDiscountValue: number;
+
+  @ManyToMany(() => Ctban, (ctban) => ctban.reportDtbhDetails)
+  @JoinTable()
   ctbans: Ctban[];
+
+  @ManyToOne(() => ReportDtbh, (reportDtbh) => reportDtbh.reportDtbhDetails)
+  reportDtbh: ReportDtbh;
 }
