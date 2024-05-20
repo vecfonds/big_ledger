@@ -171,46 +171,89 @@ export class AnnouncementService {
           donBanHang.id,
           ANNOUNCEMENT_TYPE.BAN_HANG,
         );
-        const isRead =
-          annoucement?.leftDate === leftDate ? annoucement.isRead : false;
-        const message = messageGenerator(
-          ANNOUNCEMENT_TYPE.BAN_HANG,
-          donBanHang.id,
-          leftDate,
-        );
-        await this.announcementRepository.create(
-          message,
-          ANNOUNCEMENT_TYPE.BAN_HANG,
-          donBanHang.id,
-          leftDate,
-          isRead,
-        );
-        // if (leftDate <= 10) {
-        //   await this.sendEmail(
-        //     'long01639637721@gmail.com',
-        //     'Thông báo',
-        //     message,
-        //     message,
-        //   );
-        // }
+        if (!annoucement) {
+          console.log('Create new announcement');
+          const message = messageGenerator(
+            ANNOUNCEMENT_TYPE.BAN_HANG,
+            donBanHang.id,
+            leftDate,
+          );
+          return this.announcementRepository.create(
+            message,
+            ANNOUNCEMENT_TYPE.BAN_HANG,
+            donBanHang.id,
+            leftDate,
+            false,
+          );
+        }
+        if (leftDate !== annoucement.leftDate) {
+          const message = messageGenerator(
+            ANNOUNCEMENT_TYPE.BAN_HANG,
+            donBanHang.id,
+            leftDate,
+          );
+          return this.announcementRepository.updateLeftDate(
+            annoucement.id,
+            leftDate,
+            message,
+          );
+        }
       }
     });
   }
 
-  // async sendEmail(to: string, subject: string, text: string, html: string) {
-  //   await this.mailerService
-  //     .sendMail({
-  //       to: to, // List of receivers email address
-  //       from: 'longdoan.student@gmail.com', // Senders email address
-  //       subject: subject, // Subject line
-  //       text: text, // plaintext body
-  //       html: html, // '<b>welcome</b>',  HTML body content
-  //     })
-  //     .then((success) => {
-  //       console.log('Send mail success');
-  //     })
-  //     .catch((err) => {
-  //       console.log('Send mail fail:', err);
-  //     });
+  // @Cron(CronExpression.EVERY_10_SECONDS)
+  // async testMail() {
+  //   console.log('Cron job: testMail');
+  //   await this.sendEmail(
+  //     'long01639637721@gmail.com',
+  //     'Test mail',
+  //     'Test mail',
+  //     '<b>welcome</b>',
+  //   );
+  //   console.log('Send mail success');
   // }
+
+  @Cron(CronExpression.EVERY_DAY_AT_6AM)
+  async checkAnnouncement() {
+    console.log('Cron job: checkAnnouncement');
+    const announcements = await this.announcementRepository.findAll(
+      [false],
+      [false],
+      [
+        ANNOUNCEMENT_TYPE.THU,
+        ANNOUNCEMENT_TYPE.CHI,
+        ANNOUNCEMENT_TYPE.BAN_HANG,
+        ANNOUNCEMENT_TYPE.MUA_HANG,
+      ],
+    );
+
+    announcements.forEach(async (announcement) => {
+      const leftDate = announcement.leftDate - 1;
+      if (leftDate === 0) {
+        await this.announcementRepository.update(
+          announcement.id,
+          announcement.isRead,
+          true,
+        );
+      }
+    });
+  }
+
+  async sendEmail(to: string, subject: string, text: string, html: string) {
+    await this.mailerService
+      .sendMail({
+        to: to, // List of receivers email address
+        from: 'longdoan.student@gmail.com', // Senders email address
+        subject: subject, // Subject line
+        text: text, // plaintext body
+        html: html, // '<b>welcome</b>',  HTML body content
+      })
+      .then((success) => {
+        console.log('Send mail success');
+      })
+      .catch((err) => {
+        console.log('Send mail fail:', err);
+      });
+  }
 }

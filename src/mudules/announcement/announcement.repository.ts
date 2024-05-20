@@ -68,6 +68,15 @@ export class AnnouncementRepository {
     });
   }
 
+  updateLeftDate(id: number, leftDate: number, message: string) {
+    return this.announcementRepository.update(id, {
+      leftDate: leftDate,
+      message: message,
+      isRead: false,
+      isResolved: false,
+    });
+  }
+
   delete(id: number) {
     return this.announcementRepository.delete(id);
   }

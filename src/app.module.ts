@@ -155,12 +155,12 @@ dotenv.config();
     ScheduleModule.forRoot(),
     MailerModule.forRoot({
       transport: {
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        host: 'smtp.gmail.com',
+        port: '465',
         secure: true,
         auth: {
-          user: process.env.EMAIL,
-          pass: process.env.MAIL_PASSWORD,
+          user: 'longdoan.student@gmail.com',
+          pass: 'dhgr izdt ltlg plmq',
         },
       },
       // defaults: {
