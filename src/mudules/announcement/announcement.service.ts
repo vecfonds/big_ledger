@@ -12,6 +12,7 @@ import { CtbanService } from '../ctban/ctban.service';
 import { UpdateAnnouncementDto } from './dto/update-annoucement';
 import { DonBanHangService } from '../don-ban-hang/don-ban-hang.service';
 import { MailerService } from '@nestjs-modules/mailer';
+import { EmployeeService } from '../employee/employee.service';
 
 const messageGenerator = (
   type: AnnouncementType,
@@ -49,6 +50,7 @@ export class AnnouncementService {
     private readonly ctbanService: CtbanService,
     private readonly donBanHangService: DonBanHangService,
     private readonly mailerService: MailerService,
+    private readonly employeeService: EmployeeService,
   ) {}
 
   create() {
@@ -227,15 +229,19 @@ export class AnnouncementService {
         ANNOUNCEMENT_TYPE.MUA_HANG,
       ],
     );
+    const accountants = await this.employeeService.findAllAccountant();
 
     announcements.forEach(async (announcement) => {
       const leftDate = announcement.leftDate - 1;
       if (leftDate === 0) {
-        await this.announcementRepository.update(
-          announcement.id,
-          announcement.isRead,
-          true,
-        );
+        for (const accountant of accountants) {
+          await this.sendEmail(
+            accountant.email,
+            'Thông báo',
+            announcement.message,
+            `<b>${announcement.message}</b>`,
+          );
+        }
       }
     });
   }
