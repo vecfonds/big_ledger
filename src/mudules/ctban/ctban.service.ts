@@ -4,7 +4,6 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-
 import {
   ORDER,
   OrderType,
@@ -277,6 +276,36 @@ export class CtbanService {
     const arr = Array.from(ctbansGroupByProduct.values());
     arr.sort((a, b) => b.totalProductValue - a.totalProductValue);
     return arr;
+  }
+
+  async reportRevenue() {
+    const now = new Date();
+    const startDate = new Date(now);
+    startDate.setFullYear(now.getFullYear() - 1);
+    const ctbans = await this.ctbanRepository.findAllOfOneYear(startDate, now);
+    const ctbansGroupByMonth = new Map();
+    for (const ctban of ctbans) {
+      const createdAt = new Date(ctban.createdAt);
+      const month = createdAt.getMonth();
+      if (!ctbansGroupByMonth.has(month)) {
+        ctbansGroupByMonth.set(month, {
+          month: month + 1,
+          totalProductValue: 0,
+          totalDiscountValue: 0,
+          totalTaxValue: 0,
+          totalFinalValue: 0,
+          ctbans: [],
+        });
+      }
+      ctbansGroupByMonth.get(month).totalProductValue +=
+        ctban.totalProductValue;
+      ctbansGroupByMonth.get(month).totalDiscountValue +=
+        ctban.totalDiscountValue;
+      ctbansGroupByMonth.get(month).totalTaxValue += ctban.totalTaxValue;
+      ctbansGroupByMonth.get(month).totalFinalValue += ctban.finalValue;
+      ctbansGroupByMonth.get(month).ctbans.push(ctban);
+    }
+    return Array.from(ctbansGroupByMonth.values());
   }
 
   async makePayment(id: number, money: number) {

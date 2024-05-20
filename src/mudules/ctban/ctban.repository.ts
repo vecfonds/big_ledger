@@ -52,26 +52,34 @@ export class CtbanRepository {
     });
   }
 
-  findAll(currentPage: number, pageSize: number, sorts: [string, OrderType][]) {
-    let sortsObject: { [key: string]: OrderType } = {};
-    sorts.forEach(([key, value]) => {
-      sortsObject[key] = value;
-    });
-    return this.ctbanRepository.findAndCount({
-      relations: {
-        warehouseKeeper: true,
-        donBanHang: {
-          customer: true,
-        },
-        productOfCtban: {
-          product: true,
-        },
-        phieuThuTienGui: true,
-        phieuThuTienMat: true,
+  // findAll(currentPage: number, pageSize: number, sorts: [string, OrderType][]) {
+  //   let sortsObject: { [key: string]: OrderType } = {};
+  //   sorts.forEach(([key, value]) => {
+  //     sortsObject[key] = value;
+  //   });
+  //   return this.ctbanRepository.findAndCount({
+  //     relations: {
+  //       warehouseKeeper: true,
+  //       donBanHang: {
+  //         customer: true,
+  //       },
+  //       productOfCtban: {
+  //         product: true,
+  //       },
+  //       phieuThuTienGui: true,
+  //       phieuThuTienMat: true,
+  //     },
+  //     take: pageSize,
+  //     skip: pageSize * (currentPage - 1),
+  //     order: sortsObject,
+  //   });
+  // }
+
+  findAllOfOneYear(start: Date, now: Date) {
+    return this.ctbanRepository.find({
+      where: {
+        createdAt: Between(start, now),
       },
-      take: pageSize,
-      skip: pageSize * (currentPage - 1),
-      order: sortsObject,
     });
   }
 
