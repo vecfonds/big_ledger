@@ -56,7 +56,7 @@ export class PhieuThuRepository {
   }
 
   findAllPhieuThuTienMat() {
-    return this.ptTienMatRepository.find({
+    return this.ptTienMatRepository.findAndCount({
       relations: {
         chungTuCuaPhieuThu: {
           ctban: true,
@@ -115,7 +115,7 @@ export class PhieuThuRepository {
   }
 
   findAllPhieuThuTienGui() {
-    return this.ptTienGuiRepository.find({
+    return this.ptTienGuiRepository.findAndCount({
       relations: {
         chungTuCuaPhieuThu: {
           ctban: true,

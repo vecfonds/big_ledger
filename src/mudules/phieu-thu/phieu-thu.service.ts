@@ -12,6 +12,7 @@ import { CustomerService } from '../customer/customer.service';
 import { EmployeeService } from '../employee/employee.service';
 import { CtbanService } from '../ctban/ctban.service';
 import { BankAccountService } from '../bank-account/bank-account.service';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class PhieuThuService {
@@ -55,8 +56,13 @@ export class PhieuThuService {
     );
   }
 
-  findAllTienMat() {
-    return this.phieuThuRepository.findAllPhieuThuTienMat();
+  async findAllTienMat() {
+    const phieuThu = await this.phieuThuRepository.findAllPhieuThuTienMat();
+    const pagination = new PaginationDto(1, 9999, 1, phieuThu[1]);
+    return {
+      data: phieuThu[0],
+      pagination: pagination,
+    };
   }
 
   async findOneTienMat(id: number) {
@@ -112,8 +118,13 @@ export class PhieuThuService {
     );
   }
 
-  findAllTienGui() {
-    return this.phieuThuRepository.findAllPhieuThuTienGui();
+  async findAllTienGui() {
+    const phieuThu = await this.phieuThuRepository.findAllPhieuThuTienGui();
+    const pagination = new PaginationDto(1, 9999, 1, phieuThu[1]);
+    return {
+      data: phieuThu[0],
+      pagination: pagination,
+    };
   }
 
   async findOneTienGui(id: number) {
