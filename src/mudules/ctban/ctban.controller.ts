@@ -27,6 +27,11 @@ export class CtbanController {
     return this.ctbanService.findAll(query);
   }
 
+  @Get('report-by-product')
+  reportByProduct() {
+    return this.ctbanService.findAndGroupByProduct();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ctbanService.findOne(+id);

@@ -136,6 +136,20 @@ export class CtbanRepository {
     });
   }
 
+  findByDate(startDate: Date, endDate: Date) {
+    return this.ctbanRepository.find({
+      where: {
+        createdAt: Between(startDate, endDate),
+      },
+      relations: {
+        donBanHang: true,
+        productOfCtban: {
+          product: true,
+        },
+      },
+    });
+  }
+
   findBySalespersonAndDate(
     salespersonId: number,
     startDate: Date,

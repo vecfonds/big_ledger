@@ -243,6 +243,42 @@ export class CtbanService {
     return ctbans;
   }
 
+  async findAndGroupByProduct(
+    startDate: Date = new Date(0),
+    endDate: Date = new Date(),
+  ) {
+    const ctbans = await this.ctbanRepository.findByDate(startDate, endDate);
+    const ctbansGroupByProduct = new Map();
+    for (const ctban of ctbans) {
+      for (const productOfCtban of ctban.productOfCtban) {
+        if (!ctbansGroupByProduct.has(productOfCtban.product.id)) {
+          ctbansGroupByProduct.set(productOfCtban.product.id, {
+            product: productOfCtban.product,
+            count: 0,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            ctbans: [],
+          });
+        }
+        ctbansGroupByProduct.get(productOfCtban.product.id).count +=
+          productOfCtban.count;
+        ctbansGroupByProduct.get(productOfCtban.product.id).totalProductValue +=
+          productOfCtban.count * productOfCtban.price;
+        ctbansGroupByProduct.get(
+          productOfCtban.product.id,
+        ).totalDiscountValue +=
+          (productOfCtban.count *
+            productOfCtban.price *
+            ctban.donBanHang.discountRate) /
+          100;
+        ctbansGroupByProduct.get(productOfCtban.product.id).ctbans.push(ctban);
+      }
+    }
+    const arr = Array.from(ctbansGroupByProduct.values());
+    arr.sort((a, b) => b.totalProductValue - a.totalProductValue);
+    return arr;
+  }
+
   async makePayment(id: number, money: number) {
     const ctban = await this.findOne(id);
     if (ctban.paidValue + money > ctban.finalValue) {
