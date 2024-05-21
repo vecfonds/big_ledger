@@ -214,7 +214,6 @@ export class CtbanService {
     endDate: Date = new Date(),
     salespersons: Salesperson[],
   ) {
-    const salespersonIds = salespersons.map((salesperson) => salesperson.id);
     const ctbans = await Promise.all(
       salespersons.map(async (salesperson) => {
         const ctbansOfSalesperson =

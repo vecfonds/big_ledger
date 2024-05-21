@@ -169,8 +169,8 @@ export class CtbanRepository {
           salesperson: {
             id: salespersonId,
           },
-          createdAt: Between(startDate, endDate),
         },
+        createdAt: Between(startDate, endDate),
       },
       relations: {
         donBanHang: true,
