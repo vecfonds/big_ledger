@@ -40,8 +40,8 @@ export class CktmController {
     return this.cktmService.update(+id, updateCktmDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.cktmService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.cktmService.remove(+id);
+  }
 }

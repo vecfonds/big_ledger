@@ -40,7 +40,8 @@ export class DieuKhoanService {
     return this.dieuKhoanRepository.update(id, updateDieuKhoanDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    await this.findOne(id);
     return this.dieuKhoanRepository.remove(id);
   }
 }

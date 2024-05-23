@@ -40,7 +40,8 @@ export class CktmService {
     return this.cktmRepository.update(id, updateCktmDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    await this.findOne(id);
     return this.cktmRepository.remove(id);
   }
 }

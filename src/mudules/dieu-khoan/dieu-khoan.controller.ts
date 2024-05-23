@@ -43,8 +43,8 @@ export class DieuKhoanController {
     return this.dieuKhoanService.update(+id, updateDieuKhoanDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.dieuKhoanService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.dieuKhoanService.remove(+id);
+  }
 }
