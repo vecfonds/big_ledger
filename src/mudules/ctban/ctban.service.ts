@@ -327,7 +327,7 @@ export class CtbanService {
       endDate,
     );
     const ctbansGroupByMonth = new Map();
-    for (let i = (quarter - 1) * 3 + 1; i < (quarter - 1) * 3 + 3; i++) {
+    for (let i = (quarter - 1) * 3 + 1; i < (quarter - 1) * 3 + 4; i++) {
       ctbansGroupByMonth.set(i, {
         month: i + 1,
         totalProductValue: 0,
