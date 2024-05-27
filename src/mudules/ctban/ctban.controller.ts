@@ -35,9 +35,25 @@ export class CtbanController {
     return this.ctbanService.findAndGroupByProduct(startDate, endDate);
   }
 
-  @Get('report-revenue')
-  reportRevenue() {
-    return this.ctbanService.reportRevenue();
+  @Get('report-revenue-of-year/:year')
+  reportRevenue(@Param('year') year: string) {
+    return this.ctbanService.reportRevenueOfYear(+year);
+  }
+
+  @Get('report-revenue-of-quarter/:year/:quarter')
+  reportRevenueOfQuarter(
+    @Param('year') year: string,
+    @Param('quarter') quarter: string,
+  ) {
+    return this.ctbanService.reportRevenueOfQuarter(+year, +quarter);
+  }
+
+  @Get('report-revenue-of-month/:year/:month')
+  reportRevenueOfMonth(
+    @Param('year') year: string,
+    @Param('month') month: string,
+  ) {
+    return this.ctbanService.reportRevenueOfMonth(+year, +month);
   }
 
   @Get(':id')
