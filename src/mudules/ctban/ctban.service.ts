@@ -297,10 +297,10 @@ export class CtbanService {
     }
     for (const ctban of ctbans) {
       const createdAt = new Date(ctban.createdAt);
-      const month = createdAt.getMonth();
+      const month = createdAt.getMonth() + 1;
       if (!ctbansGroupByMonth.has(month)) {
         ctbansGroupByMonth.set(month, {
-          month: month + 1,
+          month: month,
           totalProductValue: 0,
           totalDiscountValue: 0,
           totalTaxValue: 0,
@@ -327,7 +327,7 @@ export class CtbanService {
       endDate,
     );
     const ctbansGroupByMonth = new Map();
-    for (let i = (quarter - 1) * 3; i < quarter * 3; i++) {
+    for (let i = (quarter - 1) * 3 + 1; i < (quarter - 1) * 3 + 3; i++) {
       ctbansGroupByMonth.set(i, {
         month: i + 1,
         totalProductValue: 0,
@@ -339,10 +339,10 @@ export class CtbanService {
     }
     for (const ctban of ctbans) {
       const createdAt = new Date(ctban.createdAt);
-      const month = createdAt.getMonth();
+      const month = createdAt.getMonth() + 1;
       if (!ctbansGroupByMonth.has(month)) {
         ctbansGroupByMonth.set(month, {
-          month: month + 1,
+          month: month,
           totalProductValue: 0,
           totalDiscountValue: 0,
           totalTaxValue: 0,
