@@ -12,6 +12,7 @@ import { CtbanService } from './ctban.service';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
 import { GetCtbanDto } from './dto/get-ctban.dto';
+import { FilterByDateDto } from 'src/common/dto/filter-by-date.dto';
 
 @Controller('ctban')
 export class CtbanController {
@@ -28,8 +29,10 @@ export class CtbanController {
   }
 
   @Get('report-by-product')
-  reportByProduct() {
-    return this.ctbanService.findAndGroupByProduct();
+  reportByProduct(@Body() query: FilterByDateDto) {
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.ctbanService.findAndGroupByProduct(startDate, endDate);
   }
 
   @Get('report-revenue')
