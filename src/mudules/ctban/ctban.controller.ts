@@ -28,7 +28,7 @@ export class CtbanController {
     return this.ctbanService.findAll(query);
   }
 
-  @Get('report-by-product')
+  @Post('report-by-product')
   reportByProduct(@Body() query: FilterByDateDto) {
     const startDate = new Date(query.startDate);
     const endDate = new Date(query.endDate);
