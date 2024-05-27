@@ -285,6 +285,16 @@ export class CtbanService {
       endDate,
     );
     const ctbansGroupByMonth = new Map();
+    for (let i = 1; i < 12; i++) {
+      ctbansGroupByMonth.set(i, {
+        month: i,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        totalTaxValue: 0,
+        totalFinalValue: 0,
+        ctbans: [],
+      });
+    }
     for (const ctban of ctbans) {
       const createdAt = new Date(ctban.createdAt);
       const month = createdAt.getMonth();
@@ -317,6 +327,16 @@ export class CtbanService {
       endDate,
     );
     const ctbansGroupByMonth = new Map();
+    for (let i = (quarter - 1) * 3; i < quarter * 3; i++) {
+      ctbansGroupByMonth.set(i, {
+        month: i + 1,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        totalTaxValue: 0,
+        totalFinalValue: 0,
+        ctbans: [],
+      });
+    }
     for (const ctban of ctbans) {
       const createdAt = new Date(ctban.createdAt);
       const month = createdAt.getMonth();
@@ -349,6 +369,53 @@ export class CtbanService {
       endDate,
     );
     const ctbansGroupByDay = new Map();
+    switch (month) {
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        for (let i = 1; i < 32; i++) {
+          ctbansGroupByDay.set(i, {
+            day: i,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            totalTaxValue: 0,
+            totalFinalValue: 0,
+            ctbans: [],
+          });
+        }
+        break;
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        for (let i = 1; i < 31; i++) {
+          ctbansGroupByDay.set(i, {
+            day: i,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            totalTaxValue: 0,
+            totalFinalValue: 0,
+            ctbans: [],
+          });
+        }
+        break;
+      case 2:
+        for (let i = 1; i < 29; i++) {
+          ctbansGroupByDay.set(i, {
+            day: i,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            totalTaxValue: 0,
+            totalFinalValue: 0,
+            ctbans: [],
+          });
+        }
+        break;
+    }
     for (const ctban of ctbans) {
       const createdAt = new Date(ctban.createdAt);
       const day = createdAt.getDate();
