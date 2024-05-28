@@ -25,6 +25,7 @@ export function Auth(
   roles: UserRoleType[],
   options?: Partial<{ public: boolean }>,
 ): MethodDecorator {
+  // console.log('Auth');
   const isPublicRoute = options?.public;
 
   return applyDecorators(
