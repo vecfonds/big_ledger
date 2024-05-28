@@ -12,6 +12,7 @@ import { CtbanService } from './ctban.service';
 import { CreateCtbanDto } from './dto/create-ctban.dto';
 import { UpdateCtbanDto } from './dto/update-ctban.dto';
 import { GetCtbanDto } from './dto/get-ctban.dto';
+import { FilterByDateDto } from 'src/common/dto/filter-by-date.dto';
 
 @Controller('ctban')
 export class CtbanController {
@@ -27,14 +28,32 @@ export class CtbanController {
     return this.ctbanService.findAll(query);
   }
 
-  @Get('report-by-product')
-  reportByProduct() {
-    return this.ctbanService.findAndGroupByProduct();
+  @Post('report-by-product')
+  reportByProduct(@Body() query: FilterByDateDto) {
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.ctbanService.findAndGroupByProduct(startDate, endDate);
   }
 
-  @Get('report-revenue')
-  reportRevenue() {
-    return this.ctbanService.reportRevenue();
+  @Get('report-revenue-of-year/:year')
+  reportRevenue(@Param('year') year: string) {
+    return this.ctbanService.reportRevenueOfYear(+year);
+  }
+
+  @Get('report-revenue-of-quarter/:year/:quarter')
+  reportRevenueOfQuarter(
+    @Param('year') year: string,
+    @Param('quarter') quarter: string,
+  ) {
+    return this.ctbanService.reportRevenueOfQuarter(+year, +quarter);
+  }
+
+  @Get('report-revenue-of-month/:year/:month')
+  reportRevenueOfMonth(
+    @Param('year') year: string,
+    @Param('month') month: string,
+  ) {
+    return this.ctbanService.reportRevenueOfMonth(+year, +month);
   }
 
   @Get(':id')

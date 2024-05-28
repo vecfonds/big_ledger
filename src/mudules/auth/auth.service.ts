@@ -5,6 +5,7 @@ import { AuthResponseDto } from './dtos/auth-response.dto';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EmployeeService } from '../employee/employee.service';
+import { USER_ROLE } from 'src/constants';
 
 @Injectable()
 export class AuthService {
@@ -15,9 +16,8 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const user = await this.employeeService.findOneByEmail(loginDto.email);
-    if (!user) {
-      throw new UnauthorizedException('Wrong email or password');
-    }
+    console.log('password: ', loginDto.password);
+    console.log('hash: ', user.password);
     const comparePassword = await validateHash(
       loginDto.password,
       user.password,
@@ -25,7 +25,11 @@ export class AuthService {
     if (!comparePassword) {
       throw new UnauthorizedException('Wrong email or password');
     }
-    const payload = { id: user.id, email: user.email };
+    const payload = {
+      id: user.id,
+      email: user.email,
+      roles: [USER_ROLE.ACCOUNTANT],
+    };
     const token = await this.jwtService.signAsync(payload);
     return new AuthResponseDto(token);
   }

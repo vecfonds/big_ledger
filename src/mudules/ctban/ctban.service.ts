@@ -277,18 +277,30 @@ export class CtbanService {
     return arr;
   }
 
-  async reportRevenue() {
-    const now = new Date();
-    const startDate = new Date(now);
-    startDate.setFullYear(now.getFullYear() - 1);
-    const ctbans = await this.ctbanRepository.findAllOfOneYear(startDate, now);
+  async reportRevenueOfYear(year: number) {
+    const startDate = new Date(year, 0, 1, 0, 0, 0, 0);
+    const endDate = new Date(year, 11, 31, 23, 59, 59, 999);
+    const ctbans = await this.ctbanRepository.findAllOfOneYear(
+      startDate,
+      endDate,
+    );
     const ctbansGroupByMonth = new Map();
+    for (let i = 1; i < 13; i++) {
+      ctbansGroupByMonth.set(i, {
+        month: i,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        totalTaxValue: 0,
+        totalFinalValue: 0,
+        ctbans: [],
+      });
+    }
     for (const ctban of ctbans) {
       const createdAt = new Date(ctban.createdAt);
-      const month = createdAt.getMonth();
+      const month = createdAt.getMonth() + 1;
       if (!ctbansGroupByMonth.has(month)) {
         ctbansGroupByMonth.set(month, {
-          month: month + 1,
+          month: month,
           totalProductValue: 0,
           totalDiscountValue: 0,
           totalTaxValue: 0,
@@ -305,6 +317,125 @@ export class CtbanService {
       ctbansGroupByMonth.get(month).ctbans.push(ctban);
     }
     return Array.from(ctbansGroupByMonth.values());
+  }
+
+  async reportRevenueOfQuarter(year: number, quarter: number) {
+    const startDate = new Date(year, (quarter - 1) * 3, 1, 0, 0, 0, 0);
+    const endDate = new Date(year, (quarter - 1) * 3 + 2, 31, 23, 59, 59, 999);
+    const ctbans = await this.ctbanRepository.findAllOfOneYear(
+      startDate,
+      endDate,
+    );
+    const ctbansGroupByMonth = new Map();
+    for (let i = (quarter - 1) * 3 + 1; i < (quarter - 1) * 3 + 4; i++) {
+      ctbansGroupByMonth.set(i, {
+        month: i,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        totalTaxValue: 0,
+        totalFinalValue: 0,
+        ctbans: [],
+      });
+    }
+    for (const ctban of ctbans) {
+      const createdAt = new Date(ctban.createdAt);
+      const month = createdAt.getMonth() + 1;
+      if (!ctbansGroupByMonth.has(month)) {
+        ctbansGroupByMonth.set(month, {
+          month: month,
+          totalProductValue: 0,
+          totalDiscountValue: 0,
+          totalTaxValue: 0,
+          totalFinalValue: 0,
+          ctbans: [],
+        });
+      }
+      ctbansGroupByMonth.get(month).totalProductValue +=
+        ctban.totalProductValue;
+      ctbansGroupByMonth.get(month).totalDiscountValue +=
+        ctban.totalDiscountValue;
+      ctbansGroupByMonth.get(month).totalTaxValue += ctban.totalTaxValue;
+      ctbansGroupByMonth.get(month).totalFinalValue += ctban.finalValue;
+      ctbansGroupByMonth.get(month).ctbans.push(ctban);
+    }
+    return Array.from(ctbansGroupByMonth.values());
+  }
+
+  async reportRevenueOfMonth(year: number, month: number) {
+    const startDate = new Date(year, month - 1, 1, 0, 0, 0, 0);
+    const endDate = new Date(year, month - 1, 31, 23, 59, 59, 999);
+    const ctbans = await this.ctbanRepository.findAllOfOneYear(
+      startDate,
+      endDate,
+    );
+    const ctbansGroupByDay = new Map();
+    switch (month) {
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        for (let i = 1; i < 32; i++) {
+          ctbansGroupByDay.set(i, {
+            day: i,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            totalTaxValue: 0,
+            totalFinalValue: 0,
+            ctbans: [],
+          });
+        }
+        break;
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        for (let i = 1; i < 31; i++) {
+          ctbansGroupByDay.set(i, {
+            day: i,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            totalTaxValue: 0,
+            totalFinalValue: 0,
+            ctbans: [],
+          });
+        }
+        break;
+      case 2:
+        for (let i = 1; i < 29; i++) {
+          ctbansGroupByDay.set(i, {
+            day: i,
+            totalProductValue: 0,
+            totalDiscountValue: 0,
+            totalTaxValue: 0,
+            totalFinalValue: 0,
+            ctbans: [],
+          });
+        }
+        break;
+    }
+    for (const ctban of ctbans) {
+      const createdAt = new Date(ctban.createdAt);
+      const day = createdAt.getDate();
+      if (!ctbansGroupByDay.has(day)) {
+        ctbansGroupByDay.set(day, {
+          day: day,
+          totalProductValue: 0,
+          totalDiscountValue: 0,
+          totalTaxValue: 0,
+          totalFinalValue: 0,
+          ctbans: [],
+        });
+      }
+      ctbansGroupByDay.get(day).totalProductValue += ctban.totalProductValue;
+      ctbansGroupByDay.get(day).totalDiscountValue += ctban.totalDiscountValue;
+      ctbansGroupByDay.get(day).totalTaxValue += ctban.totalTaxValue;
+      ctbansGroupByDay.get(day).totalFinalValue += ctban.finalValue;
+      ctbansGroupByDay.get(day).ctbans.push(ctban);
+    }
+    return Array.from(ctbansGroupByDay.values());
   }
 
   async makePayment(id: number, money: number) {

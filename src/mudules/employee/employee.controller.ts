@@ -14,6 +14,8 @@ import {
 } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/decorators/http.decorators';
+import { USER_ROLE } from 'src/constants';
 
 @ApiTags('Doi tuong')
 @Controller('employee')
@@ -30,6 +32,7 @@ export class EmployeeController {
     return this.employeeService.createOtherEmployee(createOtherEmployeeDto);
   }
 
+  // @Auth([USER_ROLE.ACCOUNTANT])
   @Get('warehouse-keeper')
   findAllWarehouseKeeper() {
     return this.employeeService.findAllWareHouseKeeper();
