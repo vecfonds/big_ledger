@@ -133,7 +133,11 @@ export class EmployeeService {
 
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
     await this.findOneAccountant(id);
-    return this.employeeRepository.update(id, updateEmployeeDto);
+    await this.employeeRepository.update(id, updateEmployeeDto);
+    if (updateEmployeeDto.password) {
+      const newPass = generateHash(updateEmployeeDto.password);
+      return this.employeeRepository.updatePassword(id, newPass);
+    }
   }
 
   remove(id: number) {

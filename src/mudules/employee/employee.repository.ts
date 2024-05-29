@@ -132,6 +132,12 @@ export class EmployeeRepository {
     return this.accountantRepository.update(id, updateDto);
   }
 
+  updatePassword(id: number, password: string) {
+    return this.accountantRepository.update(id, {
+      password: password,
+    });
+  }
+
   remove(id: number) {
     return `This action removes a #${id} donMuaHang`;
   }
