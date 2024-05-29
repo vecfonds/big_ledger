@@ -6,6 +6,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EmployeeService } from '../employee/employee.service';
 import { USER_ROLE } from 'src/constants';
+import { UpdateEmployeeDto } from '../employee/dto/update-employee.dto';
 
 @Injectable()
 export class AuthService {
@@ -32,5 +33,9 @@ export class AuthService {
     };
     const token = await this.jwtService.signAsync(payload);
     return new AuthResponseDto(token);
+  }
+
+  updateMe(userId: number, updateDto: UpdateEmployeeDto) {
+    return this.employeeService.update(userId, updateDto);
   }
 }
