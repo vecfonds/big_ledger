@@ -113,7 +113,7 @@ export class AnnouncementService {
     return annoucement;
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_MINUTE)
   async checkCtban() {
     console.log('Cron job: checkCtban');
     const ctban = await this.ctbanService.findByPaymentStatus([
@@ -152,7 +152,7 @@ export class AnnouncementService {
     });
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_MINUTE)
   async checkDonBanHang() {
     console.log('Cron job: checkDonBanHang');
     const donBanHangs = await this.donBanHangService.findByDeliveryStatus([
@@ -204,7 +204,7 @@ export class AnnouncementService {
     });
   }
 
-  // @Cron(CronExpression.EVERY_10_SECONDS)
+  // @Cron(CronExpression.EVERY_MINUTE)
   // async testMail() {
   //   console.log('Cron job: testMail');
   //   await this.sendEmail(
