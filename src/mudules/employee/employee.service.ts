@@ -131,8 +131,13 @@ export class EmployeeService {
     return employee;
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+  async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
+    await this.findOneAccountant(id);
+    await this.employeeRepository.update(id, updateEmployeeDto);
+    if (updateEmployeeDto.password) {
+      const newPass = generateHash(updateEmployeeDto.password);
+      return this.employeeRepository.updatePassword(id, newPass);
+    }
   }
 
   remove(id: number) {

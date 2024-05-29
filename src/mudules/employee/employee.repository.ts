@@ -17,6 +17,7 @@ import {
   CreateWarehouseKeeperDto,
 } from './dto/create-employee.dto';
 import { DEFAULT_VALUES } from 'src/constants';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 @Injectable()
 export class EmployeeRepository {
@@ -127,8 +128,14 @@ export class EmployeeRepository {
     });
   }
 
-  update(id: number) {
-    return `This action updates a #${id} donMuaHang`;
+  update(id: number, updateDto: UpdateEmployeeDto) {
+    return this.accountantRepository.update(id, updateDto);
+  }
+
+  updatePassword(id: number, password: string) {
+    return this.accountantRepository.update(id, {
+      password: password,
+    });
   }
 
   remove(id: number) {
