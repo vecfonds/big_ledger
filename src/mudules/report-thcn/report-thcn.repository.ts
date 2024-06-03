@@ -48,4 +48,13 @@ export class ReportThcnRepository {
       },
     });
   }
+
+  async remove(report: ReportThcn) {
+    this.dataSource.manager.transaction(async (manager) => {
+      report.reportThcnDetails.forEach(async (reportThcnDetail) => {
+        await manager.delete(ReportThcnDetail, reportThcnDetail.id);
+      });
+      await manager.delete(ReportThcn, report.id);
+    });
+  }
 }

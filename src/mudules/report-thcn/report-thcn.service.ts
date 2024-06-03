@@ -66,7 +66,8 @@ export class ReportThcnService {
     return `This action updates a #${id} reportThcn`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reportThcn`;
+  async remove(id: number) {
+    const report = await this.findOne(id);
+    return this.reportThcnRepository.remove(report);
   }
 }

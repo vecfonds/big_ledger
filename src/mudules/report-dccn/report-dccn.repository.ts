@@ -72,4 +72,18 @@ export class ReportDccnRepository {
       },
     });
   }
+
+  remove(report: ReportDccn) {
+    this.dataSource.transaction(async (manager) => {
+      report.reportDccnDetails.forEach(async (reportDccnDetail) => {
+        reportDccnDetail.reportDccnCustomerDetails.forEach(
+          async (reportDccnCustomerDetail) => {
+            await manager.remove(reportDccnCustomerDetail);
+          },
+        );
+        await manager.remove(reportDccnDetail);
+      });
+      await manager.remove(report);
+    });
+  }
 }

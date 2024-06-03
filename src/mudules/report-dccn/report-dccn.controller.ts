@@ -40,8 +40,8 @@ export class ReportDccnController {
   //   return this.reportDccnService.update(+id, updateReportDccnDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.reportDccnService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.reportDccnService.remove(+id);
+  }
 }
