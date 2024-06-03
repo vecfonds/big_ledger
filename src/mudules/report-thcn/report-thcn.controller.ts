@@ -40,8 +40,8 @@ export class ReportThcnController {
   //   return this.reportThcnService.update(+id, updateReportThcnDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.reportThcnService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.reportThcnService.remove(+id);
+  }
 }
